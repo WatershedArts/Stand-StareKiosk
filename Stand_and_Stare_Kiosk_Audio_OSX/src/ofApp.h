@@ -1,13 +1,22 @@
 #pragma once
 
 #include "ofMain.h"
+#include "Enticer.hpp"
+#include "MyTimer.hpp"
+#include "PostData.hpp"
+#include "RFIDReader.hpp"
+#include "AudioPlayer.hpp"
+#include "LoadSettings.hpp"
+#include "terminalListener.h"
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp,public KeyListener{
 
 	public:
 		void setup();
 		void update();
 		void draw();
+        void exit();
+        void appSetup();
 
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -20,5 +29,12 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-		
+    
+        void onCharacterReceived(KeyListenerEventData& e);
+        TerminalListener consoleListener;
+        AudioPlayer audioHandler;
+        EnticerVisuals enticer;
+        LoadSettings appConfig;
+        RFIDReader rfidReader;
+        PostData postData;
 };

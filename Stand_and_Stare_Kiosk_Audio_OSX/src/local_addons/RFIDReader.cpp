@@ -83,6 +83,9 @@ string RFIDReader::getDebugString()
     stringstream datastream;
     string connectionStatus = (isConnected())? "Connected" : "Not Connected";
     string tagP = tagPresent ? "True" : "False";
+    datastream << "|----------------------------------" << endl;
+    datastream << "| RFID Reader" << endl;
+    datastream << "|----------------------------------" << endl;
     datastream << "| Current Tag: " << tagString << endl;
     datastream << "| New Tag " << tagP << endl;
     return datastream.str();
