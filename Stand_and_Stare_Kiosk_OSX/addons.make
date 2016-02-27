@@ -1,0 +1,13 @@
+ofxCasioProjectorControl
+ofxDatGui
+ofxHttpUtils
+ofxJSON
+ofxModal
+ofxNetwork
+ofxOpenCv
+ofxOsc
+ofxParagraph
+ofxQuadWarp
+ofxSmartFont
+ofxThreadedGifLoader
+ofxTween

@@ -1,0 +1,32 @@
+# Xcode
+#
+# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+
+## Build generated
+build/
+DerivedData
+
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+
+## Other
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscheme
+*.app
+Stand_and_Stare_Kiosk_OSX/bin/data/videos/Opening.loop.mp4
+Stand_and_Stare_Kiosk_OSX/bin/data/videos/burns.mp4
+Stand_and_Stare_Kiosk_OSX/bin/data/videos/co.mp4
+Stand_and_Stare_Kiosk_OSX/bin/data/videos/despard.mp4
+Stand_and_Stare_Kiosk_OSX/bin/data/videos/doris.mp4
+Stand_and_Stare_Kiosk_OSX/bin/data/videos/protests.mp4
+Stand_and_Stare_Kiosk_OSX/bin/data/videos/red.mp4
