@@ -18,6 +18,7 @@ Please refer to this guide.
 
 ###Dependancies
 * [ofxHttpUtils](https://github.com/arturoc/ofxHttpUtils)
+* [ofxCasioProjectorControl](https://github.com/DHaylock/ofxCasioProjectorControl)
 * [ofxJSON](https://github.com/jefftimesten/ofxJSON)
 * [ofxQuadWarp](https://github.com/julapy/ofxQuadWarp)
 * [ofxTween](https://github.com/arturoc/ofxTween)
