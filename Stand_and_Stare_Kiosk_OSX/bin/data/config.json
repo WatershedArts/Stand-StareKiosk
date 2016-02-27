@@ -1,0 +1,159 @@
+{
+   "Stand&Stare" : {
+      "Donation" : {
+         "baud" : 9600,
+         "name" : ""
+      },
+      "General" : {
+         "fadeintime" : 1000,
+         "fadeouttime" : 3000,
+         "fullscreen" : true,
+         "ldrsensitivity" : 50
+      },
+      "MaskPoints" : [
+         {
+            "x" : 205,
+            "y" : 126
+         },
+         {
+            "x" : 203,
+            "y" : 626
+         },
+         {
+            "x" : 969,
+            "y" : 628
+         },
+         {
+            "x" : 956,
+            "y" : 112
+         }
+      ],
+      "PostData" : {
+         "postext" : "upload.php",
+         "posthost" : "",
+         "secretkey" : ""
+      },
+      "RFID" : {
+         "baud" : 9600,
+         "name" : "/dev/tty.usbserial-A601EHXS"
+      },
+      "Enticer" : {
+            "videourl": "videos/Opening.loop.mp4",
+            "fadein" : 2000,
+            "fadeout" : 1000
+      },
+      "VideoData" : {
+         "videoslist" : [
+            {
+               "gifurl" : "gifs/2.gif",
+               "id" : 1,
+               "quadwarping" : [
+                  {
+                     "tplx" : 0,
+                     "tply" : 0
+                  },
+                  {
+                     "tprx" : 0,
+                     "tpry" : 0
+                  },
+                  {
+                     "btlx" : 0,
+                     "btly" : 0
+                  },
+                  {
+                     "btrx" : 0,
+                     "btry" : 0
+                  }
+               ],
+               "rfidicon" : "Icon 1",
+               "rfidkey" : "RFIDTag 1",
+               "videodetails" : "This is a little description of the Video",
+               "videolength" : "Will remove",
+               "videourl" : "videos/co.mp4"
+            },
+            {
+               "gifurl" : "gifs/view0.gif",
+               "id" : 2,
+               "quadwarping" : [
+                  {
+                     "x" : 0,
+                     "y" : 0
+                  },
+                  {
+                     "x" : 0,
+                     "y" : 0
+                  },
+                  {
+                     "x" : 0,
+                     "y" : 0
+                  },
+                  {
+                     "x" : 0,
+                     "y" : 0
+                  }
+               ],
+               "rfidicon" : "Icon 2",
+               "rfidkey" : "RFIDTag 2",
+               "videodetails" : "",
+               "videolength" : "",
+               "videourl" : "videos/despard.mp4"
+            },
+            {
+               "gifurl" : "gifs/view1.gif",
+               "id" : 3,
+               "quadwarping" : [
+                  {
+                     "x" : 0,
+                     "y" : 0
+                  },
+                  {
+                     "x" : 0,
+                     "y" : 0
+                  },
+                  {
+                     "x" : 0,
+                     "y" : 0
+                  },
+                  {
+                     "x" : 0,
+                     "y" : 0
+                  }
+               ],
+               "rfidicon" : "Icon 3",
+               "rfidkey" : "RFIDTag 3",
+               "videodetails" : "",
+               "videolength" : "",
+               "videourl" : "videos/doris.mp4"
+            },
+            {
+               "gifurl" : "gifs/view2.gif",
+               "id" : 4,
+               "quadwarping" : [
+                  {
+                     "x" : 0,
+                     "y" : 0
+                  },
+                  {
+                     "x" : 0,
+                     "y" : 0
+                  },
+                  {
+                     "x" : 0,
+                     "y" : 0
+                  },
+                  {
+                     "x" : 0,
+                     "y" : 0
+                  }
+               ],
+               "rfidicon" : "Icon 4",
+               "rfidkey" : "RFIDTag 4",
+               "videodetails" : "",
+               "videolength" : "",
+               "videourl" : "videos/protests.mp4"
+            }
+         ]
+      }
+   }
+}
+
