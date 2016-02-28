@@ -29,7 +29,7 @@ bool RFIDReader::isConnected()
     return serial.isInitialized();
 }
 //--------------------------------------------------------------
-void RFIDReader::simulateNewTag()
+void RFIDReader::simulateNewTag(int which)
 {
     string ev = "RFIDTag 1";
     ofNotifyEvent(newTag, ev, this);

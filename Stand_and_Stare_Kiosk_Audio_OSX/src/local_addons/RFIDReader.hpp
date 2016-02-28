@@ -37,7 +37,7 @@ public:
     string tagString;
     string getDebugString();
 
-    void simulateNewTag();
+    void simulateNewTag(int which);
     void simulateTagRemoval();
     
 protected:

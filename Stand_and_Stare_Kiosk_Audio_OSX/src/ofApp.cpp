@@ -117,19 +117,13 @@ void ofApp::keyPressed(int key)
 {
     switch (key) {
         case '1':
-            audioHandler.loadAudio(audioData[0].audioUrl, audioData[0].audioLength);
-            enticer.stopAudio();
-            audioHandler.playAudio();
+            rfidReader.simulateNewTag(1);
             break;
         case '2':
-            enticer.stopAudio();
-            audioHandler.loadAudio(audioData[1].audioUrl, audioData[1].audioLength);
-            audioHandler.playAudio();
+            rfidReader.simulateNewTag(2);
             break;
         case '3':
-            audioHandler.loadAudio(audioData[2].audioUrl, audioData[2].audioLength);
-            enticer.stopAudio();
-            audioHandler.playAudio();
+            rfidReader.simulateNewTag(3);
             break;
         case 'p':
             audioHandler.forceStopAudio();
@@ -138,14 +132,11 @@ void ofApp::keyPressed(int key)
         case 's':
             enticer.stopAudio();
             break;
-        case ' ':
-            hideDebug = !hideDebug;
-            break;
-        case 'n':
-            rfidReader.simulateNewTag();
-            break;
         case 'r':
             rfidReader.simulateTagRemoval();
+            break;
+        case ' ':
+            hideDebug = !hideDebug;
             break;
         default:
             break;
