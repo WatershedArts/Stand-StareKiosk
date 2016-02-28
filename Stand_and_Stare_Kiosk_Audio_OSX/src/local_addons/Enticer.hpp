@@ -28,17 +28,15 @@ class EnticerVisuals {
         bool isAudioPlaying();
     
         string getStringStream();
+        ofEvent<string> trackStarted;
+        ofEvent<string> trackForceFinished;
     
     private:
         ofSoundPlayer audioPlayer;
-    
         ofxTween fade;
         ofxTween dropFade;
         ofxEasingLinear easinglinear;
         ofxEasingExpo easingexpo;
-    
-        ofEvent<string> trackStarted;
-        ofEvent<string> trackForceFinished;
     
         int progress;
         float _fadein;

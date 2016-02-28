@@ -20,6 +20,9 @@ public:
     bool isConnected();
     ofSerial serial;
 
+    ofEvent<string> newTag;
+    ofEvent<string> tagRemoved;
+    
     char incomingByte;
     char tagBuffer[16];
     int tagBufferIndex;
@@ -34,6 +37,9 @@ public:
     string tagString;
     string getDebugString();
 
+    void simulateNewTag();
+    void simulateTagRemoval();
+    
 protected:
 
 };

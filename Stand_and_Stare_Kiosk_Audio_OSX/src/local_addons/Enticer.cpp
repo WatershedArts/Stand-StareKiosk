@@ -136,6 +136,8 @@ void EnticerVisuals::playAudio()
 {
     audioPlayer.play();
     fade.setParameters(1, easinglinear, ofxTween::easeIn, 0.000, 1.000, _fadein, _delayTime);
+    string ev =  "Enticer Started: " + trackName;
+    ofNotifyEvent(trackStarted, ev, this);
     _hasFadedIn = false;
 }
 //--------------------------------------------------------------
@@ -143,6 +145,8 @@ void EnticerVisuals::stopAudio()
 {
     fade.setParameters(1, easingexpo, ofxTween::easeOut, currentFadeValue, 0.000, _fadeout, 10);
     dropFade.setParameters(1, easingexpo, ofxTween::easeOut, progress-50, 0, _fadeout, 10);
+    string ev =  "Enticer Stopped: " + trackName;
+    ofNotifyEvent(trackForceFinished, ev, this);
     _hasFadedOut = false;
 }
 //--------------------------------------------------------------

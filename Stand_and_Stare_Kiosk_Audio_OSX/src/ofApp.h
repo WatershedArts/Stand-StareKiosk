@@ -35,6 +35,8 @@ class ofApp : public ofBaseApp,public KeyListener{
         void trackStarted(string &args);
         void trackFinished(string &args);
         void trackInterupted(string &args);
+        void enticerTrackStarted(string &args);
+        void enticerTrackFinished(string &args);
         void newTagAdded(string &tag);
         void tagRemoved(string &tag);
     

@@ -143,7 +143,7 @@ void AudioPlayer::draw(int y)
 void AudioPlayer::playAudio()
 {
     audioPlayer.play();
-    string ev =  trackName;
+    string ev =  "Audio Handler Started: " + trackName;
     ofNotifyEvent(trackStarted, ev , this);
     fade.setParameters(1, easinglinear, ofxTween::easeIn, 0.000, 1.000, _fadein, _delayTime);
     _hasFadedIn = false;
@@ -153,7 +153,7 @@ void AudioPlayer::stopAudio()
 {
     fade.setParameters(1, easingexpo, ofxTween::easeOut, currentFadeValue, 0.000, _fadeout, 10);
     dropFade.setParameters(1, easingexpo, ofxTween::easeOut, progress-50, 0, _fadeout, 10);
-    string ev = trackName;
+    string ev =  "Audio Handler Stopped: " + trackName;
     ofNotifyEvent(trackFinishedNormally, ev , this);
     _hasFadedOut = false;
 }
@@ -162,7 +162,7 @@ void AudioPlayer::forceStopAudio()
 {
     fade.setParameters(1, easingexpo, ofxTween::easeOut, currentFadeValue, 0.000, _fadeout, 10);
     dropFade.setParameters(1, easingexpo, ofxTween::easeOut, progress-50, 0, _fadeout, 10);
-    string ev = trackName;
+    string ev =  "Audio Handler Force Stopped: " + trackName;
     ofNotifyEvent(trackForceFinished, ev , this);
     _hasFadedOut = false;
 }

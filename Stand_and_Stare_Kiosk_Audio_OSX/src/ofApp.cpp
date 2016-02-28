@@ -11,11 +11,17 @@ void ofApp::appSetup()
     // Setup the SSH Key listener | Thanks @JVCleave
     consoleListener.setup(this);
     hideDebug = false;
-    whatsHappening = "Idling";
+    whatsHappening = "Idlying";
     
     ofAddListener(audioHandler.trackStarted, this, &ofApp::trackStarted);
     ofAddListener(audioHandler.trackFinishedNormally, this, &ofApp::trackFinished);
     ofAddListener(audioHandler.trackForceFinished, this, &ofApp::trackInterupted);
+    
+    ofAddListener(rfidReader.newTag, this, &ofApp::newTagAdded);
+    ofAddListener(rfidReader.tagRemoved, this, &ofApp::tagRemoved);
+    
+    ofAddListener(enticer.trackStarted, this, &ofApp::enticerTrackStarted);
+    ofAddListener(enticer.trackForceFinished, this, &ofApp::enticerTrackFinished);
 }
 #pragma mark - oF Methods
 //--------------------------------------------------------------
@@ -99,6 +105,12 @@ void ofApp::exit()
     ofRemoveListener(audioHandler.trackStarted, this, &ofApp::trackStarted);
     ofRemoveListener(audioHandler.trackFinishedNormally, this, &ofApp::trackFinished);
     ofRemoveListener(audioHandler.trackForceFinished, this, &ofApp::trackInterupted);
+    
+    ofRemoveListener(enticer.trackStarted, this, &ofApp::enticerTrackStarted);
+    ofRemoveListener(enticer.trackForceFinished, this, &ofApp::enticerTrackFinished);
+    
+    ofRemoveListener(rfidReader.newTag, this, &ofApp::newTagAdded);
+    ofRemoveListener(rfidReader.tagRemoved, this, &ofApp::tagRemoved);
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -129,6 +141,12 @@ void ofApp::keyPressed(int key)
         case ' ':
             hideDebug = !hideDebug;
             break;
+        case 'n':
+            rfidReader.simulateNewTag();
+            break;
+        case 'r':
+            rfidReader.simulateTagRemoval();
+            break;
         default:
             break;
     }
@@ -151,36 +169,60 @@ void ofApp::gotMessage(ofMessage msg)
 //--------------------------------------------------------------
 void ofApp::trackStarted(string &args)
 {
-    whatsHappening = "Playing Track: " + args.substr(6,args.length());
+    whatsHappening = "Playing Track: " + args.substr(29,args.length());
     ofLogNotice() << args;
 }
 //--------------------------------------------------------------
 void ofApp::trackFinished(string &args)
 {
-    whatsHappening = "Stopping Track: " + args.substr(6,args.length());
+    whatsHappening = "Stopping Track: " + args.substr(29,args.length());
     ofLogNotice() << args;
 }
 //--------------------------------------------------------------
 void ofApp::trackInterupted(string &args)
 {
-    whatsHappening = "Track Interupted: " + args.substr(6,args.length());
+    whatsHappening = "Track Interupted: " + args.substr(36,args.length());
     ofLogNotice() << args;
 }
 //--------------------------------------------------------------
 void ofApp::newTagAdded(string &tag)
 {
     ofLogNotice() << tag;
+    for (int i = 0; i < audioData.size(); i++) {
+        if (tag == audioData[i].RFIDkey) {
+            enticer.stopAudio();
+            audioHandler.loadAudio(audioData[i].audioUrl, audioData[i].audioLength);
+            audioHandler.playAudio();
+        }
+    }
 }
 //--------------------------------------------------------------
 void ofApp::tagRemoved(string &tag)
 {
     ofLogNotice() << tag;
+    audioHandler.stopAudio();
+    enticer.playAudio();
 }
+//--------------------------------------------------------------
+void ofApp::enticerTrackStarted(string &args)
+{
+    whatsHappening = "Idlying";
+    ofLogNotice() << args;
+}
+//--------------------------------------------------------------
+void ofApp::enticerTrackFinished(string &args)
+{
+    ofLogNotice() << args;
+}
+//--------------------------------------------------------------
+// *
+// *
+// *
 //--------------------------------------------------------------
 void ofApp::drawLabels()
 {
     int centerX = ofGetWidth()*0.5;
-    int centerY = ofGetHeight()*0.5;
+    int centerY = ofGetHeight()*0.90;
     
     ofRectangle info = defaultFont.getStringBoundingBox("Current RFID Tag:", 0, 0);
     ofRectangle currentTagBox = defaultFont.getStringBoundingBox(rfidReader.getCurrentTag(), 0, 0);

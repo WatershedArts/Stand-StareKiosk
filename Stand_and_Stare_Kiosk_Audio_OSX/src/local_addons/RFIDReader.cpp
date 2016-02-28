@@ -29,6 +29,18 @@ bool RFIDReader::isConnected()
     return serial.isInitialized();
 }
 //--------------------------------------------------------------
+void RFIDReader::simulateNewTag()
+{
+    string ev = "RFIDTag 1";
+    ofNotifyEvent(newTag, ev, this);
+}
+//--------------------------------------------------------------
+void RFIDReader::simulateTagRemoval()
+{
+    string ev = "Tag Removed";
+    ofNotifyEvent(tagRemoved, ev, this);
+}
+//--------------------------------------------------------------
 void RFIDReader::update()
 {
     if (isConnected()) {
@@ -44,8 +56,7 @@ void RFIDReader::update()
             if (incomingByte == 3) {
                 // Fire the Tag up into the main app
                 tagString = tagBuffer;
-                ofMessage msg("New Tag: " + ofToString(tagString));
-                ofSendMessage(msg);
+                ofNotifyEvent(newTag, tagString, this);
                 
                 for (int i = 0; i < tagBufferIndex; i++) {
                     tagBuffer[i] = 0;
@@ -71,8 +82,8 @@ void RFIDReader::update()
         }
 
         if(sendRemove == true && ((ofGetElapsedTimeMillis() - lastTagChangeTime) > removeTimeout)) {
-            ofMessage msg("Card Removed");
-            ofSendMessage(msg);
+            string ev = "Removed";
+            ofNotifyEvent(tagRemoved, ev, this);
             sendRemove = false;
         }
     }
