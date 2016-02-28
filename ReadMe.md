@@ -1,9 +1,10 @@
 Stand & Stare Kiosk
 ===
-sudo apt-get install openssl
 Written in openFrameworks 0.9.0
 
-This is the repo for the Stand&Stare Kiosk for Watershed Giving.
+Development repository for Stand and Stare Kiosk. 
+
+Repo has the OSX and RPI applications.
 
 Shortcuts
 
