@@ -16,7 +16,7 @@
 struct SSAudioData {
     int id;
     string audioUrl;
-    string audioLength;
+    float audioLength;
     string audioDetails;
     string RFIDkey;
     string RFIDIcon;

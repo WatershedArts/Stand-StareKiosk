@@ -78,6 +78,21 @@ void RFIDReader::update()
     }
 }
 //--------------------------------------------------------------
+string RFIDReader::getCurrentTag()
+{
+    if (isConnected()) {
+        if (tagString.length() > 0) {
+            return tagString;
+        }
+        else {
+            return "No Tag";
+        }
+    }
+    else {
+        return "No RFID Reader Attached";
+    }
+}
+//--------------------------------------------------------------
 string RFIDReader::getDebugString()
 {
     stringstream datastream;

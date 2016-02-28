@@ -15,12 +15,13 @@
 
 class EnticerVisuals {
     public:
-        void setupAudioPlayer(float fadein,float fadeout);
+        void setupAudioPlayer(float fadein,float fadeout,float delayTime);
         void loadAudio(string url,float audioLength);
         void updateAudio();
     
         void playAudio();
         void stopAudio();
+        void draw(int y);
     
         float getTimeLeft();
         bool hasAudioFinished();
@@ -32,13 +33,20 @@ class EnticerVisuals {
         ofSoundPlayer audioPlayer;
     
         ofxTween fade;
+        ofxTween dropFade;
         ofxEasingLinear easinglinear;
         ofxEasingExpo easingexpo;
     
+        ofEvent<string> trackStarted;
+        ofEvent<string> trackForceFinished;
+    
+        int progress;
         float _fadein;
         float _fadeout;
         bool _hasFadedIn;
         bool _hasFadedOut;
+        string trackName;
+        float _delayTime;
 
     protected:
         float currentFadeValue;

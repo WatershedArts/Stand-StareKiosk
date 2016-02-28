@@ -9,19 +9,22 @@
 #include "AudioPlayer.hpp"
 
 //--------------------------------------------------------------
-void AudioPlayer::setupAudioPlayer(float fadein, float fadeout)
+void AudioPlayer::setupAudioPlayer(float fadein, float fadeout,float delayTime)
 {
     _fadein = fadein;
     _fadeout = fadeout;
     _hasFadedOut = true;
     _hasFadedIn = true;
+    _delayTime = delayTime;
 }
 //--------------------------------------------------------------
 void AudioPlayer::loadAudio(string url,float _audioLength)
 {
+    trackName = url;
+    _hasFadedOut = true;
+    _hasFadedIn = true;
     audioPlayer.load(url);
     audioLength = _audioLength;
-    cout << "Loading " << url << endl;
 }
 //--------------------------------------------------------------
 void AudioPlayer::updateAudio()
@@ -32,9 +35,7 @@ void AudioPlayer::updateAudio()
     
     if (fade.isCompleted() && !_hasFadedOut) {
         audioPlayer.stop();
-        if (!audioPlayer.isPlaying()) {
-            cout << "Stopped Audio" << endl;
-        }
+        if (!audioPlayer.isPlaying()) { }
         _hasFadedOut = true;
     }
     
@@ -46,17 +47,123 @@ void AudioPlayer::updateAudio()
     }
 }
 //--------------------------------------------------------------
+void AudioPlayer::draw(int y)
+{
+    int offset = 50;
+    int ticks = 20;
+    int playBarLength = ofGetWidth()-(offset*2);
+    int tickOffset = playBarLength/ticks;
+    int centerX = ofGetWidth()*0.5;
+    int centerY = ofGetHeight()*0.5;
+    int startX = centerX - playBarLength/2;
+    
+    progress = startX+ofMap(audioPlayer.getPosition(),0.00,1.00,0,playBarLength);
+    
+    ofPushMatrix();
+    ofTranslate(0, y);
+    ofPushStyle();
+    ofFill();
+    ofSetColor(50, 50, 50);
+    ofDrawRectRounded(startX,0, playBarLength, 25, 5);
+    ofSetColor(ofMap(fade.update(), 0.00, 1.00, 255, 0), ofMap(fade.update(), 0.00, 1.00, 0, 255), 0);
+    
+    if (_hasFadedOut && (fade.isCompleted() || fade.isRunning())) {
+        ofDrawRectRounded(startX,0, progress-startX, 25, 5);
+    }
+    else {
+        ofDrawRectRounded(startX,0, dropFade.update(), 25, 5);
+    }
+    
+    ofPushStyle();
+    ofSetLineWidth(3);
+    ofNoFill();
+    ofSetColor(0, 0, 0);
+    ofDrawRectRounded(startX,0, playBarLength, 25, 5);
+    ofSetLineWidth(1);
+    for (int x = 0;  x < ticks; x++) {
+        if (x % 2 == 0) {
+            ofDrawLine(startX+(x*tickOffset), 7, startX+(x*tickOffset), 25);
+        }
+        else {
+            ofDrawLine(startX+(x*tickOffset), 15, startX+(x*tickOffset), 25);
+        }
+    }
+
+    ofPopStyle();
+    ofPopStyle();
+    ofSetLineWidth(2);
+    
+    int posMS = audioPlayer.getPositionMS();
+    int minutes = (posMS % (1000*60*60)) / (1000*60);
+    int seconds = ((posMS % (1000*60*60)) % (1000*60)) / 1000;
+    
+    string secs;
+    if (seconds < 10) {
+        secs = "0"+ofToString(seconds);
+    }
+    else {
+        secs = ofToString(seconds);
+    }
+    
+    string mins;
+    if (minutes < 10) {
+        mins = "0"+ofToString(minutes);
+    }
+    else {
+        mins = ofToString(minutes);
+    }
+    
+    
+    if (_hasFadedOut && (fade.isCompleted() || fade.isRunning())) {
+        ofSetColor(ofColor::white);
+        ofDrawLine(progress, -15, progress, 25);
+    }
+    else {
+        ofSetColor(ofColor::white);
+        ofDrawLine(dropFade.update()+offset, -15, dropFade.update()+offset, 25);
+    }
+    
+    string trackTimeElapsed = mins + ":"+secs;
+    if (_hasFadedOut && (fade.isCompleted() || fade.isRunning())) {
+        ofSetColor(ofColor::white);
+        ofDrawLine(progress, -15, progress, 25);
+        ofDrawBitmapString(trackTimeElapsed,progress+10 ,-5);
+    }
+    else {
+        ofSetColor(ofColor::white);
+        ofDrawLine(dropFade.update()+offset, -15, dropFade.update()+offset, 25);
+        ofDrawBitmapString(trackTimeElapsed,dropFade.update()+offset+10 ,-5);
+    }
+    
+    string isAudioPlayingStr = isAudioPlaying() ? "Playing: " : "Stopped: ";
+    ofDrawBitmapString(isAudioPlayingStr + trackName.substr(6,trackName.length()), offset, 40);
+    ofPopMatrix();
+}
+//--------------------------------------------------------------
 void AudioPlayer::playAudio()
 {
     audioPlayer.play();
-    cout << "Playing Video" << endl;
-    fade.setParameters(1, easinglinear, ofxTween::easeIn, 0.000, 1.000, _fadein, 2000);
+    string ev =  trackName;
+    ofNotifyEvent(trackStarted, ev , this);
+    fade.setParameters(1, easinglinear, ofxTween::easeIn, 0.000, 1.000, _fadein, _delayTime);
     _hasFadedIn = false;
 }
 //--------------------------------------------------------------
 void AudioPlayer::stopAudio()
 {
     fade.setParameters(1, easingexpo, ofxTween::easeOut, currentFadeValue, 0.000, _fadeout, 10);
+    dropFade.setParameters(1, easingexpo, ofxTween::easeOut, progress-50, 0, _fadeout, 10);
+    string ev = trackName;
+    ofNotifyEvent(trackFinishedNormally, ev , this);
+    _hasFadedOut = false;
+}
+//--------------------------------------------------------------
+void AudioPlayer::forceStopAudio()
+{
+    fade.setParameters(1, easingexpo, ofxTween::easeOut, currentFadeValue, 0.000, _fadeout, 10);
+    dropFade.setParameters(1, easingexpo, ofxTween::easeOut, progress-50, 0, _fadeout, 10);
+    string ev = trackName;
+    ofNotifyEvent(trackForceFinished, ev , this);
     _hasFadedOut = false;
 }
 //--------------------------------------------------------------

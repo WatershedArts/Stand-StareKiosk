@@ -1,52 +1,49 @@
 {
-"Stand&Stare" : {
-    "General" : {
-        "fadeintime" : 1000,
-        "fadeouttime" : 3000
+  "Stand&Stare": {
+    "General": {
+      "fadeouttime": 3000,
+      "fadeintime": 2000
     },
-    "PostData" : {
-        "postext" : "upload.php",
-        "posthost" : "",
-        "secretkey" : ""
+    "PostData": {
+      "postext": "upload.php",
+      "posthost": "",
+      "secretkey": ""
     },
-    "RFID" : {
-        "baud" : 9600,
-        "name" : "/dev/tty.usbserial-A601EHXS"
+    "RFID": {
+      "baud": 9600,
+      "name": "/dev/tty.usbserial-A601EHXS"
     },
-    "Enticer" : {
-        "audiourl": "audio/Vibrator.mp3",
-        "fadein" : 2000,
-        "fadeout" : 1000,
-        "audiolength":322
+    "Enticer": {
+      "audiourl": "audio/Vibrator.mp3",
+      "fadein": 2000,
+      "fadeout": 2000,
+      "audiolength": 322
     },
-    "AudioData" : {
-        "audiolist" : [
-            {
-                "id" : 1,
-                "rfidicon" : "Icon 1",
-                "rfidkey" : "RFIDTag 1",
-                "audiodetails" : "This is a little description of the Audio",
-                "audiolength" : 427,
-                "audiourl" : "audio/Keep.mp3"
-            },
-            {
-                "id" : 2,
-                "rfidicon" : "Icon 2",
-                "rfidkey" : "RFIDTag 2",
-                "audiodetails" : "This is a little description of the Video",
-                "audiolength" : 322,
-                "audiourl" : "audio/Vibrator.mp3"
-            },
-            {
-                "id" : 3,
-                "rfidicon" : "Icon 3",
-                "rfidkey" : "RFIDTag 3",
-                "audiodetails" : "",
-                "audiolength" : 428,
-                "audiourl" : "audio/Vulnerable.mp3"
-            }
-        ]
-    }
-    }
+    "AudioData": [
+        {
+          "id": 1,
+          "rfidicon": "Icon 1",
+          "rfidkey": "RFIDTag 1",
+          "audiodetails": "This is a little description of the Audio",
+          "audiolength": 427,
+          "audiourl": "audio/Keep.mp3"
+        },
+        {
+          "id": 2,
+          "rfidicon": "Icon 2",
+          "rfidkey": "RFIDTag 2",
+          "audiodetails": "This is a little description of the Video",
+          "audiolength": 322,
+          "audiourl": "audio/Vibrator.mp3"
+        },
+        {
+          "id": 3,
+          "rfidicon": "Icon 3",
+          "rfidkey": "RFIDTag 3",
+          "audiodetails": "This is a little description of the Video",
+          "audiolength": 428,
+          "audiourl": "audio/Vulnerable.mp3"
+        }
+      ]
+  }
 }
-

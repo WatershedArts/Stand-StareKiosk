@@ -16,25 +16,35 @@ class ofApp : public ofBaseApp,public KeyListener{
 		void update();
 		void draw();
         void exit();
-        void appSetup();
-
 		void keyPressed(int key);
 		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void mouseEntered(int x, int y);
-		void mouseExited(int x, int y);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-    
+
+        void appSetup();
         void onCharacterReceived(KeyListenerEventData& e);
+    
+        // Objects
         TerminalListener consoleListener;
         AudioPlayer audioHandler;
         EnticerVisuals enticer;
         LoadSettings appConfig;
         RFIDReader rfidReader;
         PostData postData;
+    
+        // Listeners
+        void trackStarted(string &args);
+        void trackFinished(string &args);
+        void trackInterupted(string &args);
+        void newTagAdded(string &tag);
+        void tagRemoved(string &tag);
+    
+        // Custom
+        void drawLabels();
+    
+        string whatsHappening;
+        ofTrueTypeFont titleFont;
+        ofTrueTypeFont defaultFont;
+    
+        deque <SSAudioData> audioData;
+        bool hideDebug;
 };

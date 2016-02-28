@@ -29,6 +29,8 @@ public:
     bool sendRemove;
     long lastTagChangeTime;
     long removeTimeout;
+    
+    string getCurrentTag();
     string tagString;
     string getDebugString();
 

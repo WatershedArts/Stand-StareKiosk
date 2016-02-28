@@ -38,20 +38,20 @@ void LoadSettings::load(string loadFile)
         c.enticerAudioLength = configFile["Stand&Stare"]["Enticer"]["audiolength"].asFloat();
         
         // Audio Settings
-        int numberOfAudio = configFile["Stand&Stare"]["AudioData"]["audiolist"].size();
+        int numberOfAudio = configFile["Stand&Stare"]["AudioData"].size();
         for (int audio = 0; audio < numberOfAudio; audio++) {
             SSAudioData ad;
-            ad.id = configFile["Stand&Stare"]["AudioData"]["audioslist"][audio]["id"].asInt();
-            ad.audioUrl = configFile["Stand&Stare"]["AudioData"]["audioslist"][audio]["audiourl"].asString();
-            ad.audioLength = configFile["Stand&Stare"]["AudioData"]["audioslist"][audio]["audiolength"].asString();
-            ad.audioDetails = configFile["Stand&Stare"]["AudioData"]["audioslist"][audio]["audiodetails"].asString();
-            ad.RFIDkey = configFile["Stand&Stare"]["AudioData"]["audioslist"][audio]["rfidkey"].asString();
-            ad.RFIDIcon = configFile["Stand&Stare"]["AudioData"]["audioslist"][audio]["rfidicon"].asString();
-            ad.RFIDIcon = configFile["Stand&Stare"]["AudioData"]["audioslist"][audio]["rfidicon"].asString();
+            ad.id = configFile["Stand&Stare"]["AudioData"][audio]["id"].asInt();
+            ad.audioUrl = configFile["Stand&Stare"]["AudioData"][audio]["audiourl"].asString();
+            ad.audioLength = configFile["Stand&Stare"]["AudioData"][audio]["audiolength"].asFloat();
+            ad.audioDetails = configFile["Stand&Stare"]["AudioData"][audio]["audiodetails"].asString();
+            ad.RFIDkey = configFile["Stand&Stare"]["AudioData"][audio]["rfidkey"].asString();
+            ad.RFIDIcon = configFile["Stand&Stare"]["AudioData"][audio]["rfidicon"].asString();
+            ad.RFIDIcon = configFile["Stand&Stare"]["AudioData"][audio]["rfidicon"].asString();
             c.audios.push_back(ad);
         }
         // Debug
-        printConfiguration();
+//        printConfiguration();
     }
 }
 //--------------------------------------------------------------
