@@ -760,6 +760,8 @@
 		6948EE371B920CB800B5AC1A /* local_addons */ = {
 			isa = PBXGroup;
 			children = (
+				63DDECB41C7E10A700E95C76 /* RFIDReader.cpp */,
+				63DDECB51C7E10A700E95C76 /* RFIDReader.hpp */,
 				63DDECA01C7E10A700E95C76 /* Calibration.cpp */,
 				63DDECA11C7E10A700E95C76 /* Calibration.hpp */,
 				63DDECA21C7E10A700E95C76 /* DonationReader.cpp */,
@@ -776,8 +778,6 @@
 				63DDECB11C7E10A700E95C76 /* PostData.hpp */,
 				63DDECB21C7E10A700E95C76 /* ProjectorControl.cpp */,
 				63DDECB31C7E10A700E95C76 /* ProjectorControl.hpp */,
-				63DDECB41C7E10A700E95C76 /* RFIDReader.cpp */,
-				63DDECB51C7E10A700E95C76 /* RFIDReader.hpp */,
 				63DDECB61C7E10A700E95C76 /* SimpleButton.h */,
 				63DDECB71C7E10A700E95C76 /* terminalListener.h */,
 				63DDECB91C7E10A700E95C76 /* VideoPlayer.cpp */,

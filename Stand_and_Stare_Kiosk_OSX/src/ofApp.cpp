@@ -35,7 +35,7 @@ void ofApp::appSetup()
     ofSetFullscreen(appConfiguration.getConfig().setFullscreen);
 
     // Set the Logging Level
-    ofSetLogLevel(OF_LOG_ERROR);
+    ofSetLogLevel(OF_LOG_WARNING);
     
     debug.load("font-verdana.ttf", 8);
     canPlay = false;
@@ -104,6 +104,8 @@ void ofApp::setup()
     if (useWarper) {
         setupWarper();
     }
+    
+    setupListeners();
 }
 //--------------------------------------------------------------
 void ofApp::update()
@@ -231,11 +233,12 @@ void ofApp::keyPressed(int key)
 {
     switch (key) {;
         case '1':
-            enticer.stopVideo();
-            videoCode = ofToString(1);
-            videoHandler.loadVideo(ofToDataPath(videoData[0].videoUrl,true));
-            timerVisualisation.setup(0);
-            videoHandler.playVideo();
+            rfidReader.simulateNewTag(1);
+            //            enticer.stopVideo();
+//            videoCode = ofToString(1);
+//            videoHandler.loadVideo(ofToDataPath(videoData[0].videoUrl,true));
+//            timerVisualisation.setup(0);
+//            videoHandler.playVideo();
             break;
         case '2':
             enticer.stopVideo();
@@ -430,49 +433,57 @@ void ofApp::setupListeners()
 //--------------------------------------------------------------
 void ofApp::removeListeners()
 {
-    }
+    //    ofRemoveListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
+    //    ofRemoveListener(videoHandler.videoFinishedNormally, this, &ofApp::videoFinished);
+    //    ofRemoveListener(videoHandler.videoForceFinished, this, &ofApp::videoInterupted);
+    //    ofRemoveListener(enticer.trackStarted, this, &ofApp::enticerVideoStarted);
+    //    ofRemoveListener(enticer.trackForceFinished, this, &ofApp::enticerVideoFinished);
+    ofRemoveListener(rfidReader.newTag, this, &ofApp::newTagAdded);
+    ofRemoveListener(rfidReader.tagRemoved, this, &ofApp::tagRemoved);
+}
 //--------------------------------------------------------------
 void ofApp::videoStarted(string &args)
 {
-//    ofRemoveListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
-//    ofRemoveListener(videoHandler.videoFinishedNormally, this, &ofApp::videoFinished);
-//    ofRemoveListener(videoHandler.videoForceFinished, this, &ofApp::videoInterupted);
-    
-    ofRemoveListener(rfidReader.newTag, this, &ofApp::newTagAdded);
-    ofRemoveListener(rfidReader.tagRemoved, this, &ofApp::tagRemoved);
-    
-//    ofRemoveListener(enticer.trackStarted, this, &ofApp::enticerVideoStarted);
-//    ofRemoveListener(enticer.trackForceFinished, this, &ofApp::enticerVideoFinished);
+    ofLogWarning() << args;
 }
 //--------------------------------------------------------------
 void ofApp::videoFinished(string &args)
 {
-    
+    ofLogWarning() << args;
 }
 //--------------------------------------------------------------
 void ofApp::videoInterupted(string &args)
 {
-    
+    ofLogWarning() << args;
 }
 //--------------------------------------------------------------
 void ofApp::enticerVideoStarted(string &args)
 {
-    
+    ofLogWarning() << args;
 }
 //--------------------------------------------------------------
 void ofApp::enticerVideoFinished(string &args)
 {
-    
+    ofLogWarning() << args;
 }
 //--------------------------------------------------------------
 void ofApp::newTagAdded(string &tag)
 {
-    
+    ofLogWarning() << tag;
+    for (int i = 0; i < videoData.size(); i++) {
+        if (tag == videoData[i].RFIDkey) {
+            enticer.stopVideo();
+            videoHandler.loadVideo(videoData[i].videoUrl);
+            videoHandler.playVideo();
+        }
+    }
 }
 //--------------------------------------------------------------
 void ofApp::tagRemoved(string &tag)
 {
-    
+    ofLogWarning() << tag;
+    videoHandler.stopVideo();
+    enticer.playVideo();
 }
 //--------------------------------------------------------------
 // *
