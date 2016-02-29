@@ -87,6 +87,7 @@ void ofApp::setup()
     
     // RFID
     rfidReader.setup(appConfiguration.getConfig().RFIDSerialName,2000);
+    rfidReader.start();
     
     // Calibration Setup
     calibrationScreen.Setup(appConfiguration.getConfig().maskPoints);
@@ -222,6 +223,7 @@ void ofApp::exit()
     postData.close();
     donationReader.close();
     videoPreviewer.close();
+    rfidReader.stop();
     
     bool debugProjector = false;
     if (debugProjector) {
