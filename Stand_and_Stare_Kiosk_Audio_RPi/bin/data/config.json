@@ -1,0 +1,49 @@
+{
+  "Stand&Stare": {
+    "General": {
+      "fadeouttime": 3000,
+      "fadeintime": 2000
+    },
+    "PostData": {
+      "postext": "upload.php",
+      "posthost": "",
+      "secretkey": ""
+    },
+    "RFID": {
+      "baud": 9600,
+      "name": "/dev/ttyAMA0"
+    },
+    "Enticer": {
+      "audiourl": "audio/Vibrator.mp3",
+      "fadein": 2000,
+      "fadeout": 2000,
+      "audiolength": 322
+    },
+    "AudioData": [
+        {
+          "id": 1,
+          "rfidicon": "Icon 1",
+          "rfidkey": "6500638C9F15",
+          "audiodetails": "This is a little description of the Audio",
+          "audiolength": 427,
+          "audiourl": "audio/Keep.mp3"
+        },
+        {
+          "id": 2,
+          "rfidicon": "Icon 2",
+          "rfidkey": "65006369C6A9",
+          "audiodetails": "This is a little description of the Video",
+          "audiolength": 322,
+          "audiourl": "audio/Vibrator.mp3"
+        },
+        {
+          "id": 3,
+          "rfidicon": "Icon 3",
+          "rfidkey": "65006379A4DB",
+          "audiodetails": "This is a little description of the Video",
+          "audiolength": 428,
+          "audiourl": "audio/Vulnerable.mp3"
+        }
+      ]
+  }
+}
