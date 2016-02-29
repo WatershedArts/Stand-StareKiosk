@@ -17,7 +17,7 @@
 class VideoPlayer {
     
     public:
-        void setupVideoPlayer(float fadein,float fadeout);
+        void setupVideoPlayer(float fadein,float fadeout,float enticerFadeIn);
         void loadVideo(string url);
         void updateVideo();
         void playVideo();
@@ -44,6 +44,7 @@ class VideoPlayer {
         vector <string> files;
         float _fadein;
         float _fadeout;
+        float _enticerDelay;
         bool _hasFadedIn;
         bool _hasFadedOut;
         bool _drawPrimaryQuads;

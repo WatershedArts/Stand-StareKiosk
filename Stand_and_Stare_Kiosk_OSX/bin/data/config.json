@@ -5,7 +5,7 @@
          "name" : ""
       },
       "General" : {
-         "fadeintime" : 1000,
+         "fadeintime" : 3000,
          "fadeouttime" : 3000,
          "fullscreen" : true,
          "ldrsensitivity" : 50
@@ -39,8 +39,8 @@
       },
       "Enticer" : {
             "videourl": "videos/Opening.loop.mp4",
-            "fadein" : 2000,
-            "fadeout" : 1000
+            "fadein" : 3000,
+            "fadeout" : 3000
       },
       "VideoData" : {
          "videoslist" : [

@@ -9,7 +9,7 @@
 #include "VideoPlayer.hpp"
 
 //--------------------------------------------------------------
-void VideoPlayer::setupVideoPlayer(float fadein, float fadeout)
+void VideoPlayer::setupVideoPlayer(float fadein, float fadeout,float enticerFadeIn)
 {
     _fadein = fadein;
     _fadeout = fadeout;
@@ -17,7 +17,7 @@ void VideoPlayer::setupVideoPlayer(float fadein, float fadeout)
     _hasFadedIn = true;
     _drawPrimaryQuads = false;
     _drawSecondaryQuads = false;
-    
+    _enticerDelay = enticerFadeIn;
     warper.disableKeyboardShortcuts();
     
     ofDirectory videoDirectory(ofToDataPath("videos",true));
@@ -89,13 +89,13 @@ void VideoPlayer::playVideo()
 {
     videoPlayer.play();
     cout << "Playing Video" << endl;
-    fade.setParameters(1, easinglinear, ofxTween::easeIn, 0, 255, _fadein, 1000);
+    fade.setParameters(1, easinglinear, ofxTween::easeIn, 0, 255, _fadein, _enticerDelay);
    _hasFadedIn = false;
 }
 //--------------------------------------------------------------
 void VideoPlayer::stopVideo()
 {
-    fade.setParameters(1, easingexpo, ofxTween::easeOut, currentFadeValue, 0, _fadeout, 10);
+    fade.setParameters(1, easinglinear, ofxTween::easeOut, currentFadeValue, 0, _fadeout, 10);
     _hasFadedOut = false;
     ofMessage msg("Natural Stop");
     ofSendMessage(msg);
@@ -103,7 +103,7 @@ void VideoPlayer::stopVideo()
 //--------------------------------------------------------------
 void VideoPlayer::stopVideoPlus()
 {
-    fade.setParameters(1, easingexpo, ofxTween::easeOut, currentFadeValue, 0, _fadeout, 10);
+    fade.setParameters(1, easinglinear, ofxTween::easeInOut, currentFadeValue, 0, _fadeout, 10);
     _hasFadedOut = false;
     ofMessage msg("Forced Stop");
     ofSendMessage(msg);
@@ -149,7 +149,7 @@ void VideoPlayer::drawVideo()
         ofPushStyle();
         ofMatrix4x4 mat = warper.getMatrix();
         ofPushMatrix();
-        ofSetColor(ofColor::white);
+        ofSetColor(currentFadeValue);
         ofMultMatrix(mat);
         warperFbo.draw(0, 0);
         ofPopMatrix();
@@ -178,6 +178,9 @@ void VideoPlayer::drawVideo()
     else {
         warper.disableMouseControls();
     }
+    
+    ofSetColor(ofColor::white);
+    ofDrawBitmapString("Current Fade Value: " + ofToString(currentFadeValue), 100,65);
 }
 //--------------------------------------------------------------
 string VideoPlayer::getStringStream()

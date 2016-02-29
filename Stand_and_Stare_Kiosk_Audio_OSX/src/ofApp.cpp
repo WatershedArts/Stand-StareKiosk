@@ -40,7 +40,7 @@ void ofApp::setup()
     // Audio Player
     audioHandler.setupAudioPlayer(appConfig.getConfig().fadeInTime,
                                   appConfig.getConfig().fadeOutTime,
-                                  appConfig.getConfig().enticerFadeOut
+                                  1000
                                   );
     audioHandler.loadAudio(audioData[0].audioUrl,
                            audioData[0].audioLength
@@ -73,7 +73,6 @@ void ofApp::update()
 {
     enticer.updateAudio();
     audioHandler.updateAudio();
-//    rfidReader.update();
 }
 //--------------------------------------------------------------
 void ofApp::draw()

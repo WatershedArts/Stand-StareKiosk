@@ -80,7 +80,7 @@ void ofApp::setup()
     videoData = appConfiguration.getConfig().videos;
     
     // Video System
-    videoHandler.setupVideoPlayer(appConfiguration.getConfig().fadeInTime, appConfiguration.getConfig().fadeOutTime);
+    videoHandler.setupVideoPlayer(appConfiguration.getConfig().fadeInTime, appConfiguration.getConfig().fadeOutTime,appConfiguration.getConfig().enticerFadeIn);
     
     // Assign Screen
     videoPreviewer.setup(videoData);
@@ -96,7 +96,7 @@ void ofApp::setup()
     postData.setup(appConfiguration.getConfig().postHostURL, appConfiguration.getConfig().postExtURL, appConfiguration.getConfig().secretKey);
     
     // For the Enticing Display
-    enticer.setupVideoPlayer(appConfiguration.getConfig().enticerFadeIn, appConfiguration.getConfig().enticerFadeOut);
+    enticer.setupVideoPlayer(appConfiguration.getConfig().enticerFadeIn, appConfiguration.getConfig().enticerFadeOut,appConfiguration.getConfig().fadeOutTime);
     enticer.loadVideo(appConfiguration.getConfig().enticerVideoUrl);
     enticer.playVideo();
     
@@ -146,12 +146,12 @@ void ofApp::draw()
             screenFbo.begin();
             ofClear(0);
         }
-        ofEnableBlendMode(OF_BLENDMODE_SCREEN);
+        ofEnableBlendMode(OF_BLENDMODE_ADD);
         enticer.drawVideo();
         videoHandler.drawVideo();
         ofDisableBlendMode();
 
-        objects.drawObjects();
+//        objects.drawObjects();
         
         if (useWarper) {
             screenFbo.end();
@@ -176,13 +176,14 @@ void ofApp::draw()
             videoHandler.drawCalibrationQuads();
         }
         
-        videoHandler.drawVideo();
+//        videoHandler.drawVideo();
         timerVisualisation.setCurrentDuration(200-ofMap(videoHandler.getTimeLeft(),0.00,1.00,200,0));
         timerVisualisation.draw(0, 0);
     }
     // Draw the debug data from the video Files
     if (canDrawData) {
         DrawDebugData();
+        enticer.drawTimeline(ofGetHeight()*0.9);
     }
 }
 //--------------------------------------------------------------
@@ -196,6 +197,7 @@ void ofApp::DrawDebugData()
     debugData << "|------------------------------" << endl;
     debugData << videoHandler.getStringStream() << endl;
     debugData << rfidReader.getDebugString() << endl;
+    debugData << enticer.getStringStream() << endl;
 //    debugData << "|------------------------------" << endl;
 //    debugData << "| Donation Reader" << endl;
 //    debugData << "|------------------------------" << endl;
@@ -232,42 +234,6 @@ void ofApp::exit()
 void ofApp::keyPressed(int key)
 {
     switch (key) {;
-        case '1':
-            rfidReader.simulateNewTag(1);
-            //            enticer.stopVideo();
-//            videoCode = ofToString(1);
-//            videoHandler.loadVideo(ofToDataPath(videoData[0].videoUrl,true));
-//            timerVisualisation.setup(0);
-//            videoHandler.playVideo();
-            break;
-        case '2':
-            enticer.stopVideo();
-            videoCode = ofToString(2);
-            videoHandler.loadVideo(ofToDataPath(videoData[1].videoUrl,true));
-            timerVisualisation.setup(0);
-            videoHandler.playVideo();
-            break;
-        case '3':
-            enticer.stopVideo();
-            videoCode = ofToString(3);
-            videoHandler.loadVideo(ofToDataPath(videoData[2].videoUrl,true));
-            timerVisualisation.setup(0);
-            videoHandler.playVideo();
-            break;
-        case '4':
-            enticer.stopVideo();
-            videoCode = ofToString(4);
-            videoHandler.loadVideo(ofToDataPath(videoData[3].videoUrl,true));
-            timerVisualisation.setup(0);
-            videoHandler.playVideo();
-            break;
-        case '5':
-            enticer.stopVideo();
-            videoCode = ofToString(5);
-            videoHandler.loadVideo(ofToDataPath(videoData[4].videoUrl,true));
-            timerVisualisation.setup(0);
-            videoHandler.playVideo();
-            break;
         case ' ':
             canDrawData = !canDrawData;
             gui->setVisible(canDrawData);
@@ -282,8 +248,17 @@ void ofApp::keyPressed(int key)
         case 'g':
             cout << projectorController.getBulbTime() << endl;
             break;
+        case 'r':
+            rfidReader.simulateTagRemoval();
+            break;
         default:
             break;
+    }
+    
+    for (int i = 0; i < videoData.size(); i++) {
+        if (key == ofToChar(ofToString(i))) {
+            rfidReader.simulateNewTag(i+1);
+        }
     }
 }
 //--------------------------------------------------------------
@@ -350,62 +325,23 @@ void ofApp::windowResized(int w, int h)
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg)
 {
-    if(msg.message == "Idle Timer Finished") {
-        cout << "Timer Complete" << endl;
-    }
-    else if(msg.message == "Donation") {
-        // If we get a donation tell the server
-        postData.postDonation();
-    }
-    else if(msg.message == "Forced Stop") {
-        // If the video is stopped before the end it will fire a false code to the server
-        cout << "A Card has been removed whilst video is playing!!!" << endl;
-        postData.postVideo("1",videoCode,videoHandler.getPlayPercentage(),false);
-    }
-    else if(msg.message == "Natural Stop") {
-        // Like wise if the video is finsihes normally it will fire a true code to the server
-        postData.postVideo("1",videoCode,100,true);
-        enticer.playVideo();
-    }
-    else if(msg.message == "Card Removed") {
-        // If a Card is removed then and video is playing stop and fire post event
-        if(videoHandler.isVideoPlaying()) {
-            videoHandler.stopVideoPlus();
-            enticer.playVideo();
-        }
-        else {
-            cout << "A Card has been removed!" << endl;
-        }
-    }
-    else if(ofIsStringInString(msg.message, "New Tag: "))
-    {
-        
-        if (applicationMode == 0) {
-            cout << "Pain" << endl;
-        }
-        else if (applicationMode == 1) {
-            if (!videoData.empty()) {
-                for (int file = 0; file < videoData.size(); file++) {
-                    if (ofIsStringInString(msg.message,videoData[file].RFIDkey)) {
-                        videoDetails = videoData[file].getData();
-                    }
-                }
-            }
-        }
-        else if (applicationMode == 2) {
-            enticer.stopVideo();
-            if (!videoData.empty()) {
-                for (int file = 0; file < videoData.size(); file++) {
-                    if (ofIsStringInString(msg.message,videoData[file].RFIDkey)) {
-                        videoCode = ofToString(file);
-                        videoHandler.loadVideo(ofToDataPath(videoData[file].videoUrl,true));
-                        timerVisualisation.setup(0);
-                        videoHandler.playVideo();
-                    }
-                }
-            }
-        }
-    }
+//    if(msg.message == "Idle Timer Finished") {
+//        cout << "Timer Complete" << endl;
+//    }
+//    else if(msg.message == "Donation") {
+//        // If we get a donation tell the server
+//        postData.postDonation();
+//    }
+//    else if(msg.message == "Forced Stop") {
+//        // If the video is stopped before the end it will fire a false code to the server
+//        cout << "A Card has been removed whilst video is playing!!!" << endl;
+//        postData.postVideo("1",videoCode,videoHandler.getPlayPercentage(),false);
+//    }
+//    else if(msg.message == "Natural Stop") {
+//        // Like wise if the video is finsihes normally it will fire a true code to the server
+//        postData.postVideo("1",videoCode,100,true);
+//        enticer.playVideo();
+//    }
 }
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo)
@@ -427,8 +363,8 @@ void ofApp::setupListeners()
     ofAddListener(rfidReader.newTag, this, &ofApp::newTagAdded);
     ofAddListener(rfidReader.tagRemoved, this, &ofApp::tagRemoved);
     
-//    ofAddListener(enticer.trackStarted, this, &ofApp::enticerVideoStarted);
-//    ofAddListener(enticer.trackForceFinished, this, &ofApp::enticerVideoFinished);
+    ofAddListener(enticer.enticerStarted, this, &ofApp::enticerVideoStarted);
+    ofAddListener(enticer.enticerInterrupted, this, &ofApp::enticerVideoFinished);
 }
 //--------------------------------------------------------------
 void ofApp::removeListeners()
@@ -440,6 +376,9 @@ void ofApp::removeListeners()
     //    ofRemoveListener(enticer.trackForceFinished, this, &ofApp::enticerVideoFinished);
     ofRemoveListener(rfidReader.newTag, this, &ofApp::newTagAdded);
     ofRemoveListener(rfidReader.tagRemoved, this, &ofApp::tagRemoved);
+    
+    ofRemoveListener(enticer.enticerStarted, this, &ofApp::enticerVideoStarted);
+    ofRemoveListener(enticer.enticerInterrupted, this, &ofApp::enticerVideoFinished);
 }
 //--------------------------------------------------------------
 void ofApp::videoStarted(string &args)
@@ -454,6 +393,7 @@ void ofApp::videoFinished(string &args)
 //--------------------------------------------------------------
 void ofApp::videoInterupted(string &args)
 {
+    
     ofLogWarning() << args;
 }
 //--------------------------------------------------------------
@@ -465,16 +405,33 @@ void ofApp::enticerVideoStarted(string &args)
 void ofApp::enticerVideoFinished(string &args)
 {
     ofLogWarning() << args;
+//    if (videoHandler.isVideoPlaying()) {
+//        enticer.playVideo();
+//    }
 }
 //--------------------------------------------------------------
 void ofApp::newTagAdded(string &tag)
 {
     ofLogWarning() << tag;
-    for (int i = 0; i < videoData.size(); i++) {
-        if (tag == videoData[i].RFIDkey) {
-            enticer.stopVideo();
-            videoHandler.loadVideo(videoData[i].videoUrl);
-            videoHandler.playVideo();
+    if (applicationMode == 0) {
+        ofLogWarning() << "Not Allowed in this Mode";
+    }
+    else if (applicationMode == 1) {
+        for (int i = 0; i < videoData.size(); i++) {
+            if (tag == videoData[i].RFIDkey) {
+                videoDetails = videoData[i].getData();
+            }
+        }
+    }
+    else if (applicationMode == 2) {
+        for (int i = 0; i < videoData.size(); i++) {
+            if (tag == videoData[i].RFIDkey) {
+                videoCode = ofToString(i);
+
+                videoHandler.loadVideo(videoData[i].videoUrl);
+                videoHandler.playVideo();
+                enticer.stopVideo();
+            }
         }
     }
 }
@@ -482,8 +439,17 @@ void ofApp::newTagAdded(string &tag)
 void ofApp::tagRemoved(string &tag)
 {
     ofLogWarning() << tag;
-    videoHandler.stopVideo();
-    enticer.playVideo();
+    // If a Card is removed then and video is playing stop and fire post event
+    if(videoHandler.isVideoPlaying()) {
+        videoHandler.stopVideoPlus();
+        enticer.playVideo();
+    }
+    else {
+        cout << "A Card has been removed!" << endl;
+        if (!enticer.isVideoPlaying()) {
+            enticer.playVideo();
+        }
+    }
 }
 //--------------------------------------------------------------
 // *
