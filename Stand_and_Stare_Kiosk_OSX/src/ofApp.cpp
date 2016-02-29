@@ -113,9 +113,7 @@ void ofApp::update()
     videoHandler.updateVideo();
     enticer.updateVideo();
     donationReader.update();
-    rfidReader.update();
 
-    
     if(applicationMode == 1) {
         videoPreviewer.update();
     }
@@ -176,9 +174,9 @@ void ofApp::draw()
             videoHandler.drawCalibrationQuads();
         }
         
-        //        videoHandler.drawVideo();
-//        timerVisualisation.setCurrentDuration(200-ofMap(videoHandler.getTimeLeft(),0.00,1.00,200,0));
-//        timerVisualisation.draw(0, 0);
+        videoHandler.drawVideo();
+        timerVisualisation.setCurrentDuration(200-ofMap(videoHandler.getTimeLeft(),0.00,1.00,200,0));
+        timerVisualisation.draw(0, 0);
     }
     // Draw the debug data from the video Files
     if (canDrawData) {
@@ -195,9 +193,6 @@ void ofApp::DrawDebugData()
     debugData << "| Video Player" << endl;
     debugData << "|------------------------------" << endl;
     debugData << videoHandler.getStringStream() << endl;
-    debugData << "|------------------------------" << endl;
-    debugData << "| RFID Reader" << endl;
-    debugData << "|------------------------------" << endl;
     debugData << rfidReader.getDebugString() << endl;
 //    debugData << "|------------------------------" << endl;
 //    debugData << "| Donation Reader" << endl;
@@ -207,7 +202,6 @@ void ofApp::DrawDebugData()
     debugData << "| Post" << endl;
     debugData << "|------------------------------" << endl;
     debugData << postData.getDebug() << endl;
-    
     
     ofSetColor(ofColor::white);
     debug.drawString(debugData.str(), 10, 10);
@@ -412,6 +406,71 @@ void ofApp::gotMessage(ofMessage msg)
 }
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo)
+{
+    
+}
+#pragma mark - Class Listeners
+//--------------------------------------------------------------
+// *
+// * Class Listeners
+// *
+//--------------------------------------------------------------
+void ofApp::setupListeners()
+{
+//    ofAddListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
+//    ofAddListener(videoHandler.videoFinishedNormally, this, &ofApp::videoFinished);
+//    ofAddListener(videoHandler.videoForceFinished, this, &ofApp::videoInterupted);
+    
+    ofAddListener(rfidReader.newTag, this, &ofApp::newTagAdded);
+    ofAddListener(rfidReader.tagRemoved, this, &ofApp::tagRemoved);
+    
+//    ofAddListener(enticer.trackStarted, this, &ofApp::enticerVideoStarted);
+//    ofAddListener(enticer.trackForceFinished, this, &ofApp::enticerVideoFinished);
+}
+//--------------------------------------------------------------
+void ofApp::removeListeners()
+{
+    }
+//--------------------------------------------------------------
+void ofApp::videoStarted(string &args)
+{
+//    ofRemoveListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
+//    ofRemoveListener(videoHandler.videoFinishedNormally, this, &ofApp::videoFinished);
+//    ofRemoveListener(videoHandler.videoForceFinished, this, &ofApp::videoInterupted);
+    
+    ofRemoveListener(rfidReader.newTag, this, &ofApp::newTagAdded);
+    ofRemoveListener(rfidReader.tagRemoved, this, &ofApp::tagRemoved);
+    
+//    ofRemoveListener(enticer.trackStarted, this, &ofApp::enticerVideoStarted);
+//    ofRemoveListener(enticer.trackForceFinished, this, &ofApp::enticerVideoFinished);
+}
+//--------------------------------------------------------------
+void ofApp::videoFinished(string &args)
+{
+    
+}
+//--------------------------------------------------------------
+void ofApp::videoInterupted(string &args)
+{
+    
+}
+//--------------------------------------------------------------
+void ofApp::enticerVideoStarted(string &args)
+{
+    
+}
+//--------------------------------------------------------------
+void ofApp::enticerVideoFinished(string &args)
+{
+    
+}
+//--------------------------------------------------------------
+void ofApp::newTagAdded(string &tag)
+{
+    
+}
+//--------------------------------------------------------------
+void ofApp::tagRemoved(string &tag)
 {
     
 }

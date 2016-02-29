@@ -45,19 +45,41 @@ public:
     // *
     //--------------------------------------------------------------
     ofTrueTypeFont debug;
+    MyTimer idleTimer;
+    
+    deque<SSVideoData> videoData;
+    
     int applicationMode;
     bool canDrawData;
     void DrawDebugData();
     void DrawAssigningScreen();
     
     bool canPlay;
-    MyTimer idleTimer;
+    
     bool flipIdleTimerLatch;
     bool calibrateScreen;
+
     string videoCode;
     string videoDetails;
     
-    deque<SSVideoData> videoData;
+    
+    
+    
+    //--------------------------------------------------------------
+    // *
+    // * Class Listeners
+    // *
+    //--------------------------------------------------------------
+    void setupListeners();
+    void removeListeners();
+    void videoStarted(string &args);
+    void videoFinished(string &args);
+    void videoInterupted(string &args);
+    void enticerVideoStarted(string &args);
+    void enticerVideoFinished(string &args);
+    void newTagAdded(string &tag);
+    void tagRemoved(string &tag);
+    
     //--------------------------------------------------------------
     // *
     // * Screen Warper
@@ -106,6 +128,11 @@ public:
     RFIDReader rfidReader;
     PostData postData;
     
+    //--------------------------------------------------------------
+    // *
+    // * Terminal Listener
+    // *
+    //--------------------------------------------------------------
     void onCharacterReceived(KeyListenerEventData& e);
     TerminalListener consoleListener;
     
