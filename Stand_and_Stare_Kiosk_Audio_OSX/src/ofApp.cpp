@@ -11,7 +11,7 @@ void ofApp::appSetup()
     // Setup the SSH Key listener | Thanks @JVCleave
     consoleListener.setup(this);
     hideDebug = false;
-    whatsHappening = "Idlying";
+    whatsHappening = "Idling";
     
     ofAddListener(audioHandler.trackStarted, this, &ofApp::trackStarted);
     ofAddListener(audioHandler.trackFinishedNormally, this, &ofApp::trackFinished);
@@ -197,7 +197,7 @@ void ofApp::tagRemoved(string &tag)
 //--------------------------------------------------------------
 void ofApp::enticerTrackStarted(string &args)
 {
-    whatsHappening = "Idlying";
+    whatsHappening = "Idling";
     ofLogNotice() << args;
 }
 //--------------------------------------------------------------

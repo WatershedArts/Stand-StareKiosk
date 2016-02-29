@@ -31,7 +31,7 @@ bool RFIDReader::isConnected()
 //--------------------------------------------------------------
 void RFIDReader::simulateNewTag(int which)
 {
-    string ev = "RFIDTag 1";
+    string ev = "RFIDTag "+ofToString(which);
     ofNotifyEvent(newTag, ev, this);
 }
 //--------------------------------------------------------------
