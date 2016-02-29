@@ -24,6 +24,70 @@ void RFIDReader::setup(string deviceName,int removeDelay)
     }
 }
 //--------------------------------------------------------------
+void RFIDReader::start()
+{
+    startThread();
+}
+//--------------------------------------------------------------
+void RFIDReader::stop()
+{
+    stopThread();
+}
+//--------------------------------------------------------------
+void RFIDReader::threadedFunction()
+{
+    while (isThreadRunning()) {
+        if (lock()) {
+            if (isConnected()) {
+                while (serial.available() > 0) {
+                    
+                    incomingByte = serial.readByte();
+                    
+                    if (incomingByte > 13) {
+                        tagBuffer[tagBufferIndex] = incomingByte;
+                        tagBufferIndex++;
+                    }
+                    
+                    if (incomingByte == 3) {
+                        // Fire the Tag up into the main app
+                        tagString = tagBuffer;
+                        ofNotifyEvent(newTag, tagString, this);
+                        
+                        for (int i = 0; i < tagBufferIndex; i++) {
+                            tagBuffer[i] = 0;
+                        }
+                        tagBufferIndex = 0;
+                    }
+                }
+                
+                tagPreviouslyPresent = tagPresent;
+                
+                string state = "0";
+                
+                if(state == "1") {
+                    tagPresent = true;
+                }
+                else {
+                    tagPresent = false;
+                }
+                
+                if(tagPresent != tagPreviouslyPresent) {
+                    lastTagChangeTime = ofGetElapsedTimeMillis();;
+                    sendRemove = !tagPresent;
+                }
+                
+                if(sendRemove == true && ((ofGetElapsedTimeMillis() - lastTagChangeTime) > removeTimeout)) {
+                    string ev = "Removed";
+                    ofNotifyEvent(tagRemoved, ev, this);
+                    sendRemove = false;
+                }
+            }
+            unlock();
+            sleep(1);
+        }
+    }
+}
+//--------------------------------------------------------------
 bool RFIDReader::isConnected()
 {
     return serial.isInitialized();

@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include "ofMain.h"
 
-class RFIDReader {
+class RFIDReader : public ofThread {
 
 public:
     void setup(string deviceName,int removeDelay = 2000);
@@ -20,6 +20,10 @@ public:
     bool isConnected();
     ofSerial serial;
 
+    void start();
+    void stop();
+    void threadedFunction();
+    
     ofEvent<string> newTag;
     ofEvent<string> tagRemoved;
     

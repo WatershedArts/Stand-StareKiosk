@@ -48,6 +48,7 @@ void ofApp::setup()
     
     // RFID
     rfidReader.setup(appConfig.getConfig().RFIDSerialName,2000);
+    rfidReader.start();
     
     // This is for Posting Data Back to the server
     postData.setup(appConfig.getConfig().postHostURL,
@@ -72,7 +73,7 @@ void ofApp::update()
 {
     enticer.updateAudio();
     audioHandler.updateAudio();
-    rfidReader.update();
+//    rfidReader.update();
 }
 //--------------------------------------------------------------
 void ofApp::draw()
@@ -111,6 +112,7 @@ void ofApp::exit()
     
     ofRemoveListener(rfidReader.newTag, this, &ofApp::newTagAdded);
     ofRemoveListener(rfidReader.tagRemoved, this, &ofApp::tagRemoved);
+    rfidReader.stop();
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -167,12 +169,14 @@ void ofApp::trackStarted(string &args)
 void ofApp::trackFinished(string &args)
 {
     whatsHappening = "Stopping Track: " + args.substr(29,args.length());
+    enticer.playAudio();
     ofLogNotice() << args;
 }
 //--------------------------------------------------------------
 void ofApp::trackInterupted(string &args)
 {
     whatsHappening = "Track Interupted: " + args.substr(36,args.length());
+    enticer.playAudio();
     ofLogNotice() << args;
 }
 //--------------------------------------------------------------
