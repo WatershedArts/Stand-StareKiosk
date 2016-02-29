@@ -78,7 +78,7 @@ Then reboot.
 ##Wiring
 
 Here is the schematic for the project.
-
+sudo apt-get install pulseaudio
 
 And the wiring table.
 
