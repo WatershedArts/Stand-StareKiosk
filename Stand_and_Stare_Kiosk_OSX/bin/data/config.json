@@ -4,28 +4,34 @@
          "baud" : 9600,
          "name" : ""
       },
+      "Enticer" : {
+         "fadein" : 3000,
+         "fadeout" : 3000,
+         "videourl" : "videos/Opening.loop.mp4"
+      },
       "General" : {
          "fadeintime" : 3000,
          "fadeouttime" : 3000,
          "fullscreen" : true,
-         "ldrsensitivity" : 50
+         "ldrsensitivity" : 50,
+         "warperActive" : false
       },
       "MaskPoints" : [
          {
-            "x" : 205,
-            "y" : 126
+            "x" : 324,
+            "y" : 141
          },
          {
-            "x" : 203,
-            "y" : 626
+            "x" : 319,
+            "y" : 966
          },
          {
-            "x" : 969,
-            "y" : 628
+            "x" : 1656,
+            "y" : 991
          },
          {
-            "x" : 956,
-            "y" : 112
+            "x" : 1692,
+            "y" : 124
          }
       ],
       "PostData" : {
@@ -35,12 +41,8 @@
       },
       "RFID" : {
          "baud" : 9600,
+         "delay" : 2000,
          "name" : "/dev/tty.usbserial-A601EHXS"
-      },
-      "Enticer" : {
-            "videourl": "videos/Opening.loop.mp4",
-            "fadein" : 3000,
-            "fadeout" : 3000
       },
       "VideoData" : {
          "videoslist" : [
