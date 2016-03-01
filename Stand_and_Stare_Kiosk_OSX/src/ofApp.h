@@ -13,6 +13,7 @@
 #include "ofxDatGui.h"
 #include "MyTimer.hpp"
 #include "terminalListener.h"
+#include "Assigner.hpp"
 
 class ofApp : public ofBaseApp, public KeyListener{
     
@@ -49,8 +50,8 @@ public:
     
     int applicationMode;
     bool canDrawData;
-    void DrawDebugData();
-    void DrawAssigningScreen();
+    void drawDebugData();
+
     
     bool canPlay;
     
@@ -89,7 +90,6 @@ public:
     bool showWarper;
     bool useWarper;
     
-    
     //--------------------------------------------------------------
     // *
     // * GUI
@@ -123,6 +123,7 @@ public:
     ObjectHandler objects;
     RFIDReader rfidReader;
     PostData postData;
+    TagAssignment tagAssigner;
     
     //--------------------------------------------------------------
     // *
@@ -131,5 +132,11 @@ public:
     //--------------------------------------------------------------
     void onCharacterReceived(KeyListenerEventData& e);
     TerminalListener consoleListener;
-    
+
+    //--------------------------------------------------------------
+    // *
+    // * Assigning
+    // *
+    //--------------------------------------------------------------
+    void drawAssigningScreen();
 };

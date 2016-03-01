@@ -98,6 +98,7 @@ void VideoPlayer::playVideo()
 void VideoPlayer::stopVideo()
 {
     fade.setParameters(1, easinglinear, ofxTween::easeOut, currentFadeValue, 0, _fadeout, 10);
+    dropFade.setParameters(1, easingexpo, ofxTween::easeOut, progress-50, 0, _fadeout, 10);
     string ev = "Video Stopped";
     ofNotifyEvent(videoStopped, ev, this);
     _hasFadedOut = false;
@@ -106,6 +107,7 @@ void VideoPlayer::stopVideo()
 void VideoPlayer::interruptVideo()
 {
     fade.setParameters(1, easinglinear, ofxTween::easeInOut, currentFadeValue, 0, _fadeout, 10);
+    dropFade.setParameters(1, easingexpo, ofxTween::easeOut, progress-50, 0, _fadeout, 10);
     string ev = "Video Interrupted";
     ofNotifyEvent(videoInterrupted, ev, this);
     _hasFadedOut = false;
@@ -206,7 +208,14 @@ void VideoPlayer::drawTimeline(int y)
     ofSetColor(50, 50, 50);
     ofDrawRectRounded(startX,0, playBarLength, 25, 5);
     ofSetColor(ofMap(fade.update(), 0.00, 255, 255, 0), fade.update(), 0);
-    ofDrawRectRounded(startX,0, progress-startX, 25, 5);
+
+    if (_hasFadedOut && (fade.isCompleted() || fade.isRunning())) {
+        ofDrawRectRounded(startX,0, progress-startX, 25, 5);
+    }
+    else {
+        ofDrawRectRounded(startX,0, dropFade.update(), 25, 5);
+    }
+    //ofDrawRectRounded(startX,0, progress-startX, 25, 5);
     
     ofPushStyle();
     ofSetLineWidth(3);
@@ -249,9 +258,16 @@ void VideoPlayer::drawTimeline(int y)
     }
     
     string trackTimeElapsed = mins + ":"+secs;
-    ofSetColor(ofColor::white);
-    ofDrawLine(progress, -15, progress, 25);
-    ofDrawBitmapString(trackTimeElapsed,progress+10 ,-5);
+    if (_hasFadedOut && (fade.isCompleted() || fade.isRunning())) {
+        ofSetColor(ofColor::white);
+        ofDrawLine(progress, -15, progress, 25);
+        ofDrawBitmapString(trackTimeElapsed,progress+10 ,-5);
+    }
+    else {
+        ofSetColor(ofColor::white);
+        ofDrawLine(dropFade.update()+offset, -15, dropFade.update()+offset, 25);
+        ofDrawBitmapString(trackTimeElapsed,dropFade.update()+offset+10 ,-5);
+    }
     
     string isAudioPlayingStr = isVideoPlaying() ? "Playing: " : "Stopped: ";
     if (videoName.length() == 0) {

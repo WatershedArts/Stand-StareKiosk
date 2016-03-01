@@ -47,7 +47,6 @@
       "VideoData" : {
          "videoslist" : [
             {
-               "gifurl" : "gifs/2.gif",
                "id" : 1,
                "quadwarping" : [
                   {
@@ -74,7 +73,6 @@
                "videourl" : "videos/co.mp4"
             },
             {
-               "gifurl" : "gifs/view0.gif",
                "id" : 2,
                "quadwarping" : [
                   {
@@ -101,7 +99,6 @@
                "videourl" : "videos/despard.mp4"
             },
             {
-               "gifurl" : "gifs/view1.gif",
                "id" : 3,
                "quadwarping" : [
                   {
@@ -128,7 +125,6 @@
                "videourl" : "videos/doris.mp4"
             },
             {
-               "gifurl" : "gifs/view2.gif",
                "id" : 4,
                "quadwarping" : [
                   {

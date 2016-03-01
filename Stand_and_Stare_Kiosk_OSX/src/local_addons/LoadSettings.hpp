@@ -18,7 +18,6 @@
 struct SSVideoData {
     int id;
     string videoUrl;
-    string gifUrl;
     string videoLength;
     string videoDetails;
     string RFIDkey;
@@ -33,7 +32,6 @@ struct SSVideoData {
         datastream << "| Icon: " << RFIDIcon << endl;
         datastream << "| RFIDKey " << RFIDkey << endl;
         datastream << "| Video Url " << videoUrl << endl;
-        datastream << "| Gif Url " << gifUrl << endl;
         datastream << "| " << videoDetails << endl;
         return datastream.str();
     }

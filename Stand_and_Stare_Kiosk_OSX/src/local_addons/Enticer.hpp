@@ -65,6 +65,7 @@ class EnticerVisuals {
     private:
         ofVideoPlayer videoPlayer;
         ofxTween fade;
+        ofxTween dropFade;
         ofxEasingLinear easinglinear;
         ofxEasingExpo easingexpo;
     

@@ -61,9 +61,7 @@ void LoadSettings::load(string loadFile)
             vd.videoUrl = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["videourl"].asString();
             vd.videoLength = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["videolength"].asString();
             vd.videoDetails = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["videodetails"].asString();
-            
-            vd.gifUrl = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["gifurl"].asString();
-            
+        
             vd.RFIDkey = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["rfidkey"].asString();
             vd.RFIDIcon = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["rfidicon"].asString();
             vd.RFIDIcon = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["rfidicon"].asString();

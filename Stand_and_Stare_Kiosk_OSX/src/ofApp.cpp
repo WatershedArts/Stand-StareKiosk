@@ -12,7 +12,7 @@ void ofApp::setupWarper()
     // Allocate Warper FBO
     screenFbo.allocate(screenWidth, screenHeight);
     screenFbo.begin();
-    ofClear(0, 0, 0);
+        ofClear(0);
     screenFbo.end();
     
     vector <ofVec3f> screenCoords = calibrationScreen.getCoordinates();
@@ -86,6 +86,8 @@ void ofApp::setup()
                                   appConfiguration.getConfig().enticerFadeIn
                                   );
     
+    tagAssigner.setup(videoData);
+    
     // RFID
     rfidReader.setup(appConfiguration.getConfig().RFIDSerialName,
                      appConfiguration.getConfig().rfidDelay
@@ -126,10 +128,6 @@ void ofApp::update()
     enticer.updateVideo();
     donationReader.update();
 
-    if(applicationMode == 1) {
-        
-    }
-    
     // Starts the Idle Timer which fires the enticer visuals
     if (!flipIdleTimerLatch && videoHandler.hasVideoFinished()) {
         idleTimer.start();
@@ -147,8 +145,7 @@ void ofApp::draw()
         calibrationScreen.Draw();
     }
     else if(applicationMode == 1) {
-        DrawAssigningScreen();
-        debug.drawString(videoDetails, 10, 10);
+        drawAssigningScreen();
     }
     else if(applicationMode == 2) {
         // Draw the Videos and other obeject to the Screen Warper
@@ -191,15 +188,14 @@ void ofApp::draw()
     // Draw the debug data from the video Files
     if (canDrawData) {
         ofPushStyle();
-        gui->draw();
-        DrawDebugData();
+        drawDebugData();
         enticer.drawTimeline(ofGetHeight()*0.8);
         videoHandler.drawTimeline(ofGetHeight()*0.9);
         ofPopStyle();
     }
 }
 //--------------------------------------------------------------
-void ofApp::DrawDebugData()
+void ofApp::drawDebugData()
 {
     stringstream debugData;
     debugData << "|------------------------------" << endl;
@@ -212,8 +208,9 @@ void ofApp::DrawDebugData()
     debug.drawString(debugData.str(), 10, 10);
 }
 //--------------------------------------------------------------
-void ofApp::DrawAssigningScreen()
+void ofApp::drawAssigningScreen()
 {
+    tagAssigner.draw();
 }
 //--------------------------------------------------------------
 void ofApp::exit()
@@ -237,15 +234,8 @@ void ofApp::keyPressed(int key)
             canDrawData = !canDrawData;
             gui->setVisible(canDrawData);
             break;
-        case 's':
-            videoHandler.stopVideo();
-            enticer.playVideo();
-            break;
         case 'd':
             postData.postDonation();
-            break;
-        case 'g':
-            cout << projectorController.getBulbTime() << endl;
             break;
         case 'r':
             rfidReader.simulateTagRemoval();
@@ -269,7 +259,7 @@ void ofApp::keyReleased(int key)
 void ofApp::mouseMoved(int x, int y)
 {
     if(applicationMode == 1) {
-
+        tagAssigner.mouseOver(x, y);
     }
 }
 //--------------------------------------------------------------
@@ -298,6 +288,7 @@ void ofApp::mousePressed(int x, int y, int button)
         }
     }
     else if(applicationMode == 1) {
+        tagAssigner.mousePressed(x, y, button);
     }
 }
 //--------------------------------------------------------------
@@ -406,11 +397,12 @@ void ofApp::newTagAdded(string &tag)
         ofLogWarning() << "Not Allowed in this Mode";
     }
     else if (applicationMode == 1) {
-        for (int i = 0; i < videoData.size(); i++) {
-            if (tag == videoData[i].RFIDkey) {
-                videoDetails = videoData[i].getData();
-            }
-        }
+        tagAssigner.assignNewTag(tag);
+//        for (int i = 0; i < videoData.size(); i++) {
+//            if (tag == videoData[i].RFIDkey) {
+//                videoDetails = videoData[i].getData();
+//            }
+//        }
     }
     else if (applicationMode == 2) {
         for (int i = 0; i < videoData.size(); i++) {
@@ -456,10 +448,11 @@ void ofApp::setupGUI()
         "OPERATION MODE"};
     
     gui->addDropdown("App Mode", AppMode);
-    gui->addBreak();
-    gui->addToggle("Show Warper");
+   
     
     if (useWarper) {
+        gui->addBreak();
+        gui->addToggle("Show Warper");
         gui->addBreak();
         ofxDatGuiFolder * CalibrationFolder = gui->addFolder("Calibration",ofColor::blueSteel);
         CalibrationFolder->addToggle("Enable Mask Creation");
