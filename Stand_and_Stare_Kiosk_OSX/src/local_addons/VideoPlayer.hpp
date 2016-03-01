@@ -12,26 +12,59 @@
 #include <stdio.h>
 #include "ofxTween.h"
 #include "ofxQuadWarp.h"
-//#include "VideoTimerVisualisation.h"
 
 class VideoPlayer {
     
     public:
+        //! Setup Video Handler
         void setupVideoPlayer(float fadein,float fadeout,float enticerFadeIn);
+    
+        //! Load the Video
         void loadVideo(string url);
+    
+        //! Update video
         void updateVideo();
+    
+        //! Play Video
         void playVideo();
+    
+        //! Stop Video
         void stopVideo();
-        void stopVideoPlus();
+    
+        //! Interrupt the Video
+        void interruptVideo();
+
+        //! Draw
         void drawVideo();
+    
+        //! Draw the Warpers
         void drawCalibrationQuads();
+    
+        //! Show the Unwarped Quads
         void showPrimaryQuad(bool val);
+    
+        //! Show the Warped Quads
         void showSecondaryQuad(bool val);
+    
+        //! How many Seconds Left
         float getTimeLeft();
+    
+        //! Has the Video Finished
         bool hasVideoFinished();
+    
+        //! Is the Video Playing
         bool isVideoPlaying();
+    
+        //! Debug Info
         string getStringStream();
+    
+        //! What Percentage through the Video are We?
         int getPlayPercentage();
+    
+        // Events
+        ofEvent<string> videoStarted;
+        ofEvent<string> videoStopped;
+        ofEvent<string> videoInterrupted;
     
     private:
         ofVideoPlayer videoPlayer;
@@ -49,11 +82,10 @@ class VideoPlayer {
         bool _hasFadedOut;
         bool _drawPrimaryQuads;
         bool _drawSecondaryQuads;
+
     protected:
         int currentFadeValue;
         float videoLength;
-//        VideoTimerVisualisation timerVisualisation;
-    
 };
 
 #endif /* VideoPlayer_hpp */

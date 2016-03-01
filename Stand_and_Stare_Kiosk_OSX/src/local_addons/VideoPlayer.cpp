@@ -88,25 +88,26 @@ void VideoPlayer::updateVideo()
 void VideoPlayer::playVideo()
 {
     videoPlayer.play();
-    cout << "Playing Video" << endl;
     fade.setParameters(1, easinglinear, ofxTween::easeIn, 0, 255, _fadein, _enticerDelay);
+    string ev = "Video Started";
+    ofNotifyEvent(videoStarted, ev, this);
    _hasFadedIn = false;
 }
 //--------------------------------------------------------------
 void VideoPlayer::stopVideo()
 {
     fade.setParameters(1, easinglinear, ofxTween::easeOut, currentFadeValue, 0, _fadeout, 10);
+    string ev = "Video Stopped";
+    ofNotifyEvent(videoStopped, ev, this);
     _hasFadedOut = false;
-    ofMessage msg("Natural Stop");
-    ofSendMessage(msg);
 }
 //--------------------------------------------------------------
-void VideoPlayer::stopVideoPlus()
+void VideoPlayer::interruptVideo()
 {
     fade.setParameters(1, easinglinear, ofxTween::easeInOut, currentFadeValue, 0, _fadeout, 10);
+    string ev = "Video Interrupted";
+    ofNotifyEvent(videoInterrupted, ev, this);
     _hasFadedOut = false;
-    ofMessage msg("Forced Stop");
-    ofSendMessage(msg);
 }
 //--------------------------------------------------------------
 void VideoPlayer::showPrimaryQuad(bool val)
@@ -156,8 +157,7 @@ void VideoPlayer::drawVideo()
         ofPopStyle();
         ofPopMatrix();
     }
-    
-    
+
     if (_drawSecondaryQuads) {
         warper.enableMouseControls();
         ofPushStyle();
@@ -178,9 +178,6 @@ void VideoPlayer::drawVideo()
     else {
         warper.disableMouseControls();
     }
-    
-    ofSetColor(ofColor::white);
-    ofDrawBitmapString("Current Fade Value: " + ofToString(currentFadeValue), 100,65);
 }
 //--------------------------------------------------------------
 string VideoPlayer::getStringStream()
