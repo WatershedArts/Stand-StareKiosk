@@ -46,7 +46,7 @@ public:
     ofTrueTypeFont debug;
     MyTimer idleTimer;
     
-    deque<SSVideoData> videoData;
+    deque<VideoData> videoData;
     
     int applicationMode;
     bool canDrawData;

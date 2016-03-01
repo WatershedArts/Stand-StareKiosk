@@ -15,7 +15,7 @@
 
 
 // Structure for Video Data
-struct SSVideoData {
+struct VideoData {
     int id;
     string videoUrl;
     string videoLength;
@@ -28,11 +28,10 @@ struct SSVideoData {
     
     string getData() {
         stringstream datastream;
-        datastream << "|-----------------------------" << endl;
-        datastream << "| Icon: " << RFIDIcon << endl;
-        datastream << "| RFIDKey " << RFIDkey << endl;
-        datastream << "| Video Url " << videoUrl << endl;
-        datastream << "| " << videoDetails << endl;
+        datastream << "Icon: " << RFIDIcon << endl;
+        datastream << "RFIDKey: " << RFIDkey << endl;
+        datastream << "Video Url: " << videoUrl << endl;
+        datastream << videoDetails << endl;
         return datastream.str();
     }
 };
@@ -51,9 +50,6 @@ struct Config {
     string postHostURL;
     string postExtURL;
     string secretKey;
-    
-    // Video Data Configuration
-    deque <SSVideoData> videos;
     
     // Serial Configuration
     string RFIDSerialName;
@@ -78,17 +74,24 @@ struct Config {
 class LoadSettings {
     public:
     
-        //! Load the Settings Folder
-        void load(string loadFile);
-        
-        //! Return the values
+        //! Load the Settings File
+        void loadConfig(string loadFile);
+
+        //! Load the VideoData File
+        void loadVideoConfig(string loadFile);
+    
+        //! Return the Config Values
         Config getConfig();
-        
+    
+        //! Return the Config Values
+        deque <VideoData> getVideoConfig();
+    
         //! Print out the Raw Json String
         void printConfiguration();
     
     private:
         Config c;
+        deque<VideoData> d;
     protected:
         ofxJSONElement configFile;
 };

@@ -60,7 +60,10 @@ void ofApp::onCharacterReceived(KeyListenerEventData& e)
 void ofApp::setup()
 {
     // Load the Configuration
-    appConfiguration.load("config.json");
+    appConfiguration.loadConfig("config.json");
+    appConfiguration.printConfiguration();
+    appConfiguration.loadVideoConfig("videoConfig.json");
+    appConfiguration.printConfiguration();
     
     // Debug Warper
     useWarper = appConfiguration.getConfig().useWarper;
@@ -78,7 +81,7 @@ void ofApp::setup()
     projectorController.setupProjector("/dev/tty.usbserial"); // Make this a config option
     projectorController.turnOn();
     
-    videoData = appConfiguration.getConfig().videos;
+    videoData = appConfiguration.getVideoConfig();
     
     // Video System
     videoHandler.setupVideoPlayer(appConfiguration.getConfig().fadeInTime,
@@ -95,7 +98,7 @@ void ofApp::setup()
     rfidReader.start();
     
     // Calibration Setup
-    calibrationScreen.Setup(appConfiguration.getConfig().maskPoints);
+    calibrationScreen.setup(appConfiguration.getConfig().maskPoints);
     
     // This is for Posting Data Back to the server
     postData.setup(appConfiguration.getConfig().postHostURL,
@@ -142,7 +145,7 @@ void ofApp::draw()
     
     // Calibration Mode
     if (applicationMode == 0) {
-        calibrationScreen.Draw();
+        calibrationScreen.draw();
     }
     else if(applicationMode == 1) {
         drawAssigningScreen();
@@ -277,13 +280,13 @@ void ofApp::mousePressed(int x, int y, int button)
                 
                 // This function is to stop the mouse Click through the GUI Window
                 if (!guiWindow.inside(x, y)) {
-                    calibrationScreen.MousePressed(x, y, button);
+                    calibrationScreen.mousePressed(x, y, button);
                 }
                 else {
                 }
             }
             else {
-                calibrationScreen.MousePressed(x, y, button);
+                calibrationScreen.mousePressed(x, y, button);
             }
         }
     }
@@ -448,7 +451,7 @@ void ofApp::setupGUI()
         "OPERATION MODE"};
     
     gui->addDropdown("App Mode", AppMode);
-   
+    gui->addButton("Reload Video Data");
     
     if (useWarper) {
         gui->addBreak();
@@ -490,13 +493,13 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
     if(e.target->is("Clear Mask")) {
-        calibrationScreen.ClearPoints();
+        calibrationScreen.clearPoints();
     }
     else if(e.target->is("Save Mask")) {
-        calibrationScreen.Save();
+        calibrationScreen.save();
     }
     else if(e.target->is("Show Coordinates")) {
-        calibrationScreen.ShowCoordinates(e.target->getEnabled());
+        calibrationScreen.showCoordinates(e.target->getEnabled());
     }
     else if(e.target->is("Enable Mask Creation")) {
         calibrateScreen = e.target->getEnabled();
@@ -511,6 +514,11 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
     }
     else if(e.target->is("Show Warper")) {
         showWarper = e.target->getEnabled();
+    }
+    else if(e.target->is("Reload Video Data")) {
+        appConfiguration.loadVideoConfig("videoConfig.json");
+        videoData.clear();
+        videoData = appConfiguration.getVideoConfig();
     }
 }
 //--------------------------------------------------------------

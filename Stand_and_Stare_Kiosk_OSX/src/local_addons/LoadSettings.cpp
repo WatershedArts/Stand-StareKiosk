@@ -8,7 +8,7 @@
 
 #include "LoadSettings.hpp"
 //--------------------------------------------------------------
-void LoadSettings::load(string loadFile)
+void LoadSettings::loadConfig(string loadFile)
 {
  
     if (!configFile.open(loadFile)) {
@@ -41,6 +41,7 @@ void LoadSettings::load(string loadFile)
         c.DonationReaderName = configFile["Stand&Stare"]["Donation"]["name"].asString();
         c.donationsBaud = configFile["Stand&Stare"]["Donation"]["baud"].asInt();
         
+        // Enticer Settings
         c.enticerVideoUrl = configFile["Stand&Stare"]["Enticer"]["videourl"].asString();
         c.enticerFadeOut = configFile["Stand&Stare"]["Enticer"]["fadeout"].asFloat();
         c.enticerFadeIn = configFile["Stand&Stare"]["Enticer"]["fadein"].asFloat();
@@ -52,20 +53,33 @@ void LoadSettings::load(string loadFile)
             maskPoints.push_back(ofPoint(configFile["Stand&Stare"]["MaskPoints"][maskPts]["x"].asInt(),configFile["Stand&Stare"]["MaskPoints"][maskPts]["y"].asInt()));
         }
         c.maskPoints = maskPoints;
-        
+    }
+}
+//--------------------------------------------------------------
+void LoadSettings::loadVideoConfig(string loadFile)
+{
+    if (!configFile.open(loadFile)) {
+        // Oh No!!!
+        ofLog(OF_LOG_FATAL_ERROR,"Could not find the Video Configuration File");
+        return;
+    }
+    else {
+        // We're good lets get that config!!!
+        ofLog(OF_LOG_NOTICE,"Found the Video Configuration File");
+
         // Video Settings
-        int numberOfVideos = configFile["Stand&Stare"]["VideoData"]["videoslist"].size();
+        int numberOfVideos = configFile["VideoData"]["videoslist"].size();
         for (int video = 0; video < numberOfVideos; video++) {
-            SSVideoData vd;
-            vd.id = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["id"].asInt();
-            vd.videoUrl = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["videourl"].asString();
-            vd.videoLength = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["videolength"].asString();
-            vd.videoDetails = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["videodetails"].asString();
-        
-            vd.RFIDkey = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["rfidkey"].asString();
+            VideoData vd;
+            vd.id = configFile["VideoData"]["videoslist"][video]["id"].asInt();
+            vd.videoUrl = configFile["VideoData"]["videoslist"][video]["videourl"].asString();
+            vd.videoLength = configFile["VideoData"]["videoslist"][video]["videolength"].asString();
+            vd.videoDetails = configFile["VideoData"]["videoslist"][video]["videodetails"].asString();
+
+            vd.RFIDkey = configFile["VideoData"]["videoslist"][video]["rfidkey"].asString();
             vd.RFIDIcon = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["rfidicon"].asString();
             vd.RFIDIcon = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["rfidicon"].asString();
-            
+
             // Get the Warping points
             int warpingPts = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["quadwarping"].size();
             for (int warpPts = 0; warpPts < warpingPts; warpPts++) {
@@ -73,7 +87,7 @@ void LoadSettings::load(string loadFile)
                                     configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["quadwarping"][warpPts]["y"].asInt());
                 vd.quadWarpingPoints.push_back(p);
             }
-            c.videos.push_back(vd);
+            d.push_back(vd);
         }
     }
 }
@@ -81,6 +95,11 @@ void LoadSettings::load(string loadFile)
 Config LoadSettings::getConfig()
 {
     return c;
+}
+//--------------------------------------------------------------
+deque <VideoData> LoadSettings::getVideoConfig()
+{
+    return d;
 }
 //--------------------------------------------------------------
 void LoadSettings::printConfiguration()

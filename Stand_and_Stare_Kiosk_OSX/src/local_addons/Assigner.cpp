@@ -8,15 +8,15 @@
 
 #include "Assigner.hpp"
 //--------------------------------------------------------------
-void TagAssignment::setup(deque <SSVideoData> data)
+void TagAssignment::setup(deque <VideoData> data)
 {
     confirmWindow.addListener(this, &TagAssignment::onModalEvent);
     int centerX = ofGetWidth()*0.5;
-    int offsetX = 100/2;
+    int offsetX = 300/2;
     int newCenterX = centerX-offsetX;
     
     for (int i = 0; i < data.size(); i++) {
-        information.insert(std::pair<int, TagInformation>(i, TagInformation(ofPoint(newCenterX,100+(i*120)), i, data[i].videoUrl, data[i].videoDetails, data[i].RFIDkey, data[i].RFIDIcon, data[i].videoLength)));
+        information.insert(std::pair<int, TagInformation>(i, TagInformation(ofPoint(newCenterX,100+(i*120)),i,data[i])));
     }
 }
 //--------------------------------------------------------------
@@ -25,7 +25,8 @@ void TagAssignment::assignNewTag(string newTag)
     currentTag = newTag;
     for (int i = 0; i < information.size(); i++) {
         if (information.at(i).isActive()) {
-            confirmWindow.setMessage("Video will now have the RFID Key of " + newTag + "\n Are you sure you want to Continue");
+            confirmWindow.setMessageAlignment(ofxParagraph::ALIGN_LEFT);
+            confirmWindow.setMessage("Video will now have the RFID Key of " + newTag);
             confirmWindow.show();
         }
     }
@@ -62,9 +63,19 @@ void TagAssignment::onModalEvent(ofxModalEvent e)
             if (information.at(i).isActive()) {
                 cout << "Hello" << endl;
                 information.at(i).setNewTag(currentTag);
-
+                save(i);
             }
             information.at(i).setDeactivated();
         }
     }
+}
+//--------------------------------------------------------------
+void TagAssignment::save(int which)
+{
+    ofxJSONElement file;
+    file.open("videoConfig.json");
+    file["VideoData"]["videoslist"][which]["rfidkey"] = currentTag;
+    file.toStyledString();
+    file.save("videoConfig.json",true);
+    
 }

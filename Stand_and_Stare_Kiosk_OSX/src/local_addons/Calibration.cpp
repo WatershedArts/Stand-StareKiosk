@@ -8,7 +8,7 @@
 
 #include "Calibration.hpp"
 //--------------------------------------------------------------
-void Calibration::Setup(vector<ofPoint> pts)
+void Calibration::setup(vector<ofPoint> pts)
 {
     for (int i = 0; i < pts.size(); i++) {
         p.addPoint(pts[i]);
@@ -18,23 +18,23 @@ void Calibration::Setup(vector<ofPoint> pts)
     p.clear();
 }
 //--------------------------------------------------------------
-void Calibration::Update()
+void Calibration::update()
 {
     
 }
 //--------------------------------------------------------------
-void Calibration::ClearPoints()
+void Calibration::clearPoints()
 {
     lines.clear();
     p.clear();
 }
 //--------------------------------------------------------------
-void Calibration::ShowCoordinates(bool showCoordinates)
+void Calibration::showCoordinates(bool showCoordinates)
 {
     p.showCoordinates(showCoordinates);
 }
 //--------------------------------------------------------------
-void Calibration::Draw()
+void Calibration::draw()
 {
     if (lines.size() > 0) {
         for(int i = 0; i < lines.size(); i++) {
@@ -74,19 +74,19 @@ vector<ofVec3f> Calibration::getCoordinates()
     }
 }
 //--------------------------------------------------------------
-void Calibration::MousePressed(int x, int y, int button)
+void Calibration::mousePressed(int x, int y, int button)
 {
     if (button == OF_MOUSE_BUTTON_LEFT) {
         p.addPoint(ofVec3f(x,y,0));
     }
 }
 
-void Calibration::MouseReleased(int x,int y,int button)
+void Calibration::mouseReleased(int x,int y,int button)
 {
     
 }
 //--------------------------------------------------------------
-void Calibration::Save()
+void Calibration::save()
 {
     ofxJSONElement file;
     file.open("config.json");

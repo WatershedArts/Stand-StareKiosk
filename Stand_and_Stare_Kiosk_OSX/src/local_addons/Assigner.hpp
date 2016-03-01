@@ -22,16 +22,10 @@ class TagInformation : public ofRectangle {
         // Deconstructor
         ~TagInformation() {}
         // Constructor
-        TagInformation(ofPoint pos,int id, string videoName, string videoDescription, string tagKey, string tagIcon, string videoLength) {
-            
+        TagInformation(ofPoint pos,int id,VideoData vd) {
             this->set(pos.x, pos.y, 300, 100);
-        
             _id = id;
-            _videoName = videoName;
-            _videoDescription = videoDescription;
-            _tagKey = tagKey;
-            _tagIcon = tagIcon;
-            _videoLength = videoLength;
+            data = vd;
         }
     
         bool isActive() {
@@ -43,7 +37,8 @@ class TagInformation : public ofRectangle {
         }
     
         void setNewTag(string newTag) {
-            _tagKey = newTag;
+//            _tagKey = newTag;
+            data.RFIDkey = newTag;
         }
     
         void draw() {
@@ -59,16 +54,11 @@ class TagInformation : public ofRectangle {
             else {
                 ofSetColor(ofColor::white);
             }
-            stringstream ss;
-            ss << _id << endl;
-            ss << _videoName << endl;
-            ss << _tagKey << endl;
-            ss << _tagIcon << endl;
-            ss << _videoLength << endl;
             
             ofDrawRectangle(this->getStandardized());
             ofSetColor(ofColor::white);
-            ofDrawBitmapString(ss.str(), this->getX()+10,this->getY()+15);
+            ofDrawBitmapString("Video " + ofToString(_id), this->getX()+10,this->getY()+15);
+            ofDrawBitmapString(data.getData(), this->getX()+10,this->getY()+30);
             ofPopStyle();
         }
     
@@ -89,12 +79,7 @@ class TagInformation : public ofRectangle {
     
     private:
         int _id;
-        string _videoName;
-        string _videoDescription;
-        string _tagKey;
-        string _tagIcon;
-        string _videoLength;
-        string _s;
+        VideoData data;
         bool isHover = false;
         bool isSelected = false;
     
@@ -103,7 +88,7 @@ class TagInformation : public ofRectangle {
 class TagAssignment {
     public:
         //! Setup
-        void setup(deque <SSVideoData> data);
+        void setup(deque <VideoData> data);
         
         //! Update
         void update();
@@ -119,7 +104,10 @@ class TagAssignment {
         
         //! Mouse Over
         void mouseOver(int x,int y);
-        
+    
+        //! Save the New RFID Tag
+        void save(int which);
+    
         ofxModalConfirm confirmWindow;
         void onModalEvent(ofxModalEvent e);
     

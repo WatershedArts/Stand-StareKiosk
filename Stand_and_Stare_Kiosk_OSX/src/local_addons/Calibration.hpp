@@ -98,15 +98,15 @@ protected:
 //--------------------------------------------------------------
 class Calibration {
 public:
-    void Setup(vector<ofPoint> pts);
-    void Update();
-    void Draw();
-    void MousePressed(int x,int y,int button);
-    void MouseReleased(int x,int y,int button);
-    void ClearPoints();
-    void ShowCoordinates(bool showCoordinates);
-    void Save();
-    void Load();
+    void setup(vector<ofPoint> pts);
+    void update();
+    void draw();
+    void mousePressed(int x,int y,int button);
+    void mouseReleased(int x,int y,int button);
+    void clearPoints();
+    void showCoordinates(bool showCoordinates);
+    void save();
+    void load();
     vector<ofVec3f> getCoordinates();
     
 private:
