@@ -35,6 +35,7 @@ void VideoPlayer::setupVideoPlayer(float fadein, float fadeout,float enticerFade
 void VideoPlayer::loadVideo(string url)
 {
     videoPlayer.load(url);
+    videoName = url;
     videoPlayer.setLoopState(OF_LOOP_NONE);
     videoLength = videoPlayer.getDuration();
     
@@ -178,6 +179,89 @@ void VideoPlayer::drawVideo()
     else {
         warper.disableMouseControls();
     }
+}
+//--------------------------------------------------------------
+void VideoPlayer::drawTimeline(int y)
+{
+    int offset = 50;
+    int ticks = 20;
+    int playBarLength = ofGetWidth()-(offset*2);
+    int tickOffset = playBarLength/ticks;
+    int centerX = ofGetWidth()*0.5;
+    int centerY = ofGetHeight()*0.5;
+    int startX = centerX - playBarLength/2;
+    
+    if (!videoPlayer.isPlaying()) {
+        progress = startX;
+    }
+    else {
+        progress = startX+ofMap(videoPlayer.getPosition(),0.00,1.00,0,playBarLength);
+    }
+    ofClamp(progress, 0, startX+playBarLength);
+    
+    ofPushMatrix();
+    ofTranslate(0, y);
+    ofPushStyle();
+    ofFill();
+    ofSetColor(50, 50, 50);
+    ofDrawRectRounded(startX,0, playBarLength, 25, 5);
+    ofSetColor(ofMap(fade.update(), 0.00, 255, 255, 0), fade.update(), 0);
+    ofDrawRectRounded(startX,0, progress-startX, 25, 5);
+    
+    ofPushStyle();
+    ofSetLineWidth(3);
+    ofNoFill();
+    ofSetColor(0, 0, 0);
+    ofDrawRectRounded(startX,0, playBarLength, 25, 5);
+    ofSetLineWidth(1);
+    for (int x = 0;  x < ticks; x++) {
+        if (x % 2 == 0) {
+            ofDrawLine(startX+(x*tickOffset), 7, startX+(x*tickOffset), 25);
+        }
+        else {
+            ofDrawLine(startX+(x*tickOffset), 15, startX+(x*tickOffset), 25);
+        }
+    }
+    
+    ofPopStyle();
+    ofPopStyle();
+    ofSetLineWidth(2);
+    
+    int posSEC = videoPlayer.getPosition()*videoLength;
+    int posMS = posSEC * 1000;
+    int minutes = (posMS % (1000*60*60)) / (1000*60);
+    int seconds = ((posMS % (1000*60*60)) % (1000*60)) / 1000;
+    
+    string secs;
+    if (seconds < 10) {
+        secs = "0"+ofToString(seconds);
+    }
+    else {
+        secs = ofToString(seconds);
+    }
+    
+    string mins;
+    if (minutes < 10) {
+        mins = "0"+ofToString(minutes);
+    }
+    else {
+        mins = ofToString(minutes);
+    }
+    
+    string trackTimeElapsed = mins + ":"+secs;
+    ofSetColor(ofColor::white);
+    ofDrawLine(progress, -15, progress, 25);
+    ofDrawBitmapString(trackTimeElapsed,progress+10 ,-5);
+    
+    string isAudioPlayingStr = isVideoPlaying() ? "Playing: " : "Stopped: ";
+    if (videoName.length() == 0) {
+        ofDrawBitmapString(isAudioPlayingStr + "No Video", offset, 40);
+    }
+    else {
+        ofDrawBitmapString(isAudioPlayingStr + videoName.substr(7,videoName.length()), offset, 40);
+    }
+    
+    ofPopMatrix();
 }
 //--------------------------------------------------------------
 string VideoPlayer::getStringStream()

@@ -37,6 +37,9 @@ class VideoPlayer {
         //! Draw
         void drawVideo();
     
+        //! Draw Timeline
+        void drawTimeline(int y);
+    
         //! Draw the Warpers
         void drawCalibrationQuads();
     
@@ -78,10 +81,12 @@ class VideoPlayer {
         float _fadein;
         float _fadeout;
         float _enticerDelay;
+        int progress;
         bool _hasFadedIn;
         bool _hasFadedOut;
         bool _drawPrimaryQuads;
         bool _drawSecondaryQuads;
+        string videoName;
 
     protected:
         int currentFadeValue;
