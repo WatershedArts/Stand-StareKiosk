@@ -28,7 +28,7 @@ void MyTimer::update()
     if (timer >= _timerLength && !bTimerReached) {
         bTimerReached = true;
         string ev = _timerName + " Finished";
-        ofNotifyEvent(timerStarted, ev, this);
+        ofNotifyEvent(timerFinished, ev, this);
         if (_loop) {
             start();
         }
@@ -40,6 +40,11 @@ float MyTimer::getTimeLeft()
     return timeLeft;
 }
 //--------------------------------------------------------------
+bool MyTimer::hasTimerFinished()
+{
+    return bTimerReached;
+}
+//--------------------------------------------------------------
 void MyTimer::setNewTimerLength(int timerLength)
 {
     _timerLength = timerLength;
@@ -49,8 +54,7 @@ void MyTimer::start()
 {
     if (bTimerReached) {
         string ev = _timerName + " Started";
-        ofNotifyEvent(timerFinished, ev, this);
-        
+        ofNotifyEvent(timerStarted, ev, this);
         bTimerReached = false;
         startTime = ofGetElapsedTimeMillis();
     }

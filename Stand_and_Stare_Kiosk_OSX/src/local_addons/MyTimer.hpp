@@ -34,6 +34,9 @@ public:
     
     //! How long is left on the timer
     float getTimeLeft();
+
+    //! How long is left on the timer
+    bool hasTimerFinished();
     
     // Events
     ofEvent<string> timerStarted;

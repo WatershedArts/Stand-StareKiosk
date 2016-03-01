@@ -28,6 +28,7 @@
 		57A8574977B1119180C8C770 /* ofxEasingBack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8DF6673D9EA1A78FAB74B3E /* ofxEasingBack.cpp */; };
 		59B41D0E9070C16FA4D95BEA /* ofxThreadedGifFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E871D519B33DD3153761E6 /* ofxThreadedGifFile.cpp */; };
 		63CAC1A51C85A8D50029863B /* Assigner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63CAC1A31C85A8D50029863B /* Assigner.cpp */; };
+		63CAC1AA1C85E35C0029863B /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 63CAC1A91C85E35C0029863B /* Icon.icns */; };
 		63CEBD0D6130B08B599C6C30 /* ofxEasingSine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05B3CD72F404F949CAA52FB4 /* ofxEasingSine.cpp */; };
 		63DDECBE1C7E10A700E95C76 /* Calibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DDECA01C7E10A700E95C76 /* Calibration.cpp */; };
 		63DDECBF1C7E10A700E95C76 /* DonationReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DDECA21C7E10A700E95C76 /* DonationReader.cpp */; };
@@ -224,6 +225,7 @@
 		63CAC1A31C85A8D50029863B /* Assigner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Assigner.cpp; path = src/local_addons/Assigner.cpp; sourceTree = "<group>"; };
 		63CAC1A41C85A8D50029863B /* Assigner.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Assigner.hpp; path = src/local_addons/Assigner.hpp; sourceTree = "<group>"; };
 		63CAC1A71C85D4FE0029863B /* videoConfig.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = videoConfig.json; path = bin/data/videoConfig.json; sourceTree = SOURCE_ROOT; };
+		63CAC1A91C85E35C0029863B /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Icon.icns; path = bin/data/Icon.icns; sourceTree = "<group>"; };
 		63D5E738C1964A8900B98969 /* hybridtracker.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = hybridtracker.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/hybridtracker.hpp; sourceTree = SOURCE_ROOT; };
 		63DDECA01C7E10A700E95C76 /* Calibration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Calibration.cpp; path = src/local_addons/Calibration.cpp; sourceTree = "<group>"; };
 		63DDECA11C7E10A700E95C76 /* Calibration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Calibration.hpp; path = src/local_addons/Calibration.hpp; sourceTree = "<group>"; };
@@ -1255,6 +1257,7 @@
 		E4B69B4A0A3A1720003C02F2 = {
 			isa = PBXGroup;
 			children = (
+				63CAC1A91C85E35C0029863B /* Icon.icns */,
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
@@ -1375,6 +1378,7 @@
 				E4B69B590A3A1756003C02F2 /* Frameworks */,
 				E4B6FFFD0C3F9AB9008CF71C /* ShellScript */,
 				E4C2427710CC5ABF004149E2 /* CopyFiles */,
+				63CAC1A81C85E3560029863B /* Resources */,
 			);
 			buildRules = (
 			);
@@ -1429,6 +1433,17 @@
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		63CAC1A81C85E3560029863B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63CAC1AA1C85E35C0029863B /* Icon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		E4B6FFFD0C3F9AB9008CF71C /* ShellScript */ = {

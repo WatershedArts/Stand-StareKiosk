@@ -41,8 +41,6 @@ void PostData::postSystemUpdate(string status,string bulbtime)
     postUtils.addForm(formIn);
     debugData << _postServer +"/"+_postExtension << endl;
     debugData << status << endl;
-    debugData << bulbtime << endl;
-
 }
 //--------------------------------------------------------------
 void PostData::postVideo(string count,string whichVideo,int playpercentage,bool didFinishVideo)

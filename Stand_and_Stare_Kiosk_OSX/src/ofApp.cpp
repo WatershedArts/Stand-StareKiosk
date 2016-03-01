@@ -37,15 +37,18 @@ void ofApp::appSetup()
     // Set the Logging Level
     ofSetLogLevel(OF_LOG_WARNING);
     
+    logo.load("photos/logo.png");
+    titleFont.load("MuseoSans_500.otf", 30);
     debug.load("font-verdana.ttf", 8);
     canPlay = false;
     flipIdleTimerLatch = false;
     canDrawData = false;
     calibrateScreen = false;
-    
+    disappear = false;
     // Go straight into the Operation Mode
     applicationMode = 2;
     videoPlayback = 1;
+
 }
 //--------------------------------------------------------------
 // *
@@ -113,12 +116,15 @@ void ofApp::setup()
                              );
     
     enticer.loadVideo(appConfiguration.getConfig().enticerVideoUrl);
-    enticer.playVideo();
+//    enticer.playVideo();
     
     // Setup Screen Warper
     if (useWarper) {
         setupWarper();
     }
+    
+    splashScreenTimer.setup(5000, "Splash", false);
+    splashScreenTimer.start();
     
     setupListeners();
 }
@@ -130,11 +136,16 @@ void ofApp::update()
     videoHandler.updateVideo();
     enticer.updateVideo();
     donationReader.update();
+    splashScreenTimer.update();
 
     // Starts the Idle Timer which fires the enticer visuals
     if (!flipIdleTimerLatch && videoHandler.hasVideoFinished()) {
         idleTimer.start();
         flipIdleTimerLatch = true;
+    }
+    
+    if(splashScreenTimer.hasTimerFinished() && fade.isCompleted()) {
+        disappear = true;
     }
 }
 //--------------------------------------------------------------
@@ -191,10 +202,30 @@ void ofApp::draw()
     // Draw the debug data from the video Files
     if (canDrawData) {
         ofPushStyle();
+        ofSetColor(ofColor::white);
+        logo.draw(5,5,logo.getWidth()*0.5,logo.getHeight()*0.5);
         drawDebugData();
         enticer.drawTimeline(ofGetHeight()*0.8);
         videoHandler.drawTimeline(ofGetHeight()*0.9);
         ofPopStyle();
+    }
+    
+    if (!disappear) {
+        if (fade.isRunning()) {
+            ofSetColor(fade.update());
+        }
+        else if (!fade.isRunning() && !splashScreenTimer.hasTimerFinished()) {
+            ofSetColor(ofColor::white);
+        }
+    
+        int screenCenterX = (ofGetWidth()*0.5);
+        int screenCenterY = (ofGetHeight()*0.5);
+        int offsetCenterX = (logo.getWidth()*0.5);
+        int offsetCenterY = (logo.getHeight()*0.5);
+        
+        logo.draw((screenCenterX-offsetCenterX),(screenCenterY-offsetCenterY));
+        ofRectangle r = titleFont.getStringBoundingBox("Jukebox", 0, 0);
+        titleFont.drawString("Jukebox", (screenCenterX-(r.getWidth()*0.5)), (offsetCenterY+screenCenterY+(r.getHeight())));
     }
 }
 //--------------------------------------------------------------
@@ -208,7 +239,7 @@ void ofApp::drawDebugData()
     debugData << rfidReader.getDebugString() << endl;
     debugData << postData.getDebug() << endl;
     ofSetColor(ofColor::white);
-    debug.drawString(debugData.str(), 10, 10);
+    debug.drawString(debugData.str(), 10, logo.getHeight()*0.5+15);
 }
 //--------------------------------------------------------------
 void ofApp::drawAssigningScreen()
@@ -344,6 +375,8 @@ void ofApp::setupListeners()
     
     ofAddListener(enticer.enticerStarted, this, &ofApp::enticerVideoStarted);
     ofAddListener(enticer.enticerInterrupted, this, &ofApp::enticerVideoFinished);
+    
+    ofAddListener(splashScreenTimer.timerFinished, this, &ofApp::timerStopped);
 }
 //--------------------------------------------------------------
 void ofApp::removeListeners()
@@ -357,6 +390,7 @@ void ofApp::removeListeners()
     
     ofRemoveListener(enticer.enticerStarted, this, &ofApp::enticerVideoStarted);
     ofRemoveListener(enticer.enticerInterrupted, this, &ofApp::enticerVideoFinished);
+    ofRemoveListener(splashScreenTimer.timerFinished, this, &ofApp::timerStopped);
 }
 //--------------------------------------------------------------
 void ofApp::videoStarted(string &args)
@@ -434,6 +468,14 @@ void ofApp::tagRemoved(string &tag)
             enticer.playVideo();
         }
     }
+}
+//--------------------------------------------------------------
+void ofApp::timerStopped(string &timer)
+{
+    ofLogWarning() << timer;
+    fade.setParameters(1, linearEasing, ofxTween::easeInOut, 255, 0, 1000, 0);
+    //    disappear = true;
+    enticer.playVideo();
 }
 //--------------------------------------------------------------
 // *
@@ -553,6 +595,3 @@ void ofApp::onMatrixEvent(ofxDatGuiMatrixEvent e)
 {
     
 }
-
-
-

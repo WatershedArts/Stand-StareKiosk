@@ -45,25 +45,21 @@ public:
     //--------------------------------------------------------------
     ofTrueTypeFont debug;
     MyTimer idleTimer;
+    ofImage logo;
     
     deque<VideoData> videoData;
     
     int applicationMode;
     bool canDrawData;
     void drawDebugData();
-
-    
     bool canPlay;
-    
     bool flipIdleTimerLatch;
     bool calibrateScreen;
 
     string videoCode;
     string videoDetails;
-    
-    
-    int videoPlayback;
-    
+
+    int videoPlayback;    
     //--------------------------------------------------------------
     // *
     // * Class Listeners
@@ -78,6 +74,7 @@ public:
     void enticerVideoFinished(string &args);
     void newTagAdded(string &tag);
     void tagRemoved(string &tag);
+    void timerStopped(string &timer);
     
     //--------------------------------------------------------------
     // *
@@ -139,4 +136,10 @@ public:
     // *
     //--------------------------------------------------------------
     void drawAssigningScreen();
+    
+    ofTrueTypeFont titleFont;
+    MyTimer splashScreenTimer;
+    ofxTween fade;
+    ofxEasingLinear linearEasing;
+    bool disappear;
 };
