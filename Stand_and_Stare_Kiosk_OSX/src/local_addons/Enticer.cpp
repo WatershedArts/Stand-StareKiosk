@@ -128,8 +128,6 @@ void EnticerVisuals::drawVideo()
         ofPopStyle();
         ofPopMatrix();
     }
-    ofSetColor(ofColor::white);
-    ofDrawBitmapString("Current Fade Value: " + ofToString(currentFadeValue), 100,50);
 }
 //--------------------------------------------------------------
 void EnticerVisuals::drawTimeline(int y)
