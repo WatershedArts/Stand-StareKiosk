@@ -40,6 +40,8 @@ struct VideoData {
 struct Config {
     
     // General Configuration
+    string unitName;
+    int unitId;
     float fadeInTime;
     float fadeOutTime;
     int ldrSensitivity;

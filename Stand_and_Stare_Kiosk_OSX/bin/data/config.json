@@ -5,16 +5,18 @@
          "name" : ""
       },
       "Enticer" : {
-         "fadein" : 3000,
-         "fadeout" : 3000,
+         "fadein" : 1500,
+         "fadeout" : 1500,
          "videourl" : "videos/Opening.loop.mp4"
       },
       "General" : {
-         "fadeintime" : 3000,
-         "fadeouttime" : 3000,
+         "unitname":"Watershed Jukebox",
+         "unitid":1,
+         "fadeintime" : 1500,
+         "fadeouttime" : 1500,
          "fullscreen" : true,
          "ldrsensitivity" : 50,
-         "warperActive" : false
+         "warperactive" : false
       },
       "MaskPoints" : [
          {

@@ -58,6 +58,8 @@ public:
 
     string videoCode;
     string videoDetails;
+    string unitName;
+    int unitId;
 
     int videoPlayback;    
     //--------------------------------------------------------------

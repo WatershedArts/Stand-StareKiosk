@@ -123,6 +123,10 @@ void ofApp::setup()
         setupWarper();
     }
     
+    // Variables for the Units Id
+    unitName = appConfiguration.getConfig().unitName;
+    unitId = appConfiguration.getConfig().unitId;
+    
     splashScreenTimer.setup(5000, "Splash", false);
     splashScreenTimer.start();
     
@@ -224,8 +228,8 @@ void ofApp::draw()
         int offsetCenterY = (logo.getHeight()*0.5);
         
         logo.draw((screenCenterX-offsetCenterX),(screenCenterY-offsetCenterY));
-        ofRectangle r = titleFont.getStringBoundingBox("Jukebox", 0, 0);
-        titleFont.drawString("Jukebox", (screenCenterX-(r.getWidth()*0.5)), (offsetCenterY+screenCenterY+(r.getHeight())));
+        ofRectangle r = titleFont.getStringBoundingBox(unitName, 0, 0);
+        titleFont.drawString(unitName, (screenCenterX-(r.getWidth()*0.5)), 5+(offsetCenterY+screenCenterY+(r.getHeight())));
     }
 }
 //--------------------------------------------------------------

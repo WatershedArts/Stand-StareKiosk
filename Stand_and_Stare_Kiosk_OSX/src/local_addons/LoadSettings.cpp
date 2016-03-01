@@ -21,6 +21,8 @@ void LoadSettings::loadConfig(string loadFile)
         ofLog(OF_LOG_NOTICE,"Found the Configuration File");
         
         // General Settings
+        c.unitName = configFile["Stand&Stare"]["General"]["unitname"].asString();
+        c.unitId = configFile["Stand&Stare"]["General"]["unitid"].asInt();
         c.fadeInTime = configFile["Stand&Stare"]["General"]["fadeintime"].asFloat();
         c.fadeOutTime = configFile["Stand&Stare"]["General"]["fadeouttime"].asFloat();
         c.ldrSensitivity = configFile["Stand&Stare"]["General"]["ldrsensitivity"].asFloat();
