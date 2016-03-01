@@ -45,6 +45,7 @@ void ofApp::appSetup()
     
     // Go straight into the Operation Mode
     applicationMode = 2;
+    videoPlayback = 1;
 }
 //--------------------------------------------------------------
 // *
@@ -62,7 +63,7 @@ void ofApp::setup()
     appConfiguration.load("config.json");
     
     // Debug Warper
-    useWarper = false;
+    useWarper = true;
     
     // Make the GUI
     setupGUI();
@@ -146,11 +147,12 @@ void ofApp::draw()
             screenFbo.begin();
             ofClear(0);
         }
+        ofPushStyle();
         ofEnableBlendMode(OF_BLENDMODE_ADD);
         enticer.drawVideo();
         videoHandler.drawVideo();
         ofDisableBlendMode();
-
+        ofPopStyle();
 //        objects.drawObjects();
         
         if (useWarper) {
@@ -160,6 +162,7 @@ void ofApp::draw()
             ofMatrix4x4 mat = screenWarper.getMatrix();
             ofPushMatrix();
             ofMultMatrix(mat);
+            ofSetColor(ofColor::white);
             screenFbo.draw(0,0);
             ofPopMatrix();
             
@@ -176,14 +179,17 @@ void ofApp::draw()
             videoHandler.drawCalibrationQuads();
         }
         
-//        videoHandler.drawVideo();
-        timerVisualisation.setCurrentDuration(200-ofMap(videoHandler.getTimeLeft(),0.00,1.00,200,0));
-        timerVisualisation.draw(0, 0);
+////        videoHandler.drawVideo();
+//        timerVisualisation.setCurrentDuration(200-ofMap(videoHandler.getTimeLeft(),0.00,1.00,200,0));
+//        timerVisualisation.draw(0, 0);
     }
     // Draw the debug data from the video Files
     if (canDrawData) {
+        ofPushStyle();
+        gui->draw();
         DrawDebugData();
         enticer.drawTimeline(ofGetHeight()*0.9);
+        ofPopStyle();
     }
 }
 //--------------------------------------------------------------
@@ -356,9 +362,9 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 //--------------------------------------------------------------
 void ofApp::setupListeners()
 {
-//    ofAddListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
-//    ofAddListener(videoHandler.videoFinishedNormally, this, &ofApp::videoFinished);
-//    ofAddListener(videoHandler.videoForceFinished, this, &ofApp::videoInterupted);
+    ofAddListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
+    ofAddListener(videoHandler.videoStopped, this, &ofApp::videoFinished);
+    ofAddListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
     
     ofAddListener(rfidReader.newTag, this, &ofApp::newTagAdded);
     ofAddListener(rfidReader.tagRemoved, this, &ofApp::tagRemoved);
@@ -369,11 +375,10 @@ void ofApp::setupListeners()
 //--------------------------------------------------------------
 void ofApp::removeListeners()
 {
-    //    ofRemoveListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
-    //    ofRemoveListener(videoHandler.videoFinishedNormally, this, &ofApp::videoFinished);
-    //    ofRemoveListener(videoHandler.videoForceFinished, this, &ofApp::videoInterupted);
-    //    ofRemoveListener(enticer.trackStarted, this, &ofApp::enticerVideoStarted);
-    //    ofRemoveListener(enticer.trackForceFinished, this, &ofApp::enticerVideoFinished);
+    ofRemoveListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
+    ofRemoveListener(videoHandler.videoStopped, this, &ofApp::videoFinished);
+    ofRemoveListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
+    
     ofRemoveListener(rfidReader.newTag, this, &ofApp::newTagAdded);
     ofRemoveListener(rfidReader.tagRemoved, this, &ofApp::tagRemoved);
     
@@ -388,31 +393,36 @@ void ofApp::videoStarted(string &args)
 //--------------------------------------------------------------
 void ofApp::videoFinished(string &args)
 {
+    postData.postVideo("1",videoCode,100,true);
+    videoPlayback = 1;
+    enticer.playVideo();
     ofLogWarning() << args;
 }
 //--------------------------------------------------------------
 void ofApp::videoInterupted(string &args)
 {
-    
+    postData.postVideo("1",videoCode,videoHandler.getPlayPercentage(),false);
     ofLogWarning() << args;
 }
 //--------------------------------------------------------------
 void ofApp::enticerVideoStarted(string &args)
 {
     ofLogWarning() << args;
+    videoPlayback = 1;
 }
 //--------------------------------------------------------------
 void ofApp::enticerVideoFinished(string &args)
 {
     ofLogWarning() << args;
-//    if (videoHandler.isVideoPlaying()) {
-//        enticer.playVideo();
-//    }
+    if (videoPlayback == 1) {
+        enticer.playVideo();
+    }
 }
 //--------------------------------------------------------------
 void ofApp::newTagAdded(string &tag)
 {
     ofLogWarning() << tag;
+    videoPlayback = 0;
     if (applicationMode == 0) {
         ofLogWarning() << "Not Allowed in this Mode";
     }
@@ -438,10 +448,11 @@ void ofApp::newTagAdded(string &tag)
 //--------------------------------------------------------------
 void ofApp::tagRemoved(string &tag)
 {
+    videoPlayback = 1;
     ofLogWarning() << tag;
     // If a Card is removed then and video is playing stop and fire post event
     if(videoHandler.isVideoPlaying()) {
-        videoHandler.stopVideoPlus();
+        videoHandler.interruptVideo();
         enticer.playVideo();
     }
     else {

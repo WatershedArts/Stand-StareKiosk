@@ -63,7 +63,7 @@ public:
     string videoDetails;
     
     
-    
+    int videoPlayback;
     
     //--------------------------------------------------------------
     // *
