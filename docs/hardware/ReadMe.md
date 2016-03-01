@@ -89,18 +89,9 @@ And the wiring table.
 |               |D0 | GPIO 15 UART0_RXD|   
 |               |+/-|      GND         |   
 |               |Tag in Range |     GPIO 16      |   
-|               |   |                  |   
-|               |   |                  |   
-|               |   |                  |   
-|               |   |                  |  
-|               |   |                  |   
-|               |   |                  |   
-|               |   |                  |   
-|               |   |                  |   
-|               |   |                  |   
 
 ##RFID
-Rather than beign connected via USB, RFID unit is connected directly to the GPIO pins. This allows us to detect whether a card has been placed or removed from the reader. See the wiring diagram.
+Rather than being connected via USB, RFID unit is connected directly to the GPIO pins. This allows us to detect whether a card has been placed or removed from the reader. See the wiring diagram.
 
 The RFID Unit is usually located on serial port <code>"/dev/ttyAMA0"</code>.
 
