@@ -13,7 +13,6 @@
 #include "ofxDatGui.h"
 #include "MyTimer.hpp"
 #include "terminalListener.h"
-#include "VideoTimerVisualisation.h"
 
 class ofApp : public ofBaseApp, public KeyListener{
     
@@ -90,7 +89,6 @@ public:
     bool showWarper;
     bool useWarper;
     
-    VideoTimerVisualisation timerVisualisation;
     
     //--------------------------------------------------------------
     // *

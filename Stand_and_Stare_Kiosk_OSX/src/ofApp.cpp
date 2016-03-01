@@ -162,7 +162,6 @@ void ofApp::draw()
         videoHandler.drawVideo();
         ofDisableBlendMode();
         ofPopStyle();
-//        objects.drawObjects();
         
         if (useWarper) {
             screenFbo.end();
@@ -194,7 +193,8 @@ void ofApp::draw()
         ofPushStyle();
         gui->draw();
         DrawDebugData();
-        enticer.drawTimeline(ofGetHeight()*0.9);
+        enticer.drawTimeline(ofGetHeight()*0.8);
+        videoHandler.drawTimeline(ofGetHeight()*0.9);
         ofPopStyle();
     }
 }
@@ -323,22 +323,9 @@ void ofApp::windowResized(int w, int h)
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg)
 {
-//    if(msg.message == "Idle Timer Finished") {
-//        cout << "Timer Complete" << endl;
-//    }
 //    else if(msg.message == "Donation") {
 //        // If we get a donation tell the server
 //        postData.postDonation();
-//    }
-//    else if(msg.message == "Forced Stop") {
-//        // If the video is stopped before the end it will fire a false code to the server
-//        cout << "A Card has been removed whilst video is playing!!!" << endl;
-//        postData.postVideo("1",videoCode,videoHandler.getPlayPercentage(),false);
-//    }
-//    else if(msg.message == "Natural Stop") {
-//        // Like wise if the video is finsihes normally it will fire a true code to the server
-//        postData.postVideo("1",videoCode,100,true);
-//        enticer.playVideo();
 //    }
 }
 //--------------------------------------------------------------
@@ -429,7 +416,6 @@ void ofApp::newTagAdded(string &tag)
         for (int i = 0; i < videoData.size(); i++) {
             if (tag == videoData[i].RFIDkey) {
                 videoCode = ofToString(i);
-
                 videoHandler.loadVideo(videoData[i].videoUrl);
                 videoHandler.playVideo();
                 enticer.stopVideo();
@@ -472,21 +458,22 @@ void ofApp::setupGUI()
     gui->addDropdown("App Mode", AppMode);
     gui->addBreak();
     gui->addToggle("Show Warper");
-    gui->addBreak();
-    ofxDatGuiFolder * CalibrationFolder = gui->addFolder("Calibration",ofColor::blueSteel);
-    CalibrationFolder->addToggle("Enable Mask Creation");
-    CalibrationFolder->addButton("Clear Mask");
-    CalibrationFolder->addButton("Save Mask");
-    CalibrationFolder->addToggle("Show Coordinates");
-    CalibrationFolder->addBreak();
     
-    gui->addBreak();
-    ofxDatGuiFolder * VideoFolder = gui->addFolder("Video",ofColor::maroon);
-    VideoFolder->addToggle("Show Primary Warper Quads");
-    VideoFolder->addToggle("Show Secondary Warper Quads");
-    VideoFolder->addToggle("Show Quads");
-    
-    gui->addBreak();
+    if (useWarper) {
+        gui->addBreak();
+        ofxDatGuiFolder * CalibrationFolder = gui->addFolder("Calibration",ofColor::blueSteel);
+        CalibrationFolder->addToggle("Enable Mask Creation");
+        CalibrationFolder->addButton("Clear Mask");
+        CalibrationFolder->addButton("Save Mask");
+        CalibrationFolder->addToggle("Show Coordinates");
+        CalibrationFolder->addBreak();
+        gui->addBreak();
+        ofxDatGuiFolder * VideoFolder = gui->addFolder("Video",ofColor::maroon);
+        VideoFolder->addToggle("Show Primary Warper Quads");
+        VideoFolder->addToggle("Show Secondary Warper Quads");
+        VideoFolder->addToggle("Show Quads");
+        gui->addBreak();
+    }
     gui->addFooter();
     
     // Listeners
