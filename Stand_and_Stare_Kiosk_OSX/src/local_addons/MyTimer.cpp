@@ -9,7 +9,7 @@
 #include "MyTimer.hpp"
 
 //--------------------------------------------------------------
-void MyTimer::Setup(float timerLength,string timerName,bool loop)
+void MyTimer::setup(float timerLength,string timerName,bool loop)
 {
     bTimerReached = true;
     _loop = loop;
@@ -17,7 +17,7 @@ void MyTimer::Setup(float timerLength,string timerName,bool loop)
     _timerName = timerName;
 }
 //--------------------------------------------------------------
-void MyTimer::Update()
+void MyTimer::update()
 {
     float timer = ofGetElapsedTimeMillis() - startTime;
     
@@ -30,12 +30,12 @@ void MyTimer::Update()
         ofMessage msg(_timerName + " Finished");
         ofSendMessage(msg);
         if (_loop) {
-            Start();
+            start();
         }
     }
 }
 //--------------------------------------------------------------
-void MyTimer::Draw(int x, int y)
+void MyTimer::draw(int x, int y)
 {
     
 //    stringstream time;
@@ -61,17 +61,17 @@ void MyTimer::Draw(int x, int y)
 //    font.drawString(time.str(), r.getCenter().x,r.getCenter().y);
 }
 //--------------------------------------------------------------
-float MyTimer::GetTimeLeft()
+float MyTimer::getTimeLeft()
 {
     return timeLeft;
 }
 //--------------------------------------------------------------
-void MyTimer::SetNewTimerLength(int timerLength)
+void MyTimer::setNewTimerLength(int timerLength)
 {
     _timerLength = timerLength;
 }
 //--------------------------------------------------------------
-void MyTimer::Start()
+void MyTimer::start()
 {
     if (bTimerReached) {
         ofMessage msg(_timerName + " Started");
@@ -81,7 +81,7 @@ void MyTimer::Start()
     }
 }
 //--------------------------------------------------------------
-void MyTimer::Stop( )
+void MyTimer::stop( )
 {
     bTimerReached = true;
     _loop = false;

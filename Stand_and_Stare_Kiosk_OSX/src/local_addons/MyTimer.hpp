@@ -14,15 +14,15 @@
 
 class MyTimer {
 public:
-    void Setup(float timerLength,string timerName,bool loop);
-    void Update();
-    void Draw(int x, int y);
+    void setup(float timerLength,string timerName,bool loop);
+    void update();
+    void draw(int x, int y);
     
-    void Start();
-    void Stop();
-    void Reset();
-    void SetNewTimerLength(int timerLength);
-    float GetTimeLeft();
+    void start();
+    void stop();
+    void reset();
+    void setNewTimerLength(int timerLength);
+    float getTimeLeft();
     
 private:
     float startTime;
