@@ -47,6 +47,7 @@ struct Config {
     float fadeOutTime;
     int ldrSensitivity;
     bool setFullscreen;
+    bool useWarper;
     
     // Post Data Configuration
     string postHostURL;

@@ -25,6 +25,7 @@ void LoadSettings::load(string loadFile)
         c.fadeOutTime = configFile["Stand&Stare"]["General"]["fadeouttime"].asFloat();
         c.ldrSensitivity = configFile["Stand&Stare"]["General"]["ldrsensitivity"].asFloat();
         c.setFullscreen = configFile["Stand&Stare"]["General"]["fullscreen"].asBool();
+        c.useWarper = configFile["Stand&Stare"]["General"]["warperactive"].asBool();
         
         // Post Settings
         c.postHostURL = configFile["Stand&Stare"]["PostData"]["posthost"].asString();
@@ -34,6 +35,7 @@ void LoadSettings::load(string loadFile)
         // RFID Settings
         c.RFIDSerialName = configFile["Stand&Stare"]["RFID"]["name"].asString();
         c.rfidBaud = configFile["Stand&Stare"]["RFID"]["baud"].asInt();
+        c.rfidDelay = configFile["Stand&Stare"]["RFID"]["delay"].asInt();
 
         // Donations Settings
         c.DonationReaderName = configFile["Stand&Stare"]["Donation"]["name"].asString();
