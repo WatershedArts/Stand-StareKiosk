@@ -13,7 +13,6 @@
 #include "ofxDatGui.h"
 #include "MyTimer.hpp"
 #include "terminalListener.h"
-#include "VideoPreview.hpp"
 #include "VideoTimerVisualisation.h"
 
 class ofApp : public ofBaseApp, public KeyListener{
@@ -121,7 +120,6 @@ public:
     LoadSettings appConfiguration;
     DonationReader donationReader;
     Calibration calibrationScreen;
-    VideoPreview videoPreviewer;
     VideoPlayer videoHandler;
     EnticerVisuals enticer;
     ObjectHandler objects;

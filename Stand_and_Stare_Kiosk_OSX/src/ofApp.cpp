@@ -63,7 +63,7 @@ void ofApp::setup()
     appConfiguration.load("config.json");
     
     // Debug Warper
-    useWarper = true;
+    useWarper = appConfiguration.getConfig().useWarper;
     
     // Make the GUI
     setupGUI();
@@ -81,23 +81,32 @@ void ofApp::setup()
     videoData = appConfiguration.getConfig().videos;
     
     // Video System
-    videoHandler.setupVideoPlayer(appConfiguration.getConfig().fadeInTime, appConfiguration.getConfig().fadeOutTime,appConfiguration.getConfig().enticerFadeIn);
-    
-    // Assign Screen
-    videoPreviewer.setup(videoData);
+    videoHandler.setupVideoPlayer(appConfiguration.getConfig().fadeInTime,
+                                  appConfiguration.getConfig().fadeOutTime,
+                                  appConfiguration.getConfig().enticerFadeIn
+                                  );
     
     // RFID
-    rfidReader.setup(appConfiguration.getConfig().RFIDSerialName,2000);
+    rfidReader.setup(appConfiguration.getConfig().RFIDSerialName,
+                     appConfiguration.getConfig().rfidDelay
+                     );
     rfidReader.start();
     
     // Calibration Setup
     calibrationScreen.Setup(appConfiguration.getConfig().maskPoints);
     
     // This is for Posting Data Back to the server
-    postData.setup(appConfiguration.getConfig().postHostURL, appConfiguration.getConfig().postExtURL, appConfiguration.getConfig().secretKey);
+    postData.setup(appConfiguration.getConfig().postHostURL,
+                   appConfiguration.getConfig().postExtURL,
+                   appConfiguration.getConfig().secretKey
+                   );
     
     // For the Enticing Display
-    enticer.setupVideoPlayer(appConfiguration.getConfig().enticerFadeIn, appConfiguration.getConfig().enticerFadeOut,appConfiguration.getConfig().fadeOutTime);
+    enticer.setupVideoPlayer(appConfiguration.getConfig().enticerFadeIn,
+                             appConfiguration.getConfig().enticerFadeOut,
+                             appConfiguration.getConfig().fadeOutTime
+                             );
+    
     enticer.loadVideo(appConfiguration.getConfig().enticerVideoUrl);
     enticer.playVideo();
     
@@ -112,18 +121,18 @@ void ofApp::setup()
 void ofApp::update()
 {
     // Update the classes
-    idleTimer.Update();
+    idleTimer.update();
     videoHandler.updateVideo();
     enticer.updateVideo();
     donationReader.update();
 
     if(applicationMode == 1) {
-        videoPreviewer.update();
+        
     }
     
     // Starts the Idle Timer which fires the enticer visuals
     if (!flipIdleTimerLatch && videoHandler.hasVideoFinished()) {
-        idleTimer.Start();
+        idleTimer.start();
         flipIdleTimerLatch = true;
     }
 }
@@ -195,35 +204,22 @@ void ofApp::DrawDebugData()
     stringstream debugData;
     debugData << "|------------------------------" << endl;
     debugData << "| Stand and Stare Jukebox" << endl;
-    debugData << "|------------------------------" << endl;
-    debugData << "| Video Player" << endl;
-    debugData << "|------------------------------" << endl;
     debugData << videoHandler.getStringStream() << endl;
-    debugData << rfidReader.getDebugString() << endl;
     debugData << enticer.getStringStream() << endl;
-//    debugData << "|------------------------------" << endl;
-//    debugData << "| Donation Reader" << endl;
-//    debugData << "|------------------------------" << endl;
-//    debugData << donationReader.getStringStream() << endl;
-    debugData << "|------------------------------" << endl;
-    debugData << "| Post" << endl;
-    debugData << "|------------------------------" << endl;
+    debugData << rfidReader.getDebugString() << endl;
     debugData << postData.getDebug() << endl;
-    
     ofSetColor(ofColor::white);
     debug.drawString(debugData.str(), 10, 10);
 }
 //--------------------------------------------------------------
 void ofApp::DrawAssigningScreen()
 {
-    videoPreviewer.draw();
 }
 //--------------------------------------------------------------
 void ofApp::exit()
 {
     postData.close();
     donationReader.close();
-    videoPreviewer.close();
     rfidReader.stop();
     
     bool debugProjector = false;
@@ -273,7 +269,7 @@ void ofApp::keyReleased(int key)
 void ofApp::mouseMoved(int x, int y)
 {
     if(applicationMode == 1) {
-        videoPreviewer.mouseOver(x, y);
+
     }
 }
 //--------------------------------------------------------------
@@ -302,7 +298,6 @@ void ofApp::mousePressed(int x, int y, int button)
         }
     }
     else if(applicationMode == 1) {
-        videoPreviewer.mousePressed(x, y);
     }
 }
 //--------------------------------------------------------------
