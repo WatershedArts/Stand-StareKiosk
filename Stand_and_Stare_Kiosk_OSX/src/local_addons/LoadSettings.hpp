@@ -13,6 +13,8 @@
 #include "ofMain.h"
 #include "ofxJSON.h"
 
+
+// Structure for Video Data
 struct SSVideoData {
     int id;
     string videoUrl;
@@ -22,7 +24,6 @@ struct SSVideoData {
     string RFIDkey;
     string RFIDIcon;
     
-    // Future ?
     // Quad Warping
     vector<ofPoint> quadWarpingPoints;
     
@@ -38,6 +39,7 @@ struct SSVideoData {
     }
 };
 
+// Structure for All Data
 struct Config {
     
     // General Configuration
@@ -72,19 +74,23 @@ struct Config {
     int donationsBaud;
     
     vector <ofPoint> maskPoints;
-    
 };
 
 class LoadSettings {
-public:
-    void load(string loadFile);
-    Config getConfig();
+    public:
     
-    void printConfiguration();
+        //! Load the Settings Folder
+        void load(string loadFile);
+        
+        //! Return the values
+        Config getConfig();
+        
+        //! Print out the Raw Json String
+        void printConfiguration();
     
-private:
-    Config c;
-protected:
-     ofxJSONElement configFile;
+    private:
+        Config c;
+    protected:
+        ofxJSONElement configFile;
 };
 #endif /* LoadSettings_hpp */

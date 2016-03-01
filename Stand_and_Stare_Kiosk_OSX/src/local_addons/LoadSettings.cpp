@@ -50,6 +50,7 @@ void LoadSettings::load(string loadFile)
             maskPoints.push_back(ofPoint(configFile["Stand&Stare"]["MaskPoints"][maskPts]["x"].asInt(),configFile["Stand&Stare"]["MaskPoints"][maskPts]["y"].asInt()));
         }
         c.maskPoints = maskPoints;
+        
         // Video Settings
         int numberOfVideos = configFile["Stand&Stare"]["VideoData"]["videoslist"].size();
         for (int video = 0; video < numberOfVideos; video++) {
@@ -74,8 +75,6 @@ void LoadSettings::load(string loadFile)
             }
             c.videos.push_back(vd);
         }
-        // Debug
-        // printConfiguration();
     }
 }
 //--------------------------------------------------------------
