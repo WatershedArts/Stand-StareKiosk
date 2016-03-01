@@ -223,6 +223,7 @@
 		6359E49ABAC30E29E99A27D9 /* stitcher.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = stitcher.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/stitching/stitcher.hpp; sourceTree = SOURCE_ROOT; };
 		63CAC1A31C85A8D50029863B /* Assigner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Assigner.cpp; path = src/local_addons/Assigner.cpp; sourceTree = "<group>"; };
 		63CAC1A41C85A8D50029863B /* Assigner.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Assigner.hpp; path = src/local_addons/Assigner.hpp; sourceTree = "<group>"; };
+		63CAC1A71C85D4FE0029863B /* videoConfig.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = videoConfig.json; path = bin/data/videoConfig.json; sourceTree = SOURCE_ROOT; };
 		63D5E738C1964A8900B98969 /* hybridtracker.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = hybridtracker.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/hybridtracker.hpp; sourceTree = SOURCE_ROOT; };
 		63DDECA01C7E10A700E95C76 /* Calibration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Calibration.cpp; path = src/local_addons/Calibration.cpp; sourceTree = "<group>"; };
 		63DDECA11C7E10A700E95C76 /* Calibration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Calibration.hpp; path = src/local_addons/Calibration.hpp; sourceTree = "<group>"; };
@@ -1267,6 +1268,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				63CAC1A71C85D4FE0029863B /* videoConfig.json */,
 				63DDECCB1C7E130B00E95C76 /* config.json */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
