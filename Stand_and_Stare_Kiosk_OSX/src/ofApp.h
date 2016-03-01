@@ -15,6 +15,8 @@
 #include "terminalListener.h"
 #include "Assigner.hpp"
 
+#define SPLASH_DELAY 5000
+
 class ofApp : public ofBaseApp, public KeyListener{
     
 public:
@@ -60,6 +62,7 @@ public:
     string videoDetails;
     string unitName;
     int unitId;
+    int timesUsedToday;
 
     int videoPlayback;    
     //--------------------------------------------------------------

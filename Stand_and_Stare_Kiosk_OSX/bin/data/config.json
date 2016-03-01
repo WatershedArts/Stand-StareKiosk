@@ -45,6 +45,10 @@
          "baud" : 9600,
          "delay" : 2000,
          "name" : "/dev/tty.usbserial-A601EHXS"
+      },
+      "Projector" : {
+         "baud" : 19200,
+         "name" : "/dev/ttyUSB0"
       }
    }
 }

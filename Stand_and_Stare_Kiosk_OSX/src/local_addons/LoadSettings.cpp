@@ -48,6 +48,10 @@ void LoadSettings::loadConfig(string loadFile)
         c.enticerFadeOut = configFile["Stand&Stare"]["Enticer"]["fadeout"].asFloat();
         c.enticerFadeIn = configFile["Stand&Stare"]["Enticer"]["fadein"].asFloat();
         
+        // Projector Settings
+        c.projectorSerialName = configFile["Stand&Stare"]["Projector"]["name"].asString();
+        c.projectorBaudRate = configFile["Stand&Stare"]["Projector"]["baud"].asInt();
+        
         // Mask points
         vector<ofPoint> maskPoints;
         int numberOfMaskPoints = configFile["Stand&Stare"]["MaskPoints"].size();

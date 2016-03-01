@@ -59,6 +59,7 @@ struct Config {
     int rfidDelay;
     
     string projectorSerialName;
+    int projectorBaudRate;
     bool useProjectorController;
     
     // Enticer

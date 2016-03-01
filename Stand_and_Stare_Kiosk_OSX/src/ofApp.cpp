@@ -37,6 +37,8 @@ void ofApp::appSetup()
     // Set the Logging Level
     ofSetLogLevel(OF_LOG_WARNING);
     
+    
+    
     logo.load("photos/logo.png");
     titleFont.load("MuseoSans_500.otf", 30);
     debug.load("font-verdana.ttf", 8);
@@ -48,6 +50,7 @@ void ofApp::appSetup()
     // Go straight into the Operation Mode
     applicationMode = 2;
     videoPlayback = 1;
+    timesUsedToday = 0;
 
 }
 //--------------------------------------------------------------
@@ -62,6 +65,9 @@ void ofApp::onCharacterReceived(KeyListenerEventData& e)
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+    // For Bundling App
+    ofSetDataPathRoot("../Resources/data/");
+    
     // Load the Configuration
     appConfiguration.loadConfig("config.json");
     appConfiguration.printConfiguration();
@@ -81,7 +87,7 @@ void ofApp::setup()
     consoleListener.setup(this);
     
     // Projector Controller
-    projectorController.setupProjector("/dev/tty.usbserial"); // Make this a config option
+    projectorController.setupProjector(appConfiguration.getConfig().projectorSerialName);
     projectorController.turnOn();
     
     videoData = appConfiguration.getVideoConfig();
@@ -116,7 +122,6 @@ void ofApp::setup()
                              );
     
     enticer.loadVideo(appConfiguration.getConfig().enticerVideoUrl);
-//    enticer.playVideo();
     
     // Setup Screen Warper
     if (useWarper) {
@@ -127,7 +132,7 @@ void ofApp::setup()
     unitName = appConfiguration.getConfig().unitName;
     unitId = appConfiguration.getConfig().unitId;
     
-    splashScreenTimer.setup(5000, "Splash", false);
+    splashScreenTimer.setup(SPLASH_DELAY, "Splash", false);
     splashScreenTimer.start();
     
     setupListeners();
@@ -238,10 +243,12 @@ void ofApp::drawDebugData()
     stringstream debugData;
     debugData << "|------------------------------" << endl;
     debugData << "| Stand and Stare Jukebox" << endl;
+    debugData << "| Times Used Today: " << timesUsedToday << endl;
     debugData << videoHandler.getStringStream() << endl;
     debugData << enticer.getStringStream() << endl;
     debugData << rfidReader.getDebugString() << endl;
     debugData << postData.getDebug() << endl;
+    
     ofSetColor(ofColor::white);
     debug.drawString(debugData.str(), 10, logo.getHeight()*0.5+15);
 }
@@ -267,24 +274,26 @@ void ofApp::exit()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-    switch (key) {;
-        case ' ':
-            canDrawData = !canDrawData;
-            gui->setVisible(canDrawData);
-            break;
-        case 'd':
-            postData.postDonation();
-            break;
-        case 'r':
-            rfidReader.simulateTagRemoval();
-            break;
-        default:
-            break;
-    }
-    
-    for (int i = 0; i < videoData.size(); i++) {
-        if (key == ofToChar(ofToString(i))) {
-            rfidReader.simulateNewTag(i+1);
+    if (disappear) {
+        switch (key) {
+            case ' ':
+                canDrawData = !canDrawData;
+                gui->setVisible(canDrawData);
+                break;
+            case 'd':
+                postData.postDonation();
+                break;
+            case 'r':
+                rfidReader.simulateTagRemoval();
+                break;
+            default:
+                break;
+        }
+        
+        for (int i = 0; i < videoData.size(); i++) {
+            if (key == ofToChar(ofToString(i))) {
+                rfidReader.simulateNewTag(i+1);
+            }
         }
     }
 }
@@ -352,10 +361,7 @@ void ofApp::windowResized(int w, int h)
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg)
 {
-//    else if(msg.message == "Donation") {
-//        // If we get a donation tell the server
-//        postData.postDonation();
-//    }
+
 }
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo)
@@ -439,11 +445,6 @@ void ofApp::newTagAdded(string &tag)
     }
     else if (applicationMode == 1) {
         tagAssigner.assignNewTag(tag);
-//        for (int i = 0; i < videoData.size(); i++) {
-//            if (tag == videoData[i].RFIDkey) {
-//                videoDetails = videoData[i].getData();
-//            }
-//        }
     }
     else if (applicationMode == 2) {
         for (int i = 0; i < videoData.size(); i++) {
@@ -455,12 +456,14 @@ void ofApp::newTagAdded(string &tag)
             }
         }
     }
+    timesUsedToday++;
 }
 //--------------------------------------------------------------
 void ofApp::tagRemoved(string &tag)
 {
     videoPlayback = 1;
     ofLogWarning() << tag;
+    
     // If a Card is removed then and video is playing stop and fire post event
     if(videoHandler.isVideoPlaying()) {
         videoHandler.interruptVideo();
@@ -532,9 +535,7 @@ void ofApp::setupGUI()
 }
 //--------------------------------------------------------------
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
-{
-    
-}
+{   }
 //--------------------------------------------------------------
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
 {
@@ -591,11 +592,7 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 }
 //--------------------------------------------------------------
 void ofApp::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
-{
-    
-}
+{   }
 //--------------------------------------------------------------
 void ofApp::onMatrixEvent(ofxDatGuiMatrixEvent e)
-{
-    
-}
+{   }
