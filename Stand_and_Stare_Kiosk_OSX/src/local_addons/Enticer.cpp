@@ -52,7 +52,8 @@ void EnticerVisuals::updateVideo()
     if (fade.isCompleted() && !_hasFadedOut) {
         videoPlayer.stop();
         if (!videoPlayer.isPlaying()) {
-//            playVideo();
+            string ev =  "Enticer Stopped";
+            ofNotifyEvent(enticerInterrupted, ev, this);
         }
         _hasFadedOut = true;
     }
@@ -109,8 +110,6 @@ void EnticerVisuals::playVideo()
 void EnticerVisuals::stopVideo()
 {
     fade.setParameters(1, easinglinear, ofxTween::easeInOut, currentFadeValue, 0, _fadeout, 0);
-    string ev =  "Enticer Stopped";
-    ofNotifyEvent(enticerInterrupted, ev, this);
     _hasFadedOut = false;
 }
 //--------------------------------------------------------------

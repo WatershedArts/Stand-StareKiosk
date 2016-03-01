@@ -177,11 +177,8 @@ void ofApp::draw()
                 screenWarper.drawHighlightedCorner();
             }
             videoHandler.drawCalibrationQuads();
+            enticer.drawCalibrationQuads();
         }
-        
-////        videoHandler.drawVideo();
-//        timerVisualisation.setCurrentDuration(200-ofMap(videoHandler.getTimeLeft(),0.00,1.00,200,0));
-//        timerVisualisation.draw(0, 0);
     }
     // Draw the debug data from the video Files
     if (canDrawData) {
