@@ -54,8 +54,8 @@ class TagInformation : public ofRectangle {
             else {
                 ofSetColor(ofColor::white);
             }
-            
-            ofDrawRectangle(this->getStandardized());
+            ofSetLineWidth(3);
+            ofDrawRectRounded(this->getStandardized(),5);
             ofSetColor(ofColor::white);
             ofDrawBitmapString("Video " + ofToString(_id), this->getX()+10,this->getY()+15);
             ofDrawBitmapString(data.getData(), this->getX()+10,this->getY()+30);
