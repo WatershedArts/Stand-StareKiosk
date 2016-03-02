@@ -13,6 +13,7 @@ braitsch/ofxParagraph \
 braitsch/ofxSmartFont \
 arturoc/ofxTween \
 DHaylock/ofxCasioProjectorControl \
+kashimAstro/ofxGPIO \
 ";
 echo "|------------------------------|";
 echo "|          GET ADDONS          |";
