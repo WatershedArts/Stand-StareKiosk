@@ -37,7 +37,6 @@ class TagInformation : public ofRectangle {
         }
     
         void setNewTag(string newTag) {
-//            _tagKey = newTag;
             data.RFIDkey = newTag;
         }
     

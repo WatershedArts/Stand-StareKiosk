@@ -93,7 +93,6 @@ string PostData::getDebug()
 void PostData::newResponse(ofxHttpResponse &response)
 {
     _responseStr = ofToString(response.status) + ":" + (string)response.responseBody;
-    cout << _responseStr << endl;
     debugData << _responseStr << endl;
     debugData << "|------------------------------" << endl;
 }
