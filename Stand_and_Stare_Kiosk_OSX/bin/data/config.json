@@ -16,24 +16,24 @@
          "fadeouttime" : 1500,
          "fullscreen" : true,
          "ldrsensitivity" : 50,
-         "warperactive" : false
+         "warperactive" : true
       },
       "MaskPoints" : [
          {
-            "x" : 324,
-            "y" : 141
+            "x" : 100,
+            "y" : 100
          },
          {
-            "x" : 319,
-            "y" : 966
+            "x" : 100,
+            "y" : 700
          },
          {
-            "x" : 1656,
-            "y" : 991
+            "x" : 900,
+            "y" : 700
          },
          {
-            "x" : 1692,
-            "y" : 124
+            "x" : 900,
+            "y" : 100
          }
       ],
       "PostData" : {
