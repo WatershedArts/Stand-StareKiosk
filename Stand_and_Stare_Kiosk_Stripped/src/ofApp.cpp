@@ -3,17 +3,21 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-
+    splashScreen.load("photos/logo.png", "this");
 }
 //--------------------------------------------------------------
 void ofApp::update()
 {
-
+    splashScreen.update();
 }
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-
+    ofBackground(ofColor::black);
+    
+    
+    
+    splashScreen.draw();
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)

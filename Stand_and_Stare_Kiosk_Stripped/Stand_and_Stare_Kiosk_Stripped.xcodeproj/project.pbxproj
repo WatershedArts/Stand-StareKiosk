@@ -121,6 +121,7 @@
 		63233A001CAA85C00015B7F0 /* terminalListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = terminalListener.h; path = src/local_addons/terminalListener.h; sourceTree = "<group>"; };
 		63233A011CAA85C00015B7F0 /* VideoPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VideoPlayer.cpp; path = src/local_addons/VideoPlayer.cpp; sourceTree = "<group>"; };
 		63233A021CAA85C00015B7F0 /* VideoPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = VideoPlayer.hpp; path = src/local_addons/VideoPlayer.hpp; sourceTree = "<group>"; };
+		63233A121CAA87EA0015B7F0 /* SplashScreen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SplashScreen.hpp; path = src/local_addons/SplashScreen.hpp; sourceTree = "<group>"; };
 		6686FE30BD04DEE9431C5883 /* ofxDatGuiGroups.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiGroups.h; path = ../../../../addons/ofxDatGui/src/components/ofxDatGuiGroups.h; sourceTree = SOURCE_ROOT; };
 		6D1B1374F49162E3472B3BAC /* ofxSmartFont.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxSmartFont.h; path = ../../../../addons/ofxSmartFont/src/ofxSmartFont.h; sourceTree = SOURCE_ROOT; };
 		72B21B926C0491151D21C460 /* ofxDatGuiSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiSlider.h; path = ../../../../addons/ofxDatGui/src/components/ofxDatGuiSlider.h; sourceTree = SOURCE_ROOT; };
@@ -252,6 +253,7 @@
 		6948EE371B920CB800B5AC1A /* local_addons */ = {
 			isa = PBXGroup;
 			children = (
+				63233A121CAA87EA0015B7F0 /* SplashScreen.hpp */,
 				632339E71CAA85C00015B7F0 /* Assigner.cpp */,
 				632339E81CAA85C00015B7F0 /* Assigner.hpp */,
 				632339EB1CAA85C00015B7F0 /* DonationReader.cpp */,

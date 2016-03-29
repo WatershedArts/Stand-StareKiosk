@@ -12,6 +12,7 @@
 #include "ofxDatGui.h"
 #include "MyTimer.hpp"
 #include "Assigner.hpp"
+#include "SplashScreen.hpp"
 
 #define SPLASH_DELAY 5000
 
@@ -28,5 +29,6 @@ class ofApp : public ofBaseApp{
 		void mouseDragged(int x, int y, int button);
 		void mousePressed(int x, int y, int button);
 		void mouseReleased(int x, int y, int button);
-		
+    
+        SplashScreen splashScreen;
 };
