@@ -14,7 +14,7 @@
 #include "ofxTween.h"
 #include "ofxQuadWarp.h"
 
-class EnticerVisuals {
+class EnticerVisuals : public ofThread {
     public:
         //! Setup Video Player
         void setupVideoPlayer(float fadein,float fadeout,float videoHandlerFadeOut);
@@ -22,6 +22,18 @@ class EnticerVisuals {
         //! Load the Video
         void loadVideo(string url);
 
+        //! Start Thread
+        void start();
+    
+        //! Stop Thread
+        void stop();
+    
+        //! Threaded Function
+        void threadedFunction();
+    
+        //! Close
+        void close();
+    
         //! Updates the Video Player
         void updateVideo();
 

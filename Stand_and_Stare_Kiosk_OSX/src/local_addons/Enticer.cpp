@@ -42,6 +42,37 @@ void EnticerVisuals::loadVideo(string url)
     warper.setup();
 }
 //--------------------------------------------------------------
+void EnticerVisuals::start()
+{
+    startThread();
+}
+//--------------------------------------------------------------
+void EnticerVisuals::stop()
+{
+    stopThread();
+}
+//--------------------------------------------------------------
+void EnticerVisuals::threadedFunction()
+{
+//    // Check if the Thread is running
+    while (isThreadRunning()) {
+//        // Is the resource locked
+        if (lock()) {
+            videoPlayer.update();
+//            warperFbo.begin();
+//            ofSetColor(fade.update(),255);
+//            if (videoPlayer.isLoaded()) {
+//                if(videoPlayer.isPlaying()) {
+//                    videoPlayer.draw(0, 0);
+//                }
+//            }
+//            warperFbo.end();
+            unlock();
+            sleep(1);
+        }
+    }
+}
+//--------------------------------------------------------------
 void EnticerVisuals::updateVideo()
 {
     videoPlayer.update();
@@ -66,13 +97,14 @@ void EnticerVisuals::updateVideo()
     }
     
     warperFbo.begin();
-    ofSetColor(fade.update(),255);
-    if (videoPlayer.isLoaded()) {
-        if(videoPlayer.isPlaying()) {
-            videoPlayer.draw(0, 0);
+        ofSetColor(fade.update(),255);
+        if (videoPlayer.isLoaded()) {
+            if(videoPlayer.isPlaying()) {
+                videoPlayer.draw(0, 0);
+            }
         }
-    }
     warperFbo.end();
+    
 }
 //--------------------------------------------------------------
 void EnticerVisuals::drawCalibrationQuads()
@@ -121,12 +153,33 @@ void EnticerVisuals::drawVideo()
         ofPushStyle();
         ofMatrix4x4 mat = warper.getMatrix();
         ofPushMatrix();
-        ofSetColor(currentFadeValue);
+        ofSetColor(255);
         ofMultMatrix(mat);
         warperFbo.draw(0, 0);
         ofPopMatrix();
         ofPopStyle();
         ofPopMatrix();
+    }
+    
+    if (_drawSecondaryQuads) {
+        warper.enableMouseControls();
+        ofPushStyle();
+        ofSetLineWidth(3);
+        ofSetColor(ofColor::white);
+        warper.drawQuadOutline();
+        ofPopStyle();
+        
+        ofSetColor(ofColor::yellow);
+        warper.drawCorners();
+        
+        ofSetColor(ofColor::magenta);
+        warper.drawHighlightedCorner();
+        
+        ofSetColor(ofColor::red);
+        warper.drawSelectedCorner();
+    }
+    else {
+        warper.disableMouseControls();
     }
 }
 //--------------------------------------------------------------

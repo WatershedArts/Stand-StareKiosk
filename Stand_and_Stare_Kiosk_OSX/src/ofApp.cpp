@@ -122,6 +122,7 @@ void ofApp::setup()
                              );
     
     enticer.loadVideo(appConfiguration.getConfig().enticerVideoUrl);
+//    enticer.start();
     
     // Setup Screen Warper
     if (useWarper) {
@@ -263,6 +264,7 @@ void ofApp::exit()
     postData.close();
     donationReader.close();
     rfidReader.stop();
+    enticer.stop();
     
     bool debugProjector = false;
     if (debugProjector) {
@@ -455,8 +457,9 @@ void ofApp::newTagAdded(string &tag)
                 enticer.stopVideo();
             }
         }
+        timesUsedToday++;
     }
-    timesUsedToday++;
+    
 }
 //--------------------------------------------------------------
 void ofApp::tagRemoved(string &tag)
