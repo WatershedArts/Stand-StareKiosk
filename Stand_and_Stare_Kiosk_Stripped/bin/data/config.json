@@ -1,0 +1,55 @@
+{
+   "Stand&Stare" : {
+      "Donation" : {
+         "baud" : 9600,
+         "name" : ""
+      },
+      "Enticer" : {
+         "fadein" : 1500,
+         "fadeout" : 1500,
+         "videourl" : "videos/Opening.loop.mp4"
+      },
+      "General" : {
+         "unitname":"Watershed Jukebox",
+         "unitid":1,
+         "fadeintime" : 1500,
+         "fadeouttime" : 1500,
+         "fullscreen" : true,
+         "ldrsensitivity" : 50,
+         "warperactive" : true
+      },
+      "MaskPoints" : [
+         {
+            "x" : 100,
+            "y" : 100
+         },
+         {
+            "x" : 100,
+            "y" : 700
+         },
+         {
+            "x" : 900,
+            "y" : 700
+         },
+         {
+            "x" : 900,
+            "y" : 100
+         }
+      ],
+      "PostData" : {
+         "postext" : "upload.php",
+         "posthost" : "",
+         "secretkey" : ""
+      },
+      "RFID" : {
+         "baud" : 9600,
+         "delay" : 2000,
+         "name" : "/dev/tty.usbserial-A601EHXS"
+      },
+      "Projector" : {
+         "baud" : 19200,
+         "name" : "/dev/ttyUSB0"
+      }
+   }
+}
+

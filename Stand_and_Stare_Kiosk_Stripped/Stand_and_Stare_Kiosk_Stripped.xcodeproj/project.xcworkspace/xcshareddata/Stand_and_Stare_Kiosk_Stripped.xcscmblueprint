@@ -1,0 +1,72 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "C695AF5D384B2EC15724130DFC773C7DEE1D5F74",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "2541E93095FA21F9BE201FC6B163A35AE7DF6104" : 0,
+    "E640290FCA0BCDD9BB8025CA73A74DB3CD8AB4AE" : 0,
+    "2584CBCDB6905860AE3F296114B31C017465CDE7" : 0,
+    "538ACB06C8FE75AF0B62A065849352D21C5D1562" : 0,
+    "C695AF5D384B2EC15724130DFC773C7DEE1D5F74" : 0,
+    "5DB7C332A3A89035E93556A2A38BF414005BA671" : 0,
+    "9233F0F4A2BE011BD468E5177A5AD6623263B23D" : 0,
+    "82C2DA8EC60CC36BD4CBE078AD41475599400228" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "578E439C-9228-4C66-8DBB-9DC22B9044D0",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "2541E93095FA21F9BE201FC6B163A35AE7DF6104" : "..\/..\/addons\/ofxModal",
+    "E640290FCA0BCDD9BB8025CA73A74DB3CD8AB4AE" : "..\/..\/addons\/ofxParagraph",
+    "2584CBCDB6905860AE3F296114B31C017465CDE7" : "..\/..\/addons\/ofxSmartFont",
+    "538ACB06C8FE75AF0B62A065849352D21C5D1562" : "..\/..\/addons\/ofxCasioProjectorControl",
+    "C695AF5D384B2EC15724130DFC773C7DEE1D5F74" : "Stand_and_Stare_Kiosk\/",
+    "5DB7C332A3A89035E93556A2A38BF414005BA671" : "..\/..\/addons\/ofxJSON",
+    "9233F0F4A2BE011BD468E5177A5AD6623263B23D" : "..\/..\/addons\/ofxDatGui",
+    "82C2DA8EC60CC36BD4CBE078AD41475599400228" : "..\/..\/addons\/ofxHttpUtils"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Stand_and_Stare_Kiosk_Stripped",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Stand_and_Stare_Kiosk_Stripped\/Stand_and_Stare_Kiosk_Stripped.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/braitsch\/ofxModal.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2541E93095FA21F9BE201FC6B163A35AE7DF6104"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/braitsch\/ofxSmartFont.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2584CBCDB6905860AE3F296114B31C017465CDE7"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/DHaylock\/ofxCasioProjectorControl.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "538ACB06C8FE75AF0B62A065849352D21C5D1562"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jefftimesten\/ofxJSON.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5DB7C332A3A89035E93556A2A38BF414005BA671"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/arturoc\/ofxHttpUtils.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "82C2DA8EC60CC36BD4CBE078AD41475599400228"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/braitsch\/ofxDatGui.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9233F0F4A2BE011BD468E5177A5AD6623263B23D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/WatershedArts\/Stand-StareKiosk.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C695AF5D384B2EC15724130DFC773C7DEE1D5F74"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/braitsch\/ofxParagraph.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E640290FCA0BCDD9BB8025CA73A74DB3CD8AB4AE"
+    }
+  ]
+}
