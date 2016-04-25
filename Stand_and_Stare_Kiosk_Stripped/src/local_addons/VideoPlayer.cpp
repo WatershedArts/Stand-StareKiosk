@@ -9,17 +9,15 @@
 #include "VideoPlayer.hpp"
 
 //--------------------------------------------------------------
-void VideoPlayer::setupVideoPlayer(float fadein, float fadeout,float enticerFadeIn)
+void VideoPlayer::setupVideoPlayer(float fadein, float fadeout,float enticerFadeIn,string enticerUrl)
 {
     _fadein = fadein;
     _fadeout = fadeout;
     _hasFadedOut = true;
     _hasFadedIn = true;
-    _drawPrimaryQuads = false;
-    _drawSecondaryQuads = false;
     _enticerDelay = enticerFadeIn;
-    warper.disableKeyboardShortcuts();
-    
+    _enticerUrl = enticerUrl;
+    isEnticer = true;
     ofDirectory videoDirectory(ofToDataPath("videos",true));
     if (videoDirectory.exists()) {
         cout << "VideoDirectory: Found" << endl;
@@ -31,36 +29,31 @@ void VideoPlayer::setupVideoPlayer(float fadein, float fadeout,float enticerFade
         ofLogError() << "VideoDirectory: " << videoDirectory.path() << " MISSING";
     }
 }
+////--------------------------------------------------------------
+//void VideoPlayer::start() {
+//    startThread();
+//}
+////--------------------------------------------------------------
+//void VideoPlayer::stop()
+//{
+//    stopThread();
+//}
 //--------------------------------------------------------------
-void VideoPlayer::loadVideo(string url)
+void VideoPlayer::loadVideo(string url,bool enticer)
 {
-//    videoPlayer.close();
-//    videoPlayer.closeMovie();
-    videoPlayer.load(url);
+    if (enticer) {
+        videoPlayer.loadAsync(_enticerUrl);
+        videoName = "Enticer";
+        isEnticer = true;
+    }
+    else {
+//        videoPlayer.load(url);
+        videoName = url;
+        videoPlayer.loadAsync(url);
+        isEnticer = false;
+    }
     
-    videoName = url;
-    cout << videoName << endl;
-    videoPlayer.setLoopState(OF_LOOP_NONE);
-    videoLength = videoPlayer.getDuration();
-    
-//    ofSleepMillis(50);
-    
-    int x = (ofGetWidth() - videoPlayer.getWidth()) * 0.5;
-    int y = (ofGetHeight() - videoPlayer.getHeight()) * 0.5;
-    int w = videoPlayer.getWidth();
-    int h = videoPlayer.getHeight();
-    
-//    warperFbo.clear();
-    
-    cout << "X: " << x << " Y: " << y << " Width: " << w << " Height: " << h << endl;
-    
-    warperFbo.allocate(w, h, GL_RGBA);
-    warper.setSourceRect(ofRectangle(0, 0, w, h));
-    warper.setTopLeftCornerPosition(ofPoint(x, y));
-    warper.setTopRightCornerPosition(ofPoint(x + w, y));
-    warper.setBottomLeftCornerPosition(ofPoint(x, y + h));
-    warper.setBottomRightCornerPosition(ofPoint(x + w, y + h));
-    warper.setup();
+    videoLength = videoPlayer.get
 }
 //--------------------------------------------------------------
 void VideoPlayer::updateVideo()
@@ -74,7 +67,6 @@ void VideoPlayer::updateVideo()
     if (fade.isCompleted() && !_hasFadedOut) {
         videoPlayer.stop();
         if (!videoPlayer.isPlaying()) {
-            cout << "Stopped Video" << endl;
         }
         _hasFadedOut = true;
     }
@@ -85,23 +77,14 @@ void VideoPlayer::updateVideo()
             stopVideo();
         }
     }
-    
-    warperFbo.begin();
-    ofSetColor(fade.update(),255);
-    if (videoPlayer.isLoaded()) {
-        if(videoPlayer.isPlaying()) {
-            videoPlayer.draw(0, 0);
-        }
-    }
-    warperFbo.end();
 }
 //--------------------------------------------------------------
 void VideoPlayer::playVideo()
 {
     videoPlayer.play();
     fade.setParameters(1, easinglinear, ofxTween::easeIn, 0, 255, _fadein, _enticerDelay);
-    string ev = "Video Started";
-    ofNotifyEvent(videoStarted, ev, this);
+//    string ev = "Video Started";
+    ofNotifyEvent(videoStarted, videoName, this);
    _hasFadedIn = false;
 }
 //--------------------------------------------------------------
@@ -109,8 +92,8 @@ void VideoPlayer::stopVideo()
 {
     fade.setParameters(1, easinglinear, ofxTween::easeOut, currentFadeValue, 0, _fadeout, 10);
     dropFade.setParameters(1, easingexpo, ofxTween::easeOut, progress-50, 0, _fadeout, 10);
-    string ev = "Video Stopped";
-    ofNotifyEvent(videoStopped, ev, this);
+//    string ev = "Video Stopped";
+    ofNotifyEvent(videoStopped, videoName, this);
     _hasFadedOut = false;
 }
 //--------------------------------------------------------------
@@ -118,79 +101,37 @@ void VideoPlayer::interruptVideo()
 {
     fade.setParameters(1, easinglinear, ofxTween::easeInOut, currentFadeValue, 0, _fadeout, 10);
     dropFade.setParameters(1, easingexpo, ofxTween::easeOut, progress-50, 0, _fadeout, 10);
-    string ev = "Video Interrupted";
-    ofNotifyEvent(videoInterrupted, ev, this);
+//    string ev = "Video Interrupted";
+    ofNotifyEvent(videoInterrupted, videoName, this);
     _hasFadedOut = false;
 }
 //--------------------------------------------------------------
-void VideoPlayer::showPrimaryQuad(bool val)
+void VideoPlayer::setDrawOutline(bool drawOutline)
 {
-    _drawPrimaryQuads = val;
-}
-//--------------------------------------------------------------
-void VideoPlayer::showSecondaryQuad(bool val)
-{
-    _drawSecondaryQuads = val;
-}
-//--------------------------------------------------------------
-void VideoPlayer::drawCalibrationQuads()
-{
-    ofPushStyle();
-    if (_drawPrimaryQuads) {
-        warper.enableMouseControls();
-        ofSetColor(ofColor::blue);
-        warper.drawQuadOutline();
-        
-        ofSetColor(ofColor::greenYellow);
-        warper.drawCorners();
-        
-        ofSetColor(ofColor::red);
-        warper.drawHighlightedCorner();
-        
-        ofSetColor(ofColor::pink);
-        warper.drawSelectedCorner();
-    }
-    else {
-        warper.disableMouseControls();
-    }
-    ofPopStyle();
+    _drawOutline = drawOutline;
 }
 //--------------------------------------------------------------
 void VideoPlayer::drawVideo()
 {
+    int x = (ofGetWidth() - videoPlayer.getWidth()) * 0.5;
+    int y = (ofGetHeight() - videoPlayer.getHeight()) * 0.5;
+    ofPushStyle();
+    ofSetColor(fade.update(),255);
+    if (videoPlayer.isLoaded()) {
         if(videoPlayer.isPlaying()) {
-        ofPushMatrix();
+            videoPlayer.draw(0, 0,ofGetWidth(),ofGetHeight());
+        }
+    }
+    if (_drawOutline) {
         ofPushStyle();
-        ofMatrix4x4 mat = warper.getMatrix();
-        ofPushMatrix();
-        ofSetColor(currentFadeValue);
-        ofMultMatrix(mat);
-        warperFbo.draw(0, 0);
-        ofPopMatrix();
+        ofNoFill();
+        ofSetLineWidth(2);
+        ofSetColor(ofColor::whiteSmoke);
+//        ofDrawRectangle(0,0,videoPlayer.getWidth(),videoPlayer.getHeight());
         ofPopStyle();
-        ofPopMatrix();
     }
-
-    if (_drawSecondaryQuads) {
-        warper.enableMouseControls();
-        ofPushStyle();
-        ofSetLineWidth(3);
-        ofSetColor(ofColor::white);
-        warper.drawQuadOutline();
-        ofPopStyle();
-        
-        ofSetColor(ofColor::yellow);
-        warper.drawCorners();
-        
-        ofSetColor(ofColor::magenta);
-        warper.drawHighlightedCorner();
-        
-        ofSetColor(ofColor::red);
-        warper.drawSelectedCorner();
-    }
-    else {
-        warper.disableMouseControls();
-    }
+    
+    ofPopStyle();
 }
 //--------------------------------------------------------------
 void VideoPlayer::drawTimeline(int y)
@@ -311,6 +252,13 @@ int VideoPlayer::getPlayPercentage()
 float VideoPlayer::getTimeLeft()
 {
     return videoPlayer.getPosition();
+}
+
+//--------------------------------------------------------------
+bool VideoPlayer::isEnticerPlaying()
+{
+    if (isVideoPlaying() && isEnticer) return true;
+    return false;
 }
 //--------------------------------------------------------------
 bool VideoPlayer::isVideoPlaying()

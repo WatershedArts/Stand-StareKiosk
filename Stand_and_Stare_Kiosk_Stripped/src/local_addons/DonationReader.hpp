@@ -18,8 +18,6 @@
 #include "ofxGPIO.h"
 #endif
 
-#include "MyTimer.hpp"
-
 class DonationReader {
     
 public:
@@ -28,7 +26,6 @@ public:
     void setSensitivity(float sensitivity);
     void draw(int x, int y);
     bool gotDonation();
-
     // Debug only
     void simulateDonation();
     void close();
@@ -38,9 +35,6 @@ public:
 private:
     float _sensitivity;
     int _numberOfSensors;
-    
-    
-    MyTimer donationTimer;
     
     #ifndef PI
         SPI *spi;

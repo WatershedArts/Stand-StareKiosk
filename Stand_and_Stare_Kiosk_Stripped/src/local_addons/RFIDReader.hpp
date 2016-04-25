@@ -33,8 +33,6 @@ public:
     //! Stop Threading
     void stop();
     
-    void update();
-    
     //! Get Debug Information
     string getDebugString();
 
