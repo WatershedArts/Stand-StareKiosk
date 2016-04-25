@@ -195,7 +195,7 @@ void VideoPlayer::drawVideo()
 //--------------------------------------------------------------
 void VideoPlayer::drawTimeline(int y)
 {
-    int offset = 50;
+    int offset = 100;
     int ticks = 20;
     int playBarLength = ofGetWidth()-(offset*2);
     int tickOffset = playBarLength/ticks;

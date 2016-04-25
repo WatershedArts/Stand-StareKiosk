@@ -16,7 +16,7 @@
          "fadeouttime" : 1500,
          "fullscreen" : true,
          "ldrsensitivity" : 50,
-         "warperactive" : true
+         "warperactive" : false
       },
       "MaskPoints" : [
          {
@@ -38,8 +38,6 @@
       ],
       "PostData" : {
          "postext" : "upload.php",
-         "posthost" : "",
-         "secretkey" : ""
       },
       "RFID" : {
          "baud" : 9600,
@@ -48,7 +46,10 @@
       },
       "Projector" : {
          "baud" : 19200,
-         "name" : "/dev/ttyUSB0"
+         "name" : "/dev/tty.usbserial-A6018RMQ"
+      },
+      "Arduino" : {
+        "name" : "/dev/tty.usbmodem1421"
       }
    }
 }

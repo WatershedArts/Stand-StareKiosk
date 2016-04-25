@@ -71,6 +71,12 @@ struct Config {
     string DonationReaderName;
     int donationsBaud;
     
+    // Arduino
+    string arduinoName;
+    int rfidTIRPin;
+    int donationPin1;
+    int donationPin2;
+    
     vector <ofPoint> maskPoints;
 };
 

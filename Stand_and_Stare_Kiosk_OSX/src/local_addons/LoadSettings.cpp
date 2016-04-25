@@ -38,10 +38,6 @@ void LoadSettings::loadConfig(string loadFile)
         c.RFIDSerialName = configFile["Stand&Stare"]["RFID"]["name"].asString();
         c.rfidBaud = configFile["Stand&Stare"]["RFID"]["baud"].asInt();
         c.rfidDelay = configFile["Stand&Stare"]["RFID"]["delay"].asInt();
-
-        // Donations Settings
-        c.DonationReaderName = configFile["Stand&Stare"]["Donation"]["name"].asString();
-        c.donationsBaud = configFile["Stand&Stare"]["Donation"]["baud"].asInt();
         
         // Enticer Settings
         c.enticerVideoUrl = configFile["Stand&Stare"]["Enticer"]["videourl"].asString();
@@ -51,6 +47,12 @@ void LoadSettings::loadConfig(string loadFile)
         // Projector Settings
         c.projectorSerialName = configFile["Stand&Stare"]["Projector"]["name"].asString();
         c.projectorBaudRate = configFile["Stand&Stare"]["Projector"]["baud"].asInt();
+        
+        // Projector Settings
+        c.arduinoName = configFile["Stand&Stare"]["Arduino"]["name"].asString();
+        c.rfidTIRPin = configFile["Stand&Stare"]["Arduino"]["tirpin"].asInt();
+        c.donationPin1 = configFile["Stand&Stare"]["Arduino"]["donationpin1"].asInt();
+        c.donationPin2 = configFile["Stand&Stare"]["Arduino"]["donationpin2"].asInt();
         
         // Mask points
         vector<ofPoint> maskPoints;
