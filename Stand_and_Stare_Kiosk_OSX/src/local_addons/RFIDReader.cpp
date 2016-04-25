@@ -51,6 +51,35 @@ void RFIDReader::stop()
 {
     stopThread();
 }
+
+void RFIDReader::update() {
+    // Is the Device Connected
+    if (isConnected()) {
+        while (serial.available() > 0) {
+            
+            // Get the Incoming Byte
+            incomingByte = serial.readByte();
+            
+            if (incomingByte > 13) {
+                tagBuffer[tagBufferIndex] = incomingByte;
+                tagBufferIndex++;
+            }
+            // Fire the Tag up into the main app
+            if (incomingByte == 3) {
+                tagString = tagBuffer;
+                ofNotifyEvent(newTag, tagString, this);
+                
+                // Clear the Tag
+                for (int i = 0; i < tagBufferIndex; i++) {
+                    tagBuffer[i] = 0;
+                }
+                tagBufferIndex = 0;
+            }
+        }
+        //
+        tagPreviouslyPresent = tagPresent;
+    }
+}
 //--------------------------------------------------------------
 void RFIDReader::threadedFunction()
 {
@@ -61,7 +90,7 @@ void RFIDReader::threadedFunction()
             // Is the Device Connected
             if (isConnected()) {
                 while (serial.available() > 0) {
-                    
+
                     // Get the Incoming Byte
                     incomingByte = serial.readByte();
                     
@@ -81,33 +110,33 @@ void RFIDReader::threadedFunction()
                         tagBufferIndex = 0;
                     }
                 }
-                
+//
                 tagPreviouslyPresent = tagPresent;
                 
                 // This is the Removal Script
                 // Need to Implement a Arduino based Version
-                string state = "0";
+//                string state = "0";
                 
-                if(state == "1") {
-                    tagPresent = true;
-                }
-                else {
-                    tagPresent = false;
-                }
+//                if(state == "1") {
+//                    tagPresent = true;
+//                }
+//                else {
+//                    tagPresent = false;
+//                }
                 
-                if(tagPresent != tagPreviouslyPresent) {
-                    lastTagChangeTime = ofGetElapsedTimeMillis();;
-                    sendRemove = !tagPresent;
-                }
-                
-                if(sendRemove == true && ((ofGetElapsedTimeMillis() - lastTagChangeTime) > removeTimeout)) {
-                    string ev = "Tag Removed";
-                    ofNotifyEvent(tagRemoved, ev, this);
-                    sendRemove = false;
-                }
+//                if(tagPresent != tagPreviouslyPresent) {
+//                    lastTagChangeTime = ofGetElapsedTimeMillis();;
+//                    sendRemove = !tagPresent;
+//                }
+//                
+//                if(sendRemove == true && ((ofGetElapsedTimeMillis() - lastTagChangeTime) > removeTimeout)) {
+//                    string ev = "Tag Removed";
+//                    ofNotifyEvent(tagRemoved, ev, this);
+//                    sendRemove = false;
+//                }
             }
             unlock();
-            sleep(1);
+            sleep(10);
         }
     }
 }
@@ -131,11 +160,11 @@ string RFIDReader::getDebugString()
 {
     stringstream datastream;
     string connectionStatus = (isConnected())? "Connected" : "Not Connected";
-    string tagP = tagPresent ? "True" : "False";
+//    string tagP = tagPresent ? "True" : "False";
     datastream << "|----------------------------------" << endl;
     datastream << "| RFID Reader" << endl;
     datastream << "|----------------------------------" << endl;
     datastream << "| Current Tag: " << tagString << endl;
-    datastream << "| New Tag " << tagP << endl;
+//    datastream << "| New Tag " << tagP << endl;
     return datastream.str();
 }

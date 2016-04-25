@@ -26,6 +26,7 @@
 		5714535CC357B29C9BA2C715 /* ofxTween.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86241A94D27D89E6C5F1A8BA /* ofxTween.cpp */; };
 		57753805D2FDAD6521FF2A81 /* ofxJSONElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4ECB0C56B07AE128C7D55CD /* ofxJSONElement.cpp */; };
 		57A8574977B1119180C8C770 /* ofxEasingBack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8DF6673D9EA1A78FAB74B3E /* ofxEasingBack.cpp */; };
+		632C1DAB1CC8C4E00049EB95 /* ArduinoHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 632C1DA91CC8C4E00049EB95 /* ArduinoHandler.cpp */; };
 		63CAC1A51C85A8D50029863B /* Assigner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63CAC1A31C85A8D50029863B /* Assigner.cpp */; };
 		63CAC1AA1C85E35C0029863B /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 63CAC1A91C85E35C0029863B /* Icon.icns */; };
 		63CEBD0D6130B08B599C6C30 /* ofxEasingSine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05B3CD72F404F949CAA52FB4 /* ofxEasingSine.cpp */; };
@@ -213,6 +214,9 @@
 		61E73CA29B3C9CB319770545 /* emulation.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = emulation.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/gpu/device/emulation.hpp; sourceTree = SOURCE_ROOT; };
 		620DBC625B9553485005CFF8 /* autotuned_index.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = autotuned_index.h; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/autotuned_index.h; sourceTree = SOURCE_ROOT; };
 		62715729653A084DAD42C640 /* saving.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = saving.h; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/saving.h; sourceTree = SOURCE_ROOT; };
+		632C1DA91CC8C4E00049EB95 /* ArduinoHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ArduinoHandler.cpp; path = src/local_addons/ArduinoHandler.cpp; sourceTree = "<group>"; };
+		632C1DAA1CC8C4E00049EB95 /* ArduinoHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArduinoHandler.h; path = src/local_addons/ArduinoHandler.h; sourceTree = "<group>"; };
+		634319221CB2B5F900CF3FBE /* SplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SplashScreen.h; path = src/local_addons/SplashScreen.h; sourceTree = "<group>"; };
 		6359E49ABAC30E29E99A27D9 /* stitcher.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = stitcher.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/stitching/stitcher.hpp; sourceTree = SOURCE_ROOT; };
 		63CAC1A31C85A8D50029863B /* Assigner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Assigner.cpp; path = src/local_addons/Assigner.cpp; sourceTree = "<group>"; };
 		63CAC1A41C85A8D50029863B /* Assigner.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Assigner.hpp; path = src/local_addons/Assigner.hpp; sourceTree = "<group>"; };
@@ -750,6 +754,9 @@
 		6948EE371B920CB800B5AC1A /* local_addons */ = {
 			isa = PBXGroup;
 			children = (
+				632C1DA91CC8C4E00049EB95 /* ArduinoHandler.cpp */,
+				632C1DAA1CC8C4E00049EB95 /* ArduinoHandler.h */,
+				634319221CB2B5F900CF3FBE /* SplashScreen.h */,
 				63CAC1A31C85A8D50029863B /* Assigner.cpp */,
 				63CAC1A41C85A8D50029863B /* Assigner.hpp */,
 				63DDECB41C7E10A700E95C76 /* RFIDReader.cpp */,
@@ -1489,6 +1496,7 @@
 				9324D43148AC6592A8BD644F /* ofxEasingQuart.cpp in Sources */,
 				98E8801147B3EF88ED0E72C7 /* ofxEasingQuint.cpp in Sources */,
 				63CEBD0D6130B08B599C6C30 /* ofxEasingSine.cpp in Sources */,
+				632C1DAB1CC8C4E00049EB95 /* ArduinoHandler.cpp in Sources */,
 				5714535CC357B29C9BA2C715 /* ofxTween.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,24 +1,23 @@
 //
-//  Calibration.hpp
-//  Stand_StareKiosk
+//  Mapping.hpp
+//  Stand_and_Stare_Kiosk_Stripped
 //
-//  Created by David Haylock on 30/11/2015.
+//  Created by David Haylock on 29/03/2016.
 //
 //
 
-#ifndef Calibration_hpp
-#define Calibration_hpp
+#ifndef Mapping_hpp
+#define Mapping_hpp
 
 #include <stdio.h>
 #include "ofMain.h"
-#include "ofxJSON.h"
 
 class Poly {
 public:
     
     //--------------------------------------------------------------
     Poly() {
-        _lineSize = 2;
+        lineSize = 5;
     }
     //--------------------------------------------------------------
     void addID(int pid) {
@@ -41,36 +40,29 @@ public:
         fill = _fill;
     }
     //--------------------------------------------------------------
-    void setLineSize(int lineSize) {
+    void setLineSize(int _lineSize) {
         lineSize = _lineSize;
-    }
-    //--------------------------------------------------------------
-    void showCoordinates(bool show) {
-        _showCoords = show;
     }
     //--------------------------------------------------------------
     void draw(){
         ofPushStyle();
-        ofSetLineWidth(_lineSize);
+        ofSetLineWidth(lineSize);
         if (fill) {
             ofFill();
         }
         else {
             ofNoFill();
         }
-       
+        
+        if (inverts) {
+            ofSetColor(255,255,255);
+        }
+        else {
+            ofSetColor(0, 0, 0);
+        }
         ofBeginShape();
         for (int i = 0; i < clickPts.size(); i++) {
-            ofSetColor(ofColor::white);
             ofVertex(clickPts[i].x, clickPts[i].y);
-            if (_showCoords) {
-                ofSetColor(ofColor::blueSteel);
-                ofDrawCircle(clickPts[i].x, clickPts[i].y,5);
-                stringstream crd;
-                crd << "X" << clickPts[i].x << endl;
-                crd << "Y" << clickPts[i].y << endl;
-                ofDrawBitmapString(crd.str(), clickPts[i].x, clickPts[i].y);
-            }
             
         }
         ofEndShape(true);
@@ -91,31 +83,18 @@ protected:
     bool inverts;
     bool fill;
     int _id;
-    int _lineSize;
-    bool _showCoords;
+    int lineSize;
 };
 
-//--------------------------------------------------------------
-class Calibration {
-public:
-    void setup(vector<ofPoint> pts);
-    void update();
-    void draw();
-    void mousePressed(int x,int y,int button);
-    void mouseReleased(int x,int y,int button);
-    void clearPoints();
-    void showCoordinates(bool showCoordinates);
-    void save();
-    void load();
-    vector<ofVec3f> getCoordinates();
+class Mapping {
+    public:
+        void update();
+        void draw();
+        void deletePoly(int i);
+        void mouseDown(int x,int y);
     
-private:
-    vector<Poly> lines;
-    Poly p;
-protected:
-    
+    protected:
+//        vector<
 };
 
-
-
-#endif /* Calibration_hpp */
+#endif /* Mapping_hpp */

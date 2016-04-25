@@ -38,8 +38,8 @@
       ],
       "PostData" : {
          "postext" : "upload.php",
-         "posthost" : "",
-         "secretkey" : ""
+         "posthost" : "http://givingjukebox.wproj.org/",
+         "secretkey" : "ahkjhu3eriand34s"
       },
       "RFID" : {
          "baud" : 9600,

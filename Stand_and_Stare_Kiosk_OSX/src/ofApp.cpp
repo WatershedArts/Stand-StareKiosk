@@ -37,8 +37,6 @@ void ofApp::appSetup()
     // Set the Logging Level
     ofSetLogLevel(OF_LOG_WARNING);
     
-    
-    
     logo.load("photos/logo.png");
     titleFont.load("MuseoSans_500.otf", 30);
     debug.load("font-verdana.ttf", 8);
@@ -46,7 +44,7 @@ void ofApp::appSetup()
     flipIdleTimerLatch = false;
     canDrawData = false;
     calibrateScreen = false;
-    disappear = false;
+    
     // Go straight into the Operation Mode
     applicationMode = 2;
     videoPlayback = 1;
@@ -69,9 +67,9 @@ void ofApp::setup()
     ofSetDataPathRoot("../Resources/data/");
     
     // Load the Configuration
-    appConfiguration.loadConfig("config.json");
+    appConfiguration.loadConfig(ofToDataPath("config.json"));
     appConfiguration.printConfiguration();
-    appConfiguration.loadVideoConfig("videoConfig.json");
+    appConfiguration.loadVideoConfig(ofToDataPath("videoConfig.json"));
     appConfiguration.printConfiguration();
     
     // Debug Warper
@@ -85,6 +83,8 @@ void ofApp::setup()
     
     // Setup the SSH Key listener | Thanks @JVCleave
     consoleListener.setup(this);
+    
+    arduino.setup("/dev/tty.usbmodem1421",appConfiguration.getConfig().rfidDelay);
     
     // Projector Controller
     projectorController.setupProjector(appConfiguration.getConfig().projectorSerialName);
@@ -104,7 +104,6 @@ void ofApp::setup()
     rfidReader.setup(appConfiguration.getConfig().RFIDSerialName,
                      appConfiguration.getConfig().rfidDelay
                      );
-    rfidReader.start();
     
     // Calibration Setup
     calibrationScreen.setup(appConfiguration.getConfig().maskPoints);
@@ -122,7 +121,8 @@ void ofApp::setup()
                              );
     
     enticer.loadVideo(appConfiguration.getConfig().enticerVideoUrl);
-//    enticer.start();
+    
+    donationReader.setup("This");
     
     // Setup Screen Warper
     if (useWarper) {
@@ -133,8 +133,8 @@ void ofApp::setup()
     unitName = appConfiguration.getConfig().unitName;
     unitId = appConfiguration.getConfig().unitId;
     
-    splashScreenTimer.setup(SPLASH_DELAY, "Splash", false);
-    splashScreenTimer.start();
+    splashScreen.load("photos/logo.png",unitName,2500);
+    initLoad = false;
     
     setupListeners();
 }
@@ -146,16 +146,14 @@ void ofApp::update()
     videoHandler.updateVideo();
     enticer.updateVideo();
     donationReader.update();
-    splashScreenTimer.update();
-
-    // Starts the Idle Timer which fires the enticer visuals
-    if (!flipIdleTimerLatch && videoHandler.hasVideoFinished()) {
-        idleTimer.start();
-        flipIdleTimerLatch = true;
-    }
+    splashScreen.update();
+    arduino.update();
+    rfidReader.update();
     
-    if(splashScreenTimer.hasTimerFinished() && fade.isCompleted()) {
-        disappear = true;
+
+    if (splashScreen.isDone() && !initLoad) {
+        enticer.playVideo();
+        initLoad = true;
     }
 }
 //--------------------------------------------------------------
@@ -164,79 +162,85 @@ void ofApp::draw()
     // Set the background color
     ofBackground(ofColor::black);
     
-    // Calibration Mode
-    if (applicationMode == 0) {
-        calibrationScreen.draw();
+    if (!splashScreen.isDone()) {
+        splashScreen.draw();
     }
-    else if(applicationMode == 1) {
-        drawAssigningScreen();
-    }
-    else if(applicationMode == 2) {
-        // Draw the Videos and other obeject to the Screen Warper
-        if (useWarper) {
-            screenFbo.begin();
-            ofClear(0);
+    else {
+        // Calibration Mode
+        if (applicationMode == 0) {
+            calibrationScreen.draw();
         }
-        ofPushStyle();
-        ofEnableBlendMode(OF_BLENDMODE_ADD);
-        enticer.drawVideo();
-        videoHandler.drawVideo();
-        ofDisableBlendMode();
-        ofPopStyle();
-        
-        if (useWarper) {
-            screenFbo.end();
-            
-            // Do the Screen Warping
-            ofMatrix4x4 mat = screenWarper.getMatrix();
-            ofPushMatrix();
-            ofMultMatrix(mat);
-            ofSetColor(ofColor::white);
-            screenFbo.draw(0,0);
-            ofPopMatrix();
-            
-            if (showWarper) {
-                ofSetColor(ofColor::ivory);
-                screenWarper.drawQuadOutline();
-                
-                ofSetColor(ofColor::blueSteel);
-                screenWarper.drawCorners();
-                
-                ofSetColor(ofColor::blueViolet);
-                screenWarper.drawHighlightedCorner();
+        else if(applicationMode == 1) {
+            drawAssigningScreen();
+        }
+        else if(applicationMode == 2) {
+            donationReader.draw(0, 0);
+            // Draw the Videos and other obeject to the Screen Warper
+            if (useWarper) {
+                screenFbo.begin();
+                ofClear(0);
             }
-            videoHandler.drawCalibrationQuads();
-            enticer.drawCalibrationQuads();
+
+            ofPushStyle();
+            enticer.drawVideo();
+            ofEnableBlendMode(OF_BLENDMODE_ADD);
+            videoHandler.drawVideo();
+            ofDisableBlendMode();
+            ofPopStyle();
+            
+            if (useWarper) {
+                screenFbo.end();
+                
+                // Do the Screen Warping
+                ofMatrix4x4 mat = screenWarper.getMatrix();
+                ofPushMatrix();
+                ofMultMatrix(mat);
+                ofSetColor(ofColor::white);
+                screenFbo.draw(0,0);
+                ofPopMatrix();
+                
+                if (showWarper) {
+                    ofSetColor(ofColor::ivory);
+                    screenWarper.drawQuadOutline();
+                    
+                    ofSetColor(ofColor::blueSteel);
+                    screenWarper.drawCorners();
+                    
+                    ofSetColor(ofColor::blueViolet);
+                    screenWarper.drawHighlightedCorner();
+                }
+                videoHandler.drawCalibrationQuads();
+                enticer.drawCalibrationQuads();
+            }
         }
-    }
-    // Draw the debug data from the video Files
-    if (canDrawData) {
-        ofPushStyle();
-        ofSetColor(ofColor::white);
-        logo.draw(5,5,logo.getWidth()*0.5,logo.getHeight()*0.5);
-        drawDebugData();
-        enticer.drawTimeline(ofGetHeight()*0.8);
-        videoHandler.drawTimeline(ofGetHeight()*0.9);
-        ofPopStyle();
-    }
-    
-    if (!disappear) {
-        if (fade.isRunning()) {
-            ofSetColor(fade.update());
-        }
-        else if (!fade.isRunning() && !splashScreenTimer.hasTimerFinished()) {
+        // Draw the debug data from the video Files
+        if (canDrawData) {
+            ofPushStyle();
             ofSetColor(ofColor::white);
+            logo.draw(5,5,logo.getWidth()*0.5,logo.getHeight()*0.5);
+            drawDebugData();
+            enticer.drawTimeline(ofGetHeight()*0.8);
+            videoHandler.drawTimeline(ofGetHeight()*0.9);
+            ofPopStyle();
         }
-    
-        int screenCenterX = (ofGetWidth()*0.5);
-        int screenCenterY = (ofGetHeight()*0.5);
-        int offsetCenterX = (logo.getWidth()*0.5);
-        int offsetCenterY = (logo.getHeight()*0.5);
-        
-        logo.draw((screenCenterX-offsetCenterX),(screenCenterY-offsetCenterY));
-        ofRectangle r = titleFont.getStringBoundingBox(unitName, 0, 0);
-        titleFont.drawString(unitName, (screenCenterX-(r.getWidth()*0.5)), 5+(offsetCenterY+screenCenterY+(r.getHeight())));
     }
+//    if (!disappear) {
+//        if (fade.isRunning()) {
+//            ofSetColor(fade.update());
+//        }
+//        else if (!fade.isRunning() && !splashScreenTimer.hasTimerFinished()) {
+//            ofSetColor(ofColor::white);
+//        }
+//    
+//        int screenCenterX = (ofGetWidth()*0.5);
+//        int screenCenterY = (ofGetHeight()*0.5);
+//        int offsetCenterX = (logo.getWidth()*0.5);
+//        int offsetCenterY = (logo.getHeight()*0.5);
+//        
+//        logo.draw((screenCenterX-offsetCenterX),(screenCenterY-offsetCenterY));
+//        ofRectangle r = titleFont.getStringBoundingBox(unitName, 0, 0);
+//        titleFont.drawString(unitName, (screenCenterX-(r.getWidth()*0.5)), 5+(offsetCenterY+screenCenterY+(r.getHeight())));
+//    }
 }
 //--------------------------------------------------------------
 void ofApp::drawDebugData()
@@ -263,7 +267,6 @@ void ofApp::exit()
 {
     postData.close();
     donationReader.close();
-    rfidReader.stop();
     enticer.stop();
     
     bool debugProjector = false;
@@ -276,26 +279,26 @@ void ofApp::exit()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-    if (disappear) {
-        switch (key) {
-            case ' ':
-                canDrawData = !canDrawData;
-                gui->setVisible(canDrawData);
-                break;
-            case 'd':
-                postData.postDonation();
-                break;
-            case 'r':
-                rfidReader.simulateTagRemoval();
-                break;
-            default:
-                break;
-        }
-        
-        for (int i = 0; i < videoData.size(); i++) {
-            if (key == ofToChar(ofToString(i))) {
-                rfidReader.simulateNewTag(i+1);
-            }
+    switch (key) {
+        case ' ':
+            canDrawData = !canDrawData;
+            gui->setVisible(canDrawData);
+            break;
+        case 'd':
+            donationReader.simulateDonation();
+            postData.postDonation();
+            break;
+        case 'r':
+            rfidReader.simulateTagRemoval();
+            arduino.simulateRemoval();
+            break;
+        default:
+            break;
+    }
+    
+    for (int i = 0; i < videoData.size(); i++) {
+        if (key == ofToChar(ofToString(i))) {
+            rfidReader.simulateNewTag(i+1);
         }
     }
 }
@@ -383,12 +386,13 @@ void ofApp::setupListeners()
     ofAddListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
     
     ofAddListener(rfidReader.newTag, this, &ofApp::newTagAdded);
-    ofAddListener(rfidReader.tagRemoved, this, &ofApp::tagRemoved);
+    ofAddListener(arduino.rfidTagRemoved, this, &ofApp::tagRemoved);
+    
+    ofAddListener(arduino.donationSlot1Event,this,&ofApp::gotDonation);
+    ofAddListener(arduino.donationSlot2Event,this,&ofApp::gotDonation);
     
     ofAddListener(enticer.enticerStarted, this, &ofApp::enticerVideoStarted);
     ofAddListener(enticer.enticerInterrupted, this, &ofApp::enticerVideoFinished);
-    
-    ofAddListener(splashScreenTimer.timerFinished, this, &ofApp::timerStopped);
 }
 //--------------------------------------------------------------
 void ofApp::removeListeners()
@@ -398,11 +402,13 @@ void ofApp::removeListeners()
     ofRemoveListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
     
     ofRemoveListener(rfidReader.newTag, this, &ofApp::newTagAdded);
-    ofRemoveListener(rfidReader.tagRemoved, this, &ofApp::tagRemoved);
+    ofRemoveListener(arduino.rfidTagRemoved, this, &ofApp::tagRemoved);
+    
+    ofRemoveListener(arduino.donationSlot1Event,this,&ofApp::gotDonation);
+    ofRemoveListener(arduino.donationSlot2Event,this,&ofApp::gotDonation);
     
     ofRemoveListener(enticer.enticerStarted, this, &ofApp::enticerVideoStarted);
     ofRemoveListener(enticer.enticerInterrupted, this, &ofApp::enticerVideoFinished);
-    ofRemoveListener(splashScreenTimer.timerFinished, this, &ofApp::timerStopped);
 }
 //--------------------------------------------------------------
 void ofApp::videoStarted(string &args)
@@ -459,13 +465,12 @@ void ofApp::newTagAdded(string &tag)
         }
         timesUsedToday++;
     }
-    
 }
 //--------------------------------------------------------------
-void ofApp::tagRemoved(string &tag)
+void ofApp::tagRemoved(int &v)
 {
     videoPlayback = 1;
-    ofLogWarning() << tag;
+    ofLogWarning() << v;
     
     // If a Card is removed then and video is playing stop and fire post event
     if(videoHandler.isVideoPlaying()) {
@@ -483,9 +488,11 @@ void ofApp::tagRemoved(string &tag)
 void ofApp::timerStopped(string &timer)
 {
     ofLogWarning() << timer;
-    fade.setParameters(1, linearEasing, ofxTween::easeInOut, 255, 0, 1000, 0);
-    //    disappear = true;
-    enticer.playVideo();
+}
+//--------------------------------------------------------------
+void ofApp::gotDonation(int &pin)
+{
+    cout << pin << endl;
 }
 //--------------------------------------------------------------
 // *

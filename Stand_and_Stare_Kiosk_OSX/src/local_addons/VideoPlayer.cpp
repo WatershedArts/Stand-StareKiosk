@@ -34,17 +34,27 @@ void VideoPlayer::setupVideoPlayer(float fadein, float fadeout,float enticerFade
 //--------------------------------------------------------------
 void VideoPlayer::loadVideo(string url)
 {
+//    videoPlayer.close();
+//    videoPlayer.closeMovie();
     videoPlayer.load(url);
+    
     videoName = url;
+    cout << videoName << endl;
     videoPlayer.setLoopState(OF_LOOP_NONE);
     videoLength = videoPlayer.getDuration();
+    
+//    ofSleepMillis(50);
     
     int x = (ofGetWidth() - videoPlayer.getWidth()) * 0.5;
     int y = (ofGetHeight() - videoPlayer.getHeight()) * 0.5;
     int w = videoPlayer.getWidth();
     int h = videoPlayer.getHeight();
     
-    warperFbo.allocate(w, h);
+//    warperFbo.clear();
+    
+    cout << "X: " << x << " Y: " << y << " Width: " << w << " Height: " << h << endl;
+    
+    warperFbo.allocate(w, h, GL_RGBA);
     warper.setSourceRect(ofRectangle(0, 0, w, h));
     warper.setTopLeftCornerPosition(ofPoint(x, y));
     warper.setTopRightCornerPosition(ofPoint(x + w, y));
@@ -148,7 +158,7 @@ void VideoPlayer::drawCalibrationQuads()
 //--------------------------------------------------------------
 void VideoPlayer::drawVideo()
 {
-    if(videoPlayer.isPlaying()) {
+        if(videoPlayer.isPlaying()) {
         ofPushMatrix();
         ofPushStyle();
         ofMatrix4x4 mat = warper.getMatrix();

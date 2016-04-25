@@ -8,9 +8,9 @@
 
 #include "Assigner.hpp"
 //--------------------------------------------------------------
-void TagAssignment::setup(deque <VideoData> data)
+void TagAssigner::setup(deque <VideoData> data)
 {
-    confirmWindow.addListener(this, &TagAssignment::onModalEvent);
+    confirmWindow.addListener(this, &TagAssigner::onModalEvent);
     int centerX = ofGetWidth()*0.5;
     int offsetX = 300/2;
     int newCenterX = centerX-offsetX;
@@ -20,7 +20,7 @@ void TagAssignment::setup(deque <VideoData> data)
     }
 }
 //--------------------------------------------------------------
-void TagAssignment::assignNewTag(string newTag)
+void TagAssigner::assignNewTag(string newTag)
 {
     currentTag = newTag;
     for (int i = 0; i < information.size(); i++) {
@@ -32,28 +32,28 @@ void TagAssignment::assignNewTag(string newTag)
     }
 }
 //--------------------------------------------------------------
-void TagAssignment::draw()
+void TagAssigner::draw()
 {
     for (int i = 0; i < information.size(); i++) {
         information.at(i).draw();
     }
 }
 //--------------------------------------------------------------
-void TagAssignment::mouseOver(int x, int y)
+void TagAssigner::mouseOver(int x, int y)
 {
     for (int i = 0; i < information.size(); i++) {
         information.at(i).isMouseOver(x, y);
     }
 }
 //--------------------------------------------------------------
-void TagAssignment::mousePressed(int x, int y, int button)
+void TagAssigner::mousePressed(int x, int y, int button)
 {
     for (int i = 0; i < information.size(); i++) {
         information.at(i).isMousePressed(x, y,button);
     }
 }
 //--------------------------------------------------------------
-void TagAssignment::onModalEvent(ofxModalEvent e)
+void TagAssigner::onModalEvent(ofxModalEvent e)
 {
     if (e.type == ofxModalEvent::CANCEL){
 
@@ -70,7 +70,7 @@ void TagAssignment::onModalEvent(ofxModalEvent e)
     }
 }
 //--------------------------------------------------------------
-void TagAssignment::save(int which)
+void TagAssigner::save(int which)
 {
     ofxJSONElement file;
     file.open("videoConfig.json");

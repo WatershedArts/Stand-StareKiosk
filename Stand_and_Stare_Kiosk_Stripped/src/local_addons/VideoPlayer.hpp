@@ -11,15 +11,20 @@
 
 #include <stdio.h>
 #include "ofxTween.h"
+#include "ofRPIVideoPlayer.h"
 
-class VideoPlayer {
+class VideoPlayer : public ofThread  {
     
     public:
         //! Setup Video Handler
-        void setupVideoPlayer(float fadein,float fadeout,float enticerFadeIn);
+        void setupVideoPlayer(float fadein,float fadeout,float enticerFadeIn,string enticerUrl);
     
         //! Load the Video
-        void loadVideo(string url);
+        void loadVideo(string url,bool enticer);
+    
+//        void threadedFunction();
+//        void start();
+//        void stop();
     
         //! Update video
         void updateVideo();
@@ -36,11 +41,17 @@ class VideoPlayer {
         //! Draw
         void drawVideo();
     
+        //! Show Outline
+        void setDrawOutline(bool drawOutline);
+    
         //! Draw Timeline
         void drawTimeline(int y);
     
         //! How many Seconds Left
         float getTimeLeft();
+    
+        //! Check if its the Enticer Playing
+        bool isEnticerPlaying();
     
         //! Has the Video Finished
         bool hasVideoFinished();
@@ -60,7 +71,8 @@ class VideoPlayer {
         ofEvent<string> videoInterrupted;
     
     private:
-        ofVideoPlayer videoPlayer;
+        ofRPIVideoPlayer videoPlayer;
+    //        ofVideoPlayer videoPlayer;
         ofxTween fade;
         ofxTween dropFade;
         ofxEasingLinear easinglinear;
@@ -73,10 +85,12 @@ class VideoPlayer {
         int progress;
         bool _hasFadedIn;
         bool _hasFadedOut;
-        bool _drawPrimaryQuads;
-        bool _drawSecondaryQuads;
+        bool _drawOutline;
         string videoName;
-
+        string _enticerUrl;
+    
+        bool isEnticer;
+    
     protected:
         int currentFadeValue;
         float videoLength;

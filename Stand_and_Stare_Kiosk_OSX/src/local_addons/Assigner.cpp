@@ -61,7 +61,7 @@ void TagAssignment::onModalEvent(ofxModalEvent e)
     else if (e.type == ofxModalEvent::CONFIRM){
         for (int i = 0; i < information.size(); i++) {
             if (information.at(i).isActive()) {
-                cout << "Hello" << endl;
+                cout << currentTag << endl;
                 information.at(i).setNewTag(currentTag);
                 save(i);
             }
@@ -73,7 +73,7 @@ void TagAssignment::onModalEvent(ofxModalEvent e)
 void TagAssignment::save(int which)
 {
     ofxJSONElement file;
-    file.open("videoConfig.json");
+    file.open(ofToDataPath("videoConfig.json"));
     file["VideoData"]["videoslist"][which]["rfidkey"] = currentTag;
     file.toStyledString();
     file.save("videoConfig.json",true);

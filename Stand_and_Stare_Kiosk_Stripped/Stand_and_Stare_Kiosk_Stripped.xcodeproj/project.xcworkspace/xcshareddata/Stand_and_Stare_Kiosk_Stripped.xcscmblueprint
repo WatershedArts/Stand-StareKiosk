@@ -5,6 +5,7 @@
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "2541E93095FA21F9BE201FC6B163A35AE7DF6104" : 0,
+    "09C58EF544F0226C3699BC1BFEBEA0E2D1E961DB" : 0,
     "E640290FCA0BCDD9BB8025CA73A74DB3CD8AB4AE" : 0,
     "2584CBCDB6905860AE3F296114B31C017465CDE7" : 0,
     "538ACB06C8FE75AF0B62A065849352D21C5D1562" : 0,
@@ -16,6 +17,7 @@
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "578E439C-9228-4C66-8DBB-9DC22B9044D0",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "2541E93095FA21F9BE201FC6B163A35AE7DF6104" : "..\/..\/addons\/ofxModal",
+    "09C58EF544F0226C3699BC1BFEBEA0E2D1E961DB" : "..\/..\/addons\/ofxOMXPlayer",
     "E640290FCA0BCDD9BB8025CA73A74DB3CD8AB4AE" : "..\/..\/addons\/ofxParagraph",
     "2584CBCDB6905860AE3F296114B31C017465CDE7" : "..\/..\/addons\/ofxSmartFont",
     "538ACB06C8FE75AF0B62A065849352D21C5D1562" : "..\/..\/addons\/ofxCasioProjectorControl",
@@ -28,6 +30,11 @@
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Stand_and_Stare_Kiosk_Stripped\/Stand_and_Stare_Kiosk_Stripped.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jvcleave\/ofxOMXPlayer.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "09C58EF544F0226C3699BC1BFEBEA0E2D1E961DB"
+    },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/braitsch\/ofxModal.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",

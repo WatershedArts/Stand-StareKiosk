@@ -22,7 +22,7 @@
                }
             ],
             "rfidicon" : "Icon 1",
-            "rfidkey" : "RFIDTag 1",
+            "rfidkey" : "RFIDTag 2",
             "videodetails" : "Concientious Objectors",
             "videolength" : "Will remove",
             "videourl" : "videos/co.mp4"
@@ -48,7 +48,7 @@
                }
             ],
             "rfidicon" : "Icon 2",
-            "rfidkey" : "RFIDTag 2",
+            "rfidkey" : "RFIDTag 1",
             "videodetails" : "Charlotte Despard",
             "videolength" : "",
             "videourl" : "videos/despard.mp4"

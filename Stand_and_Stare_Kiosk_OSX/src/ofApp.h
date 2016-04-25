@@ -14,6 +14,8 @@
 #include "MyTimer.hpp"
 #include "terminalListener.h"
 #include "Assigner.hpp"
+#include "SplashScreen.h"
+#include "ArduinoHandler.h"
 
 #define SPLASH_DELAY 5000
 
@@ -78,8 +80,10 @@ public:
     void enticerVideoStarted(string &args);
     void enticerVideoFinished(string &args);
     void newTagAdded(string &tag);
-    void tagRemoved(string &tag);
+    void tagRemoved(int &val);
     void timerStopped(string &timer);
+    void gotDonation(int &pin);
+    
     
     //--------------------------------------------------------------
     // *
@@ -126,6 +130,7 @@ public:
     RFIDReader rfidReader;
     PostData postData;
     TagAssignment tagAssigner;
+    ArduinoHandler arduino;
     
     //--------------------------------------------------------------
     // *
@@ -143,8 +148,12 @@ public:
     void drawAssigningScreen();
     
     ofTrueTypeFont titleFont;
-    MyTimer splashScreenTimer;
-    ofxTween fade;
-    ofxEasingLinear linearEasing;
-    bool disappear;
+    
+    SplashScreen splashScreen;
+    bool initLoad;
+    
+//    MyTimer splashScreenTimer;
+//    ofxTween fade;
+//    ofxEasingLinear linearEasing;
+//    bool disappear;
 };

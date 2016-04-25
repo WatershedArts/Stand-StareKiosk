@@ -16,7 +16,7 @@ void DonationReader::setup(string name)
     
     // 5 Sensor Array
     _numberOfSensors = 5;
-
+    donationTimer.setup(5000, "Donation", false);
     reset();
 }
 //--------------------------------------------------------------
@@ -28,6 +28,7 @@ void DonationReader::setSensitivity(float sensitivity)
 //--------------------------------------------------------------
 void DonationReader::update()
 {
+    donationTimer.update();
     for (int ldr = 0; ldr < _numberOfSensors; ldr++) {
         if (ldrValues[ldr] > _sensitivity) {
             donation = true;
@@ -37,14 +38,18 @@ void DonationReader::update()
 //--------------------------------------------------------------
 void DonationReader::draw(int x, int y)
 {
-
+    if (!donationTimer.hasTimerFinished()) {
+        ofPushStyle();
+        ofSetColor(ofColor::whiteSmoke);
+        ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+        ofPopStyle();
+    }
 }
 //--------------------------------------------------------------
 bool DonationReader::gotDonation()
 {
     return donation;
 }
-
 //--------------------------------------------------------------
 string DonationReader::getStringStream()
 {
@@ -58,7 +63,8 @@ string DonationReader::getStringStream()
 //--------------------------------------------------------------
 void DonationReader::simulateDonation()
 {
-    ldrValues[(int)ofRandom(0,5)] = 255;
+    donationTimer.start();
+    //    ldrValues[(int)ofRandom(0,5)] = 255;
 }
 //--------------------------------------------------------------
 void DonationReader::close()

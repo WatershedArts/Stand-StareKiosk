@@ -84,7 +84,7 @@ class TagInformation : public ofRectangle {
     
 };
 
-class TagAssignment {
+class TagAssigner {
     public:
         //! Setup
         void setup(deque <VideoData> data);

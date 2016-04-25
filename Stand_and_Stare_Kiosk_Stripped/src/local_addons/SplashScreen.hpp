@@ -15,12 +15,18 @@
 
 class SplashScreen {
     public:
+
+        SplashScreen() {}
+        ~SplashScreen() {}
         //-------------------------------------------
-        void load(string image = "/photos/logo.png", string unitName = "", int timerLength = 5000)
+        void load(string image = "/photos/logo.png", string unitName = "", int timerLength = 1000)
         {
             titleFont.load("MuseoSans_500.otf",30);
             logo.load(image);
+            
+            ofAddListener(splashScreenTimer.timerFinished, this, &SplashScreen::timerFinished);
             splashScreenTimer.setup(timerLength, "Splash", false);
+            splashScreenTimer.start();
             _unitName = unitName;
         }
         //-------------------------------------------
@@ -50,7 +56,15 @@ class SplashScreen {
         //-------------------------------------------
         bool isDone()
         {
+            if (hide && fade.isCompleted())     return true;
             return false;
+        }
+        //-------------------------------------------
+        void timerFinished(string &args)
+        {
+            fade.setParameters(1, linearEasing, ofxTween::easeInOut, 255, 0, 1000, 0);
+            hide = true;
+            ofRemoveListener(splashScreenTimer.timerFinished,this, &SplashScreen::timerFinished);
         }
     
     protected:
@@ -60,6 +74,7 @@ class SplashScreen {
         ofxEasingLinear linearEasing;
         ofTrueTypeFont titleFont;
         string _unitName;
+        bool hide = false;
     
 };
 

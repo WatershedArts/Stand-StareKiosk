@@ -76,6 +76,8 @@ class VideoPlayer {
         ofxEasingLinear easinglinear;
         ofxEasingExpo easingexpo;
     
+//        ofTimer delayTimer;
+    
         ofxQuadWarp warper;
         ofFbo warperFbo;
         vector <string> files;
