@@ -45,6 +45,8 @@ void ofApp::appSetup()
     canDrawData = false;
     calibrateScreen = false;
     
+    templateImage.load("map.png");
+    
     // Go straight into the Operation Mode
     applicationMode = 2;
     videoPlayback = 1;
@@ -84,7 +86,7 @@ void ofApp::setup()
     // Setup the SSH Key listener | Thanks @JVCleave
     consoleListener.setup(this);
     
-    arduino.setup("/dev/tty.usbmodem1421",appConfiguration.getConfig().rfidDelay);
+    arduino.setup(appConfiguration.getConfig().arduinoName,appConfiguration.getConfig().rfidDelay);
     
     // Projector Controller
     projectorController.setupProjector(appConfiguration.getConfig().projectorSerialName);
@@ -182,8 +184,12 @@ void ofApp::draw()
             }
 
             ofPushStyle();
-            enticer.drawVideo();
+            ofSetColor(255, 255, 255);
+            
+            templateImage.draw(0, 0,ofGetWidth(),ofGetHeight());
+            
             ofEnableBlendMode(OF_BLENDMODE_ADD);
+            enticer.drawVideo();
             videoHandler.drawVideo();
             ofDisableBlendMode();
             ofPopStyle();
@@ -219,28 +225,11 @@ void ofApp::draw()
             ofSetColor(ofColor::white);
             logo.draw(5,5,logo.getWidth()*0.5,logo.getHeight()*0.5);
             drawDebugData();
-            enticer.drawTimeline(ofGetHeight()*0.8);
-            videoHandler.drawTimeline(ofGetHeight()*0.9);
+            enticer.drawTimeline(ofGetHeight()*0.7);
+            videoHandler.drawTimeline(ofGetHeight()*0.8);
             ofPopStyle();
         }
     }
-//    if (!disappear) {
-//        if (fade.isRunning()) {
-//            ofSetColor(fade.update());
-//        }
-//        else if (!fade.isRunning() && !splashScreenTimer.hasTimerFinished()) {
-//            ofSetColor(ofColor::white);
-//        }
-//    
-//        int screenCenterX = (ofGetWidth()*0.5);
-//        int screenCenterY = (ofGetHeight()*0.5);
-//        int offsetCenterX = (logo.getWidth()*0.5);
-//        int offsetCenterY = (logo.getHeight()*0.5);
-//        
-//        logo.draw((screenCenterX-offsetCenterX),(screenCenterY-offsetCenterY));
-//        ofRectangle r = titleFont.getStringBoundingBox(unitName, 0, 0);
-//        titleFont.drawString(unitName, (screenCenterX-(r.getWidth()*0.5)), 5+(offsetCenterY+screenCenterY+(r.getHeight())));
-//    }
 }
 //--------------------------------------------------------------
 void ofApp::drawDebugData()
@@ -255,7 +244,7 @@ void ofApp::drawDebugData()
     debugData << postData.getDebug() << endl;
     
     ofSetColor(ofColor::white);
-    debug.drawString(debugData.str(), 10, logo.getHeight()*0.5+15);
+    debug.drawString(debugData.str(), 210, logo.getHeight()*0.5+15);
 }
 //--------------------------------------------------------------
 void ofApp::drawAssigningScreen()
@@ -492,7 +481,9 @@ void ofApp::timerStopped(string &timer)
 //--------------------------------------------------------------
 void ofApp::gotDonation(int &pin)
 {
-    cout << pin << endl;
+    cout << "Got Donation" << endl;
+    postData.postDonation();
+    donationReader.simulateDonation();
 }
 //--------------------------------------------------------------
 // *

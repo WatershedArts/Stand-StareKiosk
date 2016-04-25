@@ -84,7 +84,6 @@ public:
     void timerStopped(string &timer);
     void gotDonation(int &pin);
     
-    
     //--------------------------------------------------------------
     // *
     // * Screen Warper
@@ -93,6 +92,7 @@ public:
     void setupWarper();
     ofxQuadWarp screenWarper;
     ofFbo screenFbo;
+    ofImage templateImage;
     bool showWarper;
     bool useWarper;
     
@@ -148,12 +148,6 @@ public:
     void drawAssigningScreen();
     
     ofTrueTypeFont titleFont;
-    
     SplashScreen splashScreen;
     bool initLoad;
-    
-//    MyTimer splashScreenTimer;
-//    ofxTween fade;
-//    ofxEasingLinear linearEasing;
-//    bool disappear;
 };
