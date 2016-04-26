@@ -13,23 +13,27 @@
 void ArduinoHandler::setup(string arduinoName,int delayTime)
 {
     arduino.connect(arduinoName, 57600);
-    ofAddListener(arduino.EInitialized, this, &ArduinoHandler::initializeArduino);
-    
     _isConnected = false;
-    
+    ofAddListener(arduino.EInitialized, this, &ArduinoHandler::initializeArduino);
+
     delayTimer.setup(delayTime, "RFID Delay", false);
     ofAddListener(delayTimer.timerStarted,this,&ArduinoHandler::timerStarted);
     ofAddListener(delayTimer.timerFinished,this,&ArduinoHandler::timerFinished);
 }
 //--------------------------------------------------------------
-void ArduinoHandler::timerStarted(string &timer)
+void ArduinoHandler::setupPins(int ledPin1, int ledPin2, int TIRPin, int donationPin1, int donationPin2)
 {
-    cout << "Timer Started" << endl;
+    _LEDPin1 = ledPin1;
+    _LEDPin2 = ledPin2;
+    _TIRPin = TIRPin;
+    _donationPin1 = donationPin1;
+    _donationPin2 = donationPin2;
 }
+//--------------------------------------------------------------
+void ArduinoHandler::timerStarted(string &timer) {       }
 //--------------------------------------------------------------
 void ArduinoHandler::timerFinished(string &timer)
 {
-    cout << "Timer Finished" << endl;
     int v = 8;
     ofNotifyEvent(rfidTagRemoved, v, this);
 }
@@ -63,26 +67,29 @@ void ArduinoHandler::initializeArduino(const int & version) {
     
     // print firmware name and version to the console
     ofLogNotice() << arduino.getFirmwareName();
-    ofLogNotice() << "firmata v" << arduino.getMajorFirmwareVersion() << "." << arduino.getMinorFirmwareVersion();
+    ofLogNotice() << "Firmata v" << arduino.getMajorFirmwareVersion() << "." << arduino.getMinorFirmwareVersion();
     
     // set pins D2 and A5 to digital input
-    arduino.sendDigitalPinMode(2, ARD_OUTPUT);
-    arduino.sendDigitalPinMode(8, ARD_INPUT);
+    arduino.sendDigitalPinMode(_LEDPin1, ARD_OUTPUT);
+    arduino.sendDigitalPinMode(_LEDPin2, ARD_OUTPUT);
+    arduino.sendDigitalPinMode(_TIRPin, ARD_INPUT);
 
     // set pin A0 to analog input
-    arduino.sendAnalogPinReporting(0, ARD_ANALOG);
+    arduino.sendAnalogPinReporting(_donationPin1, ARD_ANALOG);
+    arduino.sendAnalogPinReporting(_donationPin2, ARD_ANALOG);
 
     // Listen for changes on the digital and analog pins
     ofAddListener(arduino.EDigitalPinChanged, this, &ArduinoHandler::digitalPinChanged);
     ofAddListener(arduino.EAnalogPinChanged, this, &ArduinoHandler::analogPinChanged);
     
-    arduino.sendDigital(2, ARD_HIGH);
+    arduino.sendDigital(_LEDPin1, ARD_HIGH);
+    arduino.sendDigital(_LEDPin2, ARD_HIGH);
 }
 //--------------------------------------------------------------
 void ArduinoHandler::digitalPinChanged(const int & pinNum)
 {
-    if (pinNum == 8) {
-        if (arduino.getDigital(8) == ARD_LOW) {
+    if (pinNum == _TIRPin) {
+        if (arduino.getDigital(_TIRPin) == ARD_LOW) {
             delayTimer.start();
         }
     }
@@ -90,22 +97,20 @@ void ArduinoHandler::digitalPinChanged(const int & pinNum)
 //--------------------------------------------------------------
 void ArduinoHandler::analogPinChanged(const int & pinNum)
 {
-    if (pinNum == 0) {
+    if (pinNum == _donationPin1) {
         int v = pinNum;
         if (!_donationLatch1 && arduino.getAnalog(pinNum) < 940) {
             ofNotifyEvent(donationSlot1Event, v, this);
-            cout << arduino.getAnalog(pinNum) << endl;
             _donationLatch1 = true;
         }
         else if (_donationLatch1 && arduino.getAnalog(pinNum) > 940) {
             _donationLatch1 = false;
         }
     }
-    else if (pinNum == 1) {
+    else if (pinNum == _donationPin2) {
         int v = pinNum;
         if (!_donationLatch2 && arduino.getAnalog(pinNum) < 940) {
             ofNotifyEvent(donationSlot2Event, v, this);
-            cout << arduino.getAnalog(pinNum) << endl;
             _donationLatch2 = true;
         }
         else if (_donationLatch2 && arduino.getAnalog(pinNum) > 940) {

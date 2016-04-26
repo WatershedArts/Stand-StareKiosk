@@ -76,6 +76,8 @@ struct Config {
     int rfidTIRPin;
     int donationPin1;
     int donationPin2;
+    int ledPin1;
+    int ledPin2;
     
     vector <ofPoint> maskPoints;
 };

@@ -19,6 +19,8 @@ class ArduinoHandler {
         //! Setup the connection to the Arduino
         void setup(string arduinoName,int delayTime);
 
+        void setupPins(int ledPin1,int ledPin2,int TIRPin,int donationPin1,int donationPin2);
+    
         //! Initialize the Arduino
         void initializeArduino(const int & version);
     
@@ -43,6 +45,12 @@ class ArduinoHandler {
     
     private:
         bool _isConnected;
+        int _TIRPin;
+        int _donationPin1;
+        int _donationPin2;
+        int _LEDPin1;
+        int _LEDPin2;
+    
         bool _donationLatch1;
         bool _donationLatch2;
         int _delayTime;

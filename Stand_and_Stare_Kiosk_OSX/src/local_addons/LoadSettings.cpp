@@ -53,6 +53,8 @@ void LoadSettings::loadConfig(string loadFile)
         c.rfidTIRPin = configFile["Stand&Stare"]["Arduino"]["tirpin"].asInt();
         c.donationPin1 = configFile["Stand&Stare"]["Arduino"]["donationpin1"].asInt();
         c.donationPin2 = configFile["Stand&Stare"]["Arduino"]["donationpin2"].asInt();
+        c.ledPin1 = configFile["Stand&Stare"]["Arduino"]["ledpin1"].asInt();
+        c.ledPin2 = configFile["Stand&Stare"]["Arduino"]["ledpin2"].asInt();
         
         // Mask points
         vector<ofPoint> maskPoints;
