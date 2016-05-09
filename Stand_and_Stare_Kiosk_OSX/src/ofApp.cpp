@@ -1,67 +1,6 @@
 #include "ofApp.h"
 
-//--------------------------------------------------------------
-void ofApp::setupWarper()
-{
-    // Set the Screen Sizes
-    int screenWidth = ofGetScreenWidth();
-    int screenHeight = ofGetScreenHeight();
-    
-    showWarper = false;
-    
-    // Allocate Warper FBO
-    screenFbo.allocate(screenWidth, screenHeight);
-    screenFbo.begin();
-        ofClear(0);
-    screenFbo.end();
-    
-    vector <ofVec3f> screenCoords = calibrationScreen.getCoordinates();
-    
-    // Set Screen Warper Positions
-    screenWarper.setSourceRect(ofRectangle(0,0,screenWidth,screenHeight));
-    screenWarper.setTopLeftCornerPosition(screenCoords[0]);
-    screenWarper.setTopRightCornerPosition(screenCoords[3]);
-    screenWarper.setBottomRightCornerPosition(screenCoords[2]);
-    screenWarper.setBottomLeftCornerPosition(screenCoords[1]);
-    screenWarper.setup();
-}
-//--------------------------------------------------------------
-void ofApp::appSetup()
-{
-    // Make the Window the Screen Size
-    ofSetWindowShape(ofGetScreenWidth(), ofGetScreenHeight());
-    
-    // Set Fullscreen
-    ofSetFullscreen(appConfiguration.getConfig().setFullscreen);
-
-    // Set the Logging Level
-    ofSetLogLevel(OF_LOG_WARNING);
-    
-    logo.load("photos/logo.png");
-    titleFont.load("MuseoSans_500.otf", 30);
-    debug.load("font-verdana.ttf", 8);
-    canPlay = false;
-    flipIdleTimerLatch = false;
-    canDrawData = false;
-    calibrateScreen = false;
-    
-    templateImage.load("map.png");
-    
-    // Go straight into the Operation Mode
-    applicationMode = 2;
-    videoPlayback = 1;
-    timesUsedToday = 0;
-
-}
-//--------------------------------------------------------------
-// *
-// *    This allows key strokes to be sent over SSH
-// *
-//--------------------------------------------------------------
-void ofApp::onCharacterReceived(KeyListenerEventData& e)
-{
-    keyPressed((int)e.character);
-}
+#pragma mark - Main OF Functions
 //--------------------------------------------------------------
 void ofApp::setup()
 {
@@ -69,10 +8,10 @@ void ofApp::setup()
     ofSetDataPathRoot("../Resources/data/");
     
     // Load the Configuration
-    appConfiguration.loadConfig(ofToDataPath("config.json"));
-    appConfiguration.printConfiguration();
-    appConfiguration.loadVideoConfig(ofToDataPath("videoConfig.json"));
-    appConfiguration.printConfiguration();
+    appConfiguration.loadConfig("config.json");
+//    appConfiguration.printConfiguration();
+    appConfiguration.loadVideoConfig("videoConfig.json");
+//    appConfiguration.printConfiguration();
     
     // Debug Warper
     useWarper = appConfiguration.getConfig().useWarper;
@@ -87,6 +26,8 @@ void ofApp::setup()
     consoleListener.setup(this);
     
     arduino.setup(appConfiguration.getConfig().arduinoName,appConfiguration.getConfig().rfidDelay);
+    
+    arduino.setupPins(appConfiguration.getConfig().ledPin1, appConfiguration.getConfig().ledPin2, appConfiguration.getConfig().rfidTIRPin, appConfiguration.getConfig().donationPin1, appConfiguration.getConfig().donationPin2);
     
     // Projector Controller
     projectorController.setupProjector(appConfiguration.getConfig().projectorSerialName);
@@ -152,7 +93,16 @@ void ofApp::update()
     arduino.update();
     rfidReader.update();
     
-
+    if (canDrawData) {
+        appFPS->update();
+        appMode->update();
+        calibrationFolder->update();
+        showTemplateImage->update();
+        reloadVideoData->update();
+        videoFolder->update();
+    }
+    
+    
     if (splashScreen.isDone() && !initLoad) {
         enticer.playVideo();
         initLoad = true;
@@ -176,7 +126,7 @@ void ofApp::draw()
             drawAssigningScreen();
         }
         else if(applicationMode == 2) {
-            donationReader.draw(0, 0);
+            
             // Draw the Videos and other obeject to the Screen Warper
             if (useWarper) {
                 screenFbo.begin();
@@ -186,12 +136,16 @@ void ofApp::draw()
             ofPushStyle();
             ofSetColor(255, 255, 255);
             
-            templateImage.draw(0, 0,ofGetWidth(),ofGetHeight());
-            
+            if (showTemplate) {
+                templateImage.draw(0,0,ofGetWidth(),ofGetHeight());
+            }
+            donationReader.draw(0, 0);
             ofEnableBlendMode(OF_BLENDMODE_ADD);
+            
             enticer.drawVideo();
             videoHandler.drawVideo();
             ofDisableBlendMode();
+            
             ofPopStyle();
             
             if (useWarper) {
@@ -223,33 +177,20 @@ void ofApp::draw()
         if (canDrawData) {
             ofPushStyle();
             ofSetColor(ofColor::white);
-            logo.draw(5,5,logo.getWidth()*0.5,logo.getHeight()*0.5);
+            title->draw();
+            appFPS->draw();
+            appMode->draw();
+            calibrationFolder->draw();
+            showTemplateImage->draw();
+            reloadVideoData->draw();
+            videoFolder->draw();
+            
             drawDebugData();
             enticer.drawTimeline(ofGetHeight()*0.7);
             videoHandler.drawTimeline(ofGetHeight()*0.8);
             ofPopStyle();
         }
     }
-}
-//--------------------------------------------------------------
-void ofApp::drawDebugData()
-{
-    stringstream debugData;
-    debugData << "|------------------------------" << endl;
-    debugData << "| Stand and Stare Jukebox" << endl;
-    debugData << "| Times Used Today: " << timesUsedToday << endl;
-    debugData << videoHandler.getStringStream() << endl;
-    debugData << enticer.getStringStream() << endl;
-    debugData << rfidReader.getDebugString() << endl;
-    debugData << postData.getDebug() << endl;
-    
-    ofSetColor(ofColor::white);
-    debug.drawString(debugData.str(), 210, logo.getHeight()*0.5+15);
-}
-//--------------------------------------------------------------
-void ofApp::drawAssigningScreen()
-{
-    tagAssigner.draw();
 }
 //--------------------------------------------------------------
 void ofApp::exit()
@@ -265,17 +206,18 @@ void ofApp::exit()
     
     projectorController.close();
 }
+#pragma mark - Key Events
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
     switch (key) {
         case ' ':
             canDrawData = !canDrawData;
-            gui->setVisible(canDrawData);
             break;
         case 'd':
             donationReader.simulateDonation();
-            postData.postDonation();
+            //postData.postDonation(0);
+            postData.postDonation(1);
             break;
         case 'r':
             rfidReader.simulateTagRemoval();
@@ -296,6 +238,7 @@ void ofApp::keyReleased(int key)
 {
     
 }
+#pragma mark - Mouse Events
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y)
 {
@@ -313,19 +256,19 @@ void ofApp::mousePressed(int x, int y, int button)
 {
     if (applicationMode == 0) {
         if (calibrateScreen) {
-            if (gui->getVisible()) {
-                guiWindow = ofRectangle(gui->getPosition().x,gui->getPosition().y,gui->getWidth(),gui->getHeight());
-                
+//            if (gui->getVisible()) {
+//                guiWindow = ofRectangle(gui->getPosition().x,gui->getPosition().y,gui->getWidth(),gui->getHeight());
+            
                 // This function is to stop the mouse Click through the GUI Window
-                if (!guiWindow.inside(x, y)) {
-                    calibrationScreen.mousePressed(x, y, button);
-                }
-                else {
-                }
-            }
-            else {
+//                if (!guiWindow.inside(x, y)) {
+//                    calibrationScreen.mousePressed(x, y, button);
+//                }
+//                else {
+//                }
+//            }
+//            else {
                 calibrationScreen.mousePressed(x, y, button);
-            }
+//            }
         }
     }
     else if(applicationMode == 1) {
@@ -347,6 +290,7 @@ void ofApp::mouseExited(int x, int y)
 {
     
 }
+#pragma mark - Window Events
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h)
 {
@@ -362,7 +306,29 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 {
     
 }
-#pragma mark - Class Listeners
+#pragma mark - Extra Draw Functions
+//--------------------------------------------------------------
+void ofApp::drawDebugData()
+{
+    stringstream debugData;
+    
+    ofSetColor(ofColor::white);
+    debug.drawString(enticer.getStringStream(), 210, ofGetHeight()-100);
+    debug.drawString(videoHandler.getStringStream(), 400, ofGetHeight()-100);
+    debug.drawString(rfidReader.getDebugString(), 590, ofGetHeight()-100);
+    debug.drawString(arduino.getDebugString(),780,ofGetHeight()-100);
+    
+    debugData << "| Times Used Today: "  << ofToString(timesUsedToday) << endl;
+    debugData << "| Donations Today: "  << ofToString(donationsToday) << endl;
+    
+    debug.drawString(debugData.str(),970,ofGetHeight()-100);
+}
+//--------------------------------------------------------------
+void ofApp::drawAssigningScreen()
+{
+    tagAssigner.draw();
+}
+#pragma mark - Setup and Destroy Listeners
 //--------------------------------------------------------------
 // *
 // * Class Listeners
@@ -399,6 +365,7 @@ void ofApp::removeListeners()
     ofRemoveListener(enticer.enticerStarted, this, &ofApp::enticerVideoStarted);
     ofRemoveListener(enticer.enticerInterrupted, this, &ofApp::enticerVideoFinished);
 }
+#pragma mark - Listeners
 //--------------------------------------------------------------
 void ofApp::videoStarted(string &args)
 {
@@ -482,9 +449,76 @@ void ofApp::timerStopped(string &timer)
 void ofApp::gotDonation(int &pin)
 {
     cout << "Got Donation" << endl;
-    postData.postDonation();
+    postData.postDonation(pin);
     donationReader.simulateDonation();
+    donationsToday++;
 }
+#pragma mark - Extra Setup Routine
+//--------------------------------------------------------------
+void ofApp::setupWarper()
+{
+    // Set the Screen Sizes
+    int screenWidth = ofGetScreenWidth();
+    int screenHeight = ofGetScreenHeight();
+    
+    showWarper = false;
+    
+    // Allocate Warper FBO
+    screenFbo.allocate(screenWidth, screenHeight);
+    screenFbo.begin();
+    ofClear(0);
+    screenFbo.end();
+    
+    vector <ofVec3f> screenCoords = calibrationScreen.getCoordinates();
+    
+    // Set Screen Warper Positions
+    screenWarper.setSourceRect(ofRectangle(0,0,screenWidth,screenHeight));
+    screenWarper.setTopLeftCornerPosition(screenCoords[0]);
+    screenWarper.setTopRightCornerPosition(screenCoords[3]);
+    screenWarper.setBottomRightCornerPosition(screenCoords[2]);
+    screenWarper.setBottomLeftCornerPosition(screenCoords[1]);
+    screenWarper.setup();
+}
+//--------------------------------------------------------------
+void ofApp::appSetup()
+{
+    // Make the Window the Screen Size
+    ofSetWindowShape(ofGetScreenWidth(), ofGetScreenHeight());
+    
+    // Set Fullscreen
+    ofSetFullscreen(appConfiguration.getConfig().setFullscreen);
+    
+    // Set the Logging Level
+    ofSetLogLevel(OF_LOG_WARNING);
+    
+    logo.load("photos/logo.png");
+    titleFont.load("MuseoSans_500.otf", 30);
+    debug.load("MuseoSans_500.otf", 8);
+    canPlay = false;
+    flipIdleTimerLatch = false;
+    canDrawData = false;
+    calibrateScreen = false;
+    showTemplate = false;
+    
+    templateImage.load("map.png");
+    
+    // Go straight into the Operation Mode
+    applicationMode = 2;
+    videoPlayback = 1;
+    timesUsedToday = 0;
+    donationsToday = 0;
+}
+#pragma mark - Terminal Listener
+//--------------------------------------------------------------
+// *
+// *    This allows key strokes to be sent over SSH
+// *
+//--------------------------------------------------------------
+void ofApp::onCharacterReceived(KeyListenerEventData& e)
+{
+    keyPressed((int)e.character);
+}
+#pragma mark - GUI
 //--------------------------------------------------------------
 // *
 // * GUI
@@ -492,47 +526,55 @@ void ofApp::gotDonation(int &pin)
 //--------------------------------------------------------------
 void ofApp::setupGUI()
 {
-    gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT);
-    gui->addHeader("Stand & Stare");
-    gui->addFRM(1.0f);
-    gui->addBreak();
-    vector<string> AppMode = {"CALIBRATION MODE",
-        "ASSIGNING MODE",
-        "OPERATION MODE"};
     
-    gui->addDropdown("App Mode", AppMode);
-    gui->addButton("Reload Video Data");
+    title = new ofxDatGuiLabel("Stand and Stare Kiosk");
+    title->setPosition(100, 0);
+    title->setWidth(200);
     
-    if (useWarper) {
-        gui->addBreak();
-        gui->addToggle("Show Warper");
-        gui->addBreak();
-        ofxDatGuiFolder * CalibrationFolder = gui->addFolder("Calibration",ofColor::blueSteel);
-        CalibrationFolder->addToggle("Enable Mask Creation");
-        CalibrationFolder->addButton("Clear Mask");
-        CalibrationFolder->addButton("Save Mask");
-        CalibrationFolder->addToggle("Show Coordinates");
-        CalibrationFolder->addBreak();
-        gui->addBreak();
-        ofxDatGuiFolder * VideoFolder = gui->addFolder("Video",ofColor::maroon);
-        VideoFolder->addToggle("Show Primary Warper Quads");
-        VideoFolder->addToggle("Show Secondary Warper Quads");
-        VideoFolder->addToggle("Show Quads");
-        gui->addBreak();
-    }
-    gui->addFooter();
+    appFPS = new ofxDatGuiFRM(1);
+    appFPS->setPosition((title->getWidth()+title->getX()), 0);
+    appFPS->setWidth(50, 0);
+    appFPS->setLabel("");
+    appFPS->setStripeVisible(false);
     
-    // Listeners
-    gui->onButtonEvent(this, &ofApp::onButtonEvent);
-    gui->onSliderEvent(this, &ofApp::onSliderEvent);
-    gui->onTextInputEvent(this, &ofApp::onTextInputEvent);
-    gui->on2dPadEvent(this, &ofApp::on2dPadEvent);
-    gui->onDropdownEvent(this, &ofApp::onDropdownEvent);
-    gui->onColorPickerEvent(this, &ofApp::onColorPickerEvent);
-    gui->onMatrixEvent(this, &ofApp::onMatrixEvent);
+    vector<string> AppMode = {"CALIBRATION MODE","ASSIGNING MODE","OPERATION MODE"};
     
-    gui->setVisible(false);
-    guiWindow = ofRectangle(gui->getPosition().x,gui->getPosition().y,gui->getWidth(),gui->getHeight());
+    appMode = new ofxDatGuiDropdown("App Mode",AppMode);
+    appMode->setWidth(150);
+    appMode->expand();
+    appMode->setPosition(appFPS->getX()+appFPS->getWidth(),0);
+    appMode->onDropdownEvent(this, &ofApp::onDropdownEvent);
+    
+    showTemplateImage = new ofxDatGuiToggle("Show Template",false);
+    showTemplateImage->setWidth(150);
+    showTemplateImage->setPosition(appMode->getX()+appMode->getWidth(), 0);
+    showTemplateImage->onButtonEvent(this, &ofApp::onButtonEvent);
+    
+    calibrationFolder = new ofxDatGuiFolder("Calibration");
+    calibrationFolder->setWidth(200);
+    calibrationFolder->setPosition(showTemplateImage->getX()+showTemplateImage->getWidth(), 0);
+    calibrationFolder->addToggle("Enable Mask Creation");
+    calibrationFolder->addButton("Clear Mask");
+    calibrationFolder->addButton("Save Mask");
+    calibrationFolder->addToggle("Show Coordinates");
+    calibrationFolder->onButtonEvent(this, &ofApp::onButtonEvent);
+
+
+    reloadVideoData = new ofxDatGuiButton("Reload Video Data");
+    reloadVideoData->setWidth(150);
+    reloadVideoData->setPosition(calibrationFolder->getX()+calibrationFolder->getWidth(), 0);
+    reloadVideoData->setStripe(ofColor::mediumSpringGreen, 5);
+    reloadVideoData->onButtonEvent(this, &ofApp::onButtonEvent);
+    
+    videoFolder = new ofxDatGuiFolder("Video");
+    videoFolder->setPosition(reloadVideoData->getX()+reloadVideoData->getWidth(),0);
+    videoFolder->setWidth(200);
+    
+    videoFolder->addToggle("Show Primary Warper Quads");
+    videoFolder->addToggle("Show Secondary Warper Quads");
+    videoFolder->addToggle("Show Quads");
+    videoFolder->onButtonEvent(this, &ofApp::onButtonEvent);
+    
 }
 //--------------------------------------------------------------
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e)
@@ -545,6 +587,9 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
     }
     else if(e.target->is("Save Mask")) {
         calibrationScreen.save();
+    }
+    else if(e.target->is("Show Template")) {
+        showTemplate = !showTemplate;
     }
     else if(e.target->is("Show Coordinates")) {
         calibrationScreen.showCoordinates(e.target->getEnabled());

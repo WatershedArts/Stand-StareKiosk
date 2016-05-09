@@ -76,6 +76,5 @@ void TagAssignment::save(int which)
     file.open(ofToDataPath("videoConfig.json"));
     file["VideoData"]["videoslist"][which]["rfidkey"] = currentTag;
     file.toStyledString();
-    file.save("videoConfig.json",true);
-    
+    file.save("videoConfig.json",true);    
 }

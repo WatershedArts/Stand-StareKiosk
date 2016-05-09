@@ -29,6 +29,12 @@
 		632C1DAB1CC8C4E00049EB95 /* ArduinoHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 632C1DA91CC8C4E00049EB95 /* ArduinoHandler.cpp */; };
 		63CAC1A51C85A8D50029863B /* Assigner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63CAC1A31C85A8D50029863B /* Assigner.cpp */; };
 		63CAC1AA1C85E35C0029863B /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 63CAC1A91C85E35C0029863B /* Icon.icns */; };
+		63CD2F251CE137CD00743332 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63CD2F1E1CE137CD00743332 /* ofxXmlSettings.cpp */; };
+		63CD2F261CE137CD00743332 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63CD2F211CE137CD00743332 /* tinyxml.cpp */; };
+		63CD2F271CE137CD00743332 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63CD2F231CE137CD00743332 /* tinyxmlerror.cpp */; };
+		63CD2F281CE137CD00743332 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63CD2F241CE137CD00743332 /* tinyxmlparser.cpp */; };
+		63CD2F2E1CE13CA700743332 /* mask.xml in Resources */ = {isa = PBXBuildFile; fileRef = 63CD2F2D1CE13CA700743332 /* mask.xml */; };
+		63CD2F301CE13FF400743332 /* mask.json in Resources */ = {isa = PBXBuildFile; fileRef = 63CD2F2F1CE13FF400743332 /* mask.json */; };
 		63CEBD0D6130B08B599C6C30 /* ofxEasingSine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05B3CD72F404F949CAA52FB4 /* ofxEasingSine.cpp */; };
 		63DDECBE1C7E10A700E95C76 /* Calibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DDECA01C7E10A700E95C76 /* Calibration.cpp */; };
 		63DDECBF1C7E10A700E95C76 /* DonationReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DDECA21C7E10A700E95C76 /* DonationReader.cpp */; };
@@ -222,6 +228,14 @@
 		63CAC1A41C85A8D50029863B /* Assigner.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Assigner.hpp; path = src/local_addons/Assigner.hpp; sourceTree = "<group>"; };
 		63CAC1A71C85D4FE0029863B /* videoConfig.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = videoConfig.json; path = bin/data/videoConfig.json; sourceTree = SOURCE_ROOT; };
 		63CAC1A91C85E35C0029863B /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Icon.icns; path = bin/data/Icon.icns; sourceTree = "<group>"; };
+		63CD2F1E1CE137CD00743332 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
+		63CD2F1F1CE137CD00743332 /* ofxXmlSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
+		63CD2F211CE137CD00743332 /* tinyxml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
+		63CD2F221CE137CD00743332 /* tinyxml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
+		63CD2F231CE137CD00743332 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
+		63CD2F241CE137CD00743332 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
+		63CD2F2D1CE13CA700743332 /* mask.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = mask.xml; sourceTree = "<group>"; };
+		63CD2F2F1CE13FF400743332 /* mask.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = mask.json; path = bin/data/mask.json; sourceTree = SOURCE_ROOT; };
 		63D5E738C1964A8900B98969 /* hybridtracker.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = hybridtracker.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/hybridtracker.hpp; sourceTree = SOURCE_ROOT; };
 		63DDECA01C7E10A700E95C76 /* Calibration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Calibration.cpp; path = src/local_addons/Calibration.cpp; sourceTree = "<group>"; };
 		63DDECA11C7E10A700E95C76 /* Calibration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Calibration.hpp; path = src/local_addons/Calibration.hpp; sourceTree = "<group>"; };
@@ -734,6 +748,37 @@
 			name = ofxModal;
 			sourceTree = "<group>";
 		};
+		63CD2F1C1CE137CD00743332 /* ofxXmlSettings */ = {
+			isa = PBXGroup;
+			children = (
+				63CD2F1D1CE137CD00743332 /* src */,
+				63CD2F201CE137CD00743332 /* libs */,
+			);
+			name = ofxXmlSettings;
+			sourceTree = "<group>";
+		};
+		63CD2F1D1CE137CD00743332 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				63CD2F1E1CE137CD00743332 /* ofxXmlSettings.cpp */,
+				63CD2F1F1CE137CD00743332 /* ofxXmlSettings.h */,
+			);
+			name = src;
+			path = ../../../../../of_v0.9.3_osx_release/addons/ofxXmlSettings/src;
+			sourceTree = "<group>";
+		};
+		63CD2F201CE137CD00743332 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				63CD2F211CE137CD00743332 /* tinyxml.cpp */,
+				63CD2F221CE137CD00743332 /* tinyxml.h */,
+				63CD2F231CE137CD00743332 /* tinyxmlerror.cpp */,
+				63CD2F241CE137CD00743332 /* tinyxmlparser.cpp */,
+			);
+			name = libs;
+			path = ../../../../../of_v0.9.3_osx_release/addons/ofxXmlSettings/libs;
+			sourceTree = "<group>";
+		};
 		641362CA659FAFEE4E81001B /* posix */ = {
 			isa = PBXGroup;
 			children = (
@@ -1024,6 +1069,7 @@
 				7454354B2838D53013BB449A /* ofxQuadWarp */,
 				92CB46D48EC846004FCBE8EF /* ofxSmartFont */,
 				1F293A20D2B096D59C4F24DD /* ofxTween */,
+				63CD2F1C1CE137CD00743332 /* ofxXmlSettings */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1242,6 +1288,8 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				63CD2F2D1CE13CA700743332 /* mask.xml */,
+				63CD2F2F1CE13FF400743332 /* mask.json */,
 				63CAC1A71C85D4FE0029863B /* videoConfig.json */,
 				63DDECCB1C7E130B00E95C76 /* config.json */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
@@ -1410,7 +1458,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63CD2F301CE13FF400743332 /* mask.json in Resources */,
 				63CAC1AA1C85E35C0029863B /* Icon.icns in Resources */,
+				63CD2F2E1CE13CA700743332 /* mask.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1437,6 +1487,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63CD2F271CE137CD00743332 /* tinyxmlerror.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				05EB94CAEBBD6523BB4D9F32 /* ofxCasioProjectorControl.cpp in Sources */,
@@ -1444,6 +1495,7 @@
 				3A5B477DCD1A8C65D435E994 /* ofxDatGuiComponent.cpp in Sources */,
 				D76338E76F135DAEA178448E /* ofxDatGui.cpp in Sources */,
 				B2C7DB053A1243C22A738DAB /* ofxHttpUtils.cpp in Sources */,
+				63CD2F281CE137CD00743332 /* tinyxmlparser.cpp in Sources */,
 				57753805D2FDAD6521FF2A81 /* ofxJSONElement.cpp in Sources */,
 				0C2C8F82B747F53EA6007BA9 /* jsoncpp.cpp in Sources */,
 				63DDECBE1C7E10A700E95C76 /* Calibration.cpp in Sources */,
@@ -1481,7 +1533,9 @@
 				97EAD59D8036B7711F842AA1 /* ofxEasing.cpp in Sources */,
 				63DDECC51C7E10A700E95C76 /* ObjectHandler.cpp in Sources */,
 				63DDECC21C7E10A700E95C76 /* LoadSettings.cpp in Sources */,
+				63CD2F251CE137CD00743332 /* ofxXmlSettings.cpp in Sources */,
 				57A8574977B1119180C8C770 /* ofxEasingBack.cpp in Sources */,
+				63CD2F261CE137CD00743332 /* tinyxml.cpp in Sources */,
 				31D42FFF97F7A6EB7F836DD6 /* ofxEasingBounce.cpp in Sources */,
 				63DDECC71C7E10A700E95C76 /* ProjectorControl.cpp in Sources */,
 				4E6DDEBE3458B654FFFCE9C4 /* ofxEasingCirc.cpp in Sources */,
@@ -1791,6 +1845,7 @@
 					../../../../addons/ofxOpenCv/libs/opencv/lib/osx/opencv.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1881,6 +1936,7 @@
 					../../../../addons/ofxOpenCv/libs/opencv/lib/osx/opencv.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 				baseConfigurationReference = E4EB6923138AFD0F00A09F29;
 			};

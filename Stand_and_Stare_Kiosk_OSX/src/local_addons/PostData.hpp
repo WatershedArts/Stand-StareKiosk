@@ -20,7 +20,7 @@ public:
     void close();
     void postSystemUpdate(string status,string bulbtime);
     void postVideo(string count,string whichVideo,int playpercentage,bool didFinishVideo);
-    void postDonation();
+    void postDonation(int whichSlot);
     void newResponse(ofxHttpResponse & response);
     string getResponse();
     

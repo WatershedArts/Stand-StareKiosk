@@ -17,7 +17,7 @@
 #include "SplashScreen.h"
 #include "ArduinoHandler.h"
 
-#define SPLASH_DELAY 5000
+#define SPLASH_DELAY 2500
 
 class ofApp : public ofBaseApp, public KeyListener{
     
@@ -65,6 +65,7 @@ public:
     string unitName;
     int unitId;
     int timesUsedToday;
+    int donationsToday;
 
     int videoPlayback;    
     //--------------------------------------------------------------
@@ -93,6 +94,7 @@ public:
     ofxQuadWarp screenWarper;
     ofFbo screenFbo;
     ofImage templateImage;
+    bool showTemplate;
     bool showWarper;
     bool useWarper;
     
@@ -106,6 +108,16 @@ public:
     // GUI Object
     ofxDatGui * gui;
     ofRectangle guiWindow;
+    
+    ofxDatGuiLabel * title;
+    ofxDatGuiFRM * appFPS;
+    ofxDatGuiDropdown * appMode;
+    ofxDatGuiButton * reloadVideoData;
+    ofxDatGuiToggle * showWarperBox;
+    ofxDatGuiToggle * showTemplateImage;
+    
+    ofxDatGuiFolder * calibrationFolder;
+    ofxDatGuiFolder * videoFolder;
     
     void onButtonEvent(ofxDatGuiButtonEvent e);
     void onSliderEvent(ofxDatGuiSliderEvent e);

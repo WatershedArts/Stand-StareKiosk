@@ -10,14 +10,33 @@
 //--------------------------------------------------------------
 void DonationReader::setup(string name)
 {
-    #ifndef PI
-        spi = new SPI(name,SPI_MODE_0,1000000,8);
-    #endif
-    
-    // 5 Sensor Array
-    _numberOfSensors = 5;
+    loadMask();
     donationTimer.setup(5000, "Donation", false);
+    waveshed.load("photos/waveshed.jpg");
+    
+    maskShader.load("shaders/maskShader");
+    
+    maskFbo.allocate(ofGetWidth(), ofGetHeight());
+    fbo.allocate(ofGetWidth(), ofGetHeight());
+    
+    maskFbo.begin();
+    ofClear(0);
+    maskFbo.end();
+    
+    fbo.begin();
+    ofClear(0);
+    fbo.end();
+    
     reset();
+    
+    waveTopPts.clear();
+    waveBottomPts.clear();
+    
+    x = 0;
+    
+    
+    
+    buildWave = false;
 }
 //--------------------------------------------------------------
 void DonationReader::setSensitivity(float sensitivity)
@@ -28,21 +47,59 @@ void DonationReader::setSensitivity(float sensitivity)
 //--------------------------------------------------------------
 void DonationReader::update()
 {
-    donationTimer.update();
-    for (int ldr = 0; ldr < _numberOfSensors; ldr++) {
-        if (ldrValues[ldr] > _sensitivity) {
-            donation = true;
-        }
+    if(x < ofGetWidth()) {
+        int y1Origin = 0;
+        int y2Origin = ofGetHeight();
+        int y1 = y1Origin+120*ofSignedNoise(ofGetElapsedTimef());
+        int y2 = y2Origin+150*ofSignedNoise(ofGetElapsedTimef());
+        waveTopPts.push_back(ofVec3f(x,y1,0));
+        waveBottomPts.push_back(ofVec3f(x,y2,0));
+        x++;
     }
+    
+    donationTimer.update();
+   
+    maskFbo.begin();
+    ofClear(0, 0, 0);
+    ofPushStyle();
+    
+    ofPushMatrix();
+    ofTranslate(0,bouncingArea.update());
+    ofSetColor(ofColor::white);
+    ofBeginShape();
+    ofVertex(0, 0);
+    for (int i = 0; i < waveTopPts.size(); i++) {
+        ofVertex(waveTopPts[i].x, waveTopPts[i].y);
+    }
+    ofVertex(ofGetWidth(), 0);
+    ofVertex(ofGetWidth(), ofGetHeight());
+    for (int i = waveBottomPts.size()-1; i > 0 ; i--) {
+        ofVertex(waveBottomPts[i].x, waveBottomPts[i].y);
+    }
+    ofVertex(0, ofGetHeight());
+    ofEndShape(false);
+    ofPopMatrix();
+    ofPopStyle();
+    
+    maskFbo.end();
+    
 }
 //--------------------------------------------------------------
 void DonationReader::draw(int x, int y)
 {
+    
     if (!donationTimer.hasTimerFinished()) {
-        ofPushStyle();
-        ofSetColor(ofColor::whiteSmoke);
-        ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
-        ofPopStyle();
+        fbo.begin();
+        ofClear(0, 0, 0);
+        
+        maskShader.begin();
+        maskShader.setUniformTexture("maskTex", maskFbo.getTexture(), 1);
+        waveshed.draw(0, 0,ofGetWidth(),ofGetHeight());
+        maskShader.end();
+        fbo.end();
+        
+        fbo.draw(0,0);
+        drawMask();
     }
 }
 //--------------------------------------------------------------
@@ -54,17 +111,17 @@ bool DonationReader::gotDonation()
 string DonationReader::getStringStream()
 {
     stringstream datastream;
-    datastream << "| Reader: " << "he" << endl;
-    datastream << "| Video Position: " << "a" << endl;
-    datastream << "| Fade Out Time: " << "alpsdf" << endl;
-    datastream << "| Video Duration: " << "adg" << endl;
+//    datastream << "| Reader: " << "he" << endl;
+//    datastream << "| Video Position: " << "a" << endl;
+//    datastream << "| Fade Out Time: " << "alpsdf" << endl;
+//    datastream << "| Video Duration: " << "adg" << endl;
     return datastream.str();
 }
 //--------------------------------------------------------------
 void DonationReader::simulateDonation()
 {
     donationTimer.start();
-    //    ldrValues[(int)ofRandom(0,5)] = 255;
+    bouncingArea.setParameters(0, linear, ofxTween::easeInOut, -ofGetHeight(), ofGetHeight()*2, 5000, 10);
 }
 //--------------------------------------------------------------
 void DonationReader::close()
@@ -74,8 +131,38 @@ void DonationReader::close()
 //--------------------------------------------------------------
 void DonationReader::reset()
 {
-    for (int ldr = 0; ldr < _numberOfSensors; ldr++) {
-        ldrValues[ldr] = 0;
-    }
     donation = false;
+}
+//--------------------------------------------------------------
+void DonationReader::loadMask()
+{
+    maskPoints.clear();
+    if (maskFile.open("mask.json")) {
+        int numberOfMasks = maskFile["masks"].size();
+        maskPoints.resize(numberOfMasks);
+        for (int i = 0; i < numberOfMasks; i++) {
+            int maskPts = maskFile["masks"][i]["pts"].size();
+            for (int w = 0; w < maskPts; w++) {
+                maskPoints[i].push_back(ofVec2f(maskFile["masks"][i]["pts"][w]["x"].asFloat(), maskFile["masks"][i]["pts"][w]["y"].asFloat()));
+            }
+        }
+    }
+    else {
+        ofLogError() << "Mask File Unavailable";
+    }
+}
+//--------------------------------------------------------------
+void DonationReader::drawMask()
+{
+    ofPushStyle();
+    ofSetColor(ofColor::black);
+    ofFill();
+    for (int i = 0; i < maskPoints.size(); i++) {
+        ofBeginShape();
+        for (int w = 0; w < maskPoints[i].size(); w++) {
+            ofVertex(maskPoints[i][w].x, maskPoints[i][w].y);
+        }
+        ofEndShape(true);
+    }
+    ofPopStyle();
 }

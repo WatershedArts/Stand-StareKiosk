@@ -45,10 +45,10 @@ void VideoPlayer::loadVideo(string url)
     
 //    ofSleepMillis(50);
     
-    int x = (ofGetWidth() - videoPlayer.getWidth()) * 0.5;
-    int y = (ofGetHeight() - videoPlayer.getHeight()) * 0.5;
-    int w = videoPlayer.getWidth();
-    int h = videoPlayer.getHeight();
+    int x = 0;//(ofGetWidth() - videoPlayer.getWidth()) * 0.5;
+    int y = 0;//(ofGetHeight() - videoPlayer.getHeight()) * 0.5;
+    int w = ofGetWidth();
+    int h = ofGetHeight();
     
 //    warperFbo.clear();
     
@@ -90,7 +90,7 @@ void VideoPlayer::updateVideo()
     ofSetColor(fade.update(),255);
     if (videoPlayer.isLoaded()) {
         if(videoPlayer.isPlaying()) {
-            videoPlayer.draw(0, 0);
+            videoPlayer.draw(0, 0,ofGetWidth(),ofGetHeight());
         }
     }
     warperFbo.end();
@@ -295,6 +295,9 @@ string VideoPlayer::getStringStream()
     stringstream datastream;
     float currentVideoTime = (float)(videoPlayer.getPosition()*videoPlayer.getDuration());
     string thisstring = videoPlayer.isPlaying() ? "Currently Playing" : "Standing By";
+    datastream << "|----------------------------------" << endl;
+    datastream << "| Video Handler Player" << endl;
+    datastream << "|----------------------------------" << endl;
     datastream << "| Video is " << thisstring << endl;
     datastream << "| Current Time: " << currentVideoTime << endl;
     datastream << "| Video Position: " << videoPlayer.getPosition() << endl;

@@ -36,6 +36,8 @@ class ArduinoHandler {
         void timerStarted(string &timer);
         void timerFinished(string &timer);
     
+        string getDebugString();
+    
         ofEvent<int> rfidTagRemoved;
         ofEvent<int> donationSlot1Event;
         ofEvent<int> donationSlot2Event;
@@ -50,6 +52,8 @@ class ArduinoHandler {
         int _donationPin2;
         int _LEDPin1;
         int _LEDPin2;
+    
+        string _arduinoName;
     
         bool _donationLatch1;
         bool _donationLatch2;

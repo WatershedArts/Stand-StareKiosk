@@ -22,10 +22,10 @@
                }
             ],
             "rfidicon" : "Icon 1",
-            "rfidkey" : "",
+            "rfidkey" : "01102ECE8978",
             "videodetails" : "Concientious Objectors",
             "videolength" : "Will remove",
-            "videourl" : "videos/co.mp4"
+            "videourl" : "videos/Laura2.mp4"
          },
          {
             "id" : 2,
@@ -48,10 +48,10 @@
                }
             ],
             "rfidicon" : "Icon 2",
-            "rfidkey" : "",
+            "rfidkey" : "01102E64FFA4",
             "videodetails" : "Charlotte Despard",
             "videolength" : "",
-            "videourl" : "videos/despard.mp4"
+            "videourl" : "videos/Laura2.mp4"
          },
          {
             "id" : 3,
@@ -77,7 +77,7 @@
             "rfidkey" : "RFIDTag 3",
             "videodetails" : "",
             "videolength" : "",
-            "videourl" : "videos/doris.mp4"
+            "videourl" : "videos/Laura2.mp4"
          },
          {
             "id" : 4,
@@ -103,7 +103,7 @@
             "rfidkey" : "RFIDTag 4",
             "videodetails" : "",
             "videolength" : "",
-            "videourl" : "videos/protests.mp4"
+            "videourl" : "videos/Laura2.mp4"
          }
       ]
    }

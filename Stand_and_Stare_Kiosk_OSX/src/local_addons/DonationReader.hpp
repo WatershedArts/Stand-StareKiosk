@@ -13,12 +13,9 @@
 
 #include <stdio.h>
 #include "ofMain.h"
-
-#ifndef PI
-#include "ofxGPIO.h"
-#endif
-
+#include "ofxTween.h"
 #include "MyTimer.hpp"
+#include "ofxJSON.h"
 
 class DonationReader {
     
@@ -35,20 +32,30 @@ public:
     void reset();
     string getStringStream();
     
+    void loadMask();
+    void drawMask();
+    
 private:
     float _sensitivity;
-    int _numberOfSensors;
-    
-    
+    ofxTween bouncingArea;
+    ofxEasingBounce bounce;
+    ofxEasingLinear linear;
+    ofxEasingExpo circ;
     MyTimer donationTimer;
     
-    #ifndef PI
-        SPI *spi;
-        unsigned char *data;
-    #endif
-        int ldrValues[5];
-        int ldrChannel[5];
-        bool donation;
+    ofImage waveshed;
+    ofShader maskShader;
+    ofFbo fbo;
+    ofFbo maskFbo;
+    vector <ofVec3f> waveTopPts;
+    vector <ofVec3f> waveBottomPts;
+    bool buildWave;
+    bool donation;
+    int x;
+    
+    ofxJSONElement maskFile;
+    vector<vector<ofVec2f> > maskPoints;
+    
 protected:
 
 };

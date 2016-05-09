@@ -7,15 +7,22 @@
 //
 
 #include "ArduinoHandler.h"
-
-
 //--------------------------------------------------------------
 void ArduinoHandler::setup(string arduinoName,int delayTime)
 {
-    arduino.connect(arduinoName, 57600);
-    _isConnected = false;
-    ofAddListener(arduino.EInitialized, this, &ArduinoHandler::initializeArduino);
-
+    ofSerial s;
+    s.listDevices();
+    vector <ofSerialDeviceInfo> deviceList = s.getDeviceList();
+    
+    for (int i = 0; i < deviceList.size(); i++) {
+        if (ofIsStringInString(deviceList[i].getDeviceName(), "tty.usbmodem")) {
+            cout << "Connecting" << endl;
+            _arduinoName = "/dev/"+deviceList[i].getDeviceName();
+            arduino.connect(_arduinoName,57600);
+            ofAddListener(arduino.EInitialized, this, &ArduinoHandler::initializeArduino);
+        }
+    }
+    
     delayTimer.setup(delayTime, "RFID Delay", false);
     ofAddListener(delayTimer.timerStarted,this,&ArduinoHandler::timerStarted);
     ofAddListener(delayTimer.timerFinished,this,&ArduinoHandler::timerFinished);
@@ -86,6 +93,22 @@ void ArduinoHandler::initializeArduino(const int & version) {
     arduino.sendDigital(_LEDPin2, ARD_HIGH);
 }
 //--------------------------------------------------------------
+string ArduinoHandler::getDebugString()
+{
+    stringstream datastream;
+    string isConnectedStr = isConnected() ? "Connected" : "Not Connected";
+    datastream << "|----------------------------------" << endl;
+    datastream << "| Arduino" << endl;
+    datastream << "|----------------------------------" << endl;
+    datastream << "| Arduino Name: " << _arduinoName << endl;
+    datastream << "| Is Connected: " << isConnectedStr << endl;
+    datastream << "| Analog 0: " << arduino.getAnalog(_donationPin1) << endl;
+    datastream << "| Analog 1: " << arduino.getAnalog(_donationPin2) << endl;
+    datastream << "| RFID TIR: " << arduino.getDigital(_TIRPin) << endl;
+
+    return datastream.str();
+}
+//--------------------------------------------------------------
 void ArduinoHandler::digitalPinChanged(const int & pinNum)
 {
     if (pinNum == _TIRPin) {
@@ -99,21 +122,21 @@ void ArduinoHandler::analogPinChanged(const int & pinNum)
 {
     if (pinNum == _donationPin1) {
         int v = pinNum;
-        if (!_donationLatch1 && arduino.getAnalog(pinNum) < 940) {
+        if (!_donationLatch1 && arduino.getAnalog(pinNum) < 880) {
             ofNotifyEvent(donationSlot1Event, v, this);
             _donationLatch1 = true;
         }
-        else if (_donationLatch1 && arduino.getAnalog(pinNum) > 940) {
+        else if (_donationLatch1 && arduino.getAnalog(pinNum) > 880) {
             _donationLatch1 = false;
         }
     }
     else if (pinNum == _donationPin2) {
         int v = pinNum;
-        if (!_donationLatch2 && arduino.getAnalog(pinNum) < 940) {
+        if (!_donationLatch2 && arduino.getAnalog(pinNum) < 880) {
             ofNotifyEvent(donationSlot2Event, v, this);
             _donationLatch2 = true;
         }
-        else if (_donationLatch2 && arduino.getAnalog(pinNum) > 940) {
+        else if (_donationLatch2 && arduino.getAnalog(pinNum) > 880) {
             _donationLatch2 = false;
         }
     }

@@ -64,7 +64,7 @@ void PostData::postVideo(string count,string whichVideo,int playpercentage,bool 
     debugData << didFinishVideo << endl;
 }
 //--------------------------------------------------------------
-void PostData::postDonation()
+void PostData::postDonation(int whichSlot)
 {
     debugData.str("");
     ofxHttpForm formIn;
@@ -72,6 +72,7 @@ void PostData::postDonation()
     formIn.method = OFX_HTTP_POST;
     formIn.addFormField("secret", _secretKey);
     formIn.addFormField("count", "1");
+    formIn.addFormField("slot", ofToString(whichSlot));
     string _timestamp = ofGetTimestampString("%Y-%m-%d %H:%M:%s");
     formIn.addFormField("rawtimestamp", _timestamp);
     formIn.addFormField("donation","1");

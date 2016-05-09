@@ -110,30 +110,7 @@ void RFIDReader::threadedFunction()
                         tagBufferIndex = 0;
                     }
                 }
-//
                 tagPreviouslyPresent = tagPresent;
-                
-                // This is the Removal Script
-                // Need to Implement a Arduino based Version
-//                string state = "0";
-                
-//                if(state == "1") {
-//                    tagPresent = true;
-//                }
-//                else {
-//                    tagPresent = false;
-//                }
-                
-//                if(tagPresent != tagPreviouslyPresent) {
-//                    lastTagChangeTime = ofGetElapsedTimeMillis();;
-//                    sendRemove = !tagPresent;
-//                }
-//                
-//                if(sendRemove == true && ((ofGetElapsedTimeMillis() - lastTagChangeTime) > removeTimeout)) {
-//                    string ev = "Tag Removed";
-//                    ofNotifyEvent(tagRemoved, ev, this);
-//                    sendRemove = false;
-//                }
             }
             unlock();
             sleep(10);
@@ -160,11 +137,13 @@ string RFIDReader::getDebugString()
 {
     stringstream datastream;
     string connectionStatus = (isConnected())? "Connected" : "Not Connected";
-//    string tagP = tagPresent ? "True" : "False";
+    string tagP = tagPresent ? "True" : "False";
+    string isConnectedStr = isConnected() ? "Connected" : "Not Connected";
     datastream << "|----------------------------------" << endl;
     datastream << "| RFID Reader" << endl;
     datastream << "|----------------------------------" << endl;
+    datastream << "| Is Connected: " << isConnectedStr << endl;
     datastream << "| Current Tag: " << tagString << endl;
-//    datastream << "| New Tag " << tagP << endl;
+    datastream << "| New Tag " << tagP << endl;
     return datastream.str();
 }
