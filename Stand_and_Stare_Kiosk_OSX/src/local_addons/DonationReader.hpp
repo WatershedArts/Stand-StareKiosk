@@ -34,6 +34,7 @@ public:
     
     void loadMask();
     void drawMask();
+    void drawMaskOutline();
     
 private:
     float _sensitivity;

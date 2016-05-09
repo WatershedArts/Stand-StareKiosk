@@ -73,8 +73,8 @@ void TagAssignment::onModalEvent(ofxModalEvent e)
 void TagAssignment::save(int which)
 {
     ofxJSONElement file;
-    file.open(ofToDataPath("videoConfig.json"));
+    file.open(ofToDataPath("configs/videoConfig.json"));
     file["VideoData"]["videoslist"][which]["rfidkey"] = currentTag;
     file.toStyledString();
-    file.save("videoConfig.json",true);    
+    file.save("configs/videoConfig.json",true);    
 }

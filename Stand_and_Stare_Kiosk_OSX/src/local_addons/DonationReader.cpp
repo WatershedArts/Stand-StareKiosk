@@ -166,3 +166,18 @@ void DonationReader::drawMask()
     }
     ofPopStyle();
 }
+//--------------------------------------------------------------
+void DonationReader::drawMaskOutline()
+{
+    ofPushStyle();
+    ofSetColor(ofColor::white);
+    ofNoFill();
+    for (int i = 0; i < maskPoints.size(); i++) {
+        ofBeginShape();
+        for (int w = 0; w < maskPoints[i].size(); w++) {
+            ofVertex(maskPoints[i][w].x, maskPoints[i][w].y);
+        }
+        ofEndShape(true);
+    }
+    ofPopStyle();
+}

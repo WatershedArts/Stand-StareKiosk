@@ -20,7 +20,7 @@ public:
     //-------------------------------------------
     void load(string image = "/photos/logo.png", string unitName = "", int timerLength = 1000)
     {
-        titleFont.load("MuseoSans_500.otf",30);
+        titleFont.load("fonts/MuseoSans_500.otf",30);
         logo.load(image);
         
         ofAddListener(splashScreenTimer.timerFinished, this, &SplashScreen::timerFinished);

@@ -8,9 +8,9 @@ void ofApp::setup()
     ofSetDataPathRoot("../Resources/data/");
     
     // Load the Configuration
-    appConfiguration.loadConfig("config.json");
+    appConfiguration.loadConfig("configs/config.json");
 //    appConfiguration.printConfiguration();
-    appConfiguration.loadVideoConfig("videoConfig.json");
+    appConfiguration.loadVideoConfig("configs/videoConfig.json");
 //    appConfiguration.printConfiguration();
     
     // Debug Warper
@@ -136,9 +136,7 @@ void ofApp::draw()
             ofPushStyle();
             ofSetColor(255, 255, 255);
             
-            if (showTemplate) {
-                templateImage.draw(0,0,ofGetWidth(),ofGetHeight());
-            }
+            
             donationReader.draw(0, 0);
             ofEnableBlendMode(OF_BLENDMODE_ADD);
             
@@ -172,6 +170,9 @@ void ofApp::draw()
                 videoHandler.drawCalibrationQuads();
                 enticer.drawCalibrationQuads();
             }
+        }
+        if (showTemplate) {
+            donationReader.drawMaskOutline();
         }
         // Draw the debug data from the video Files
         if (canDrawData) {
@@ -500,8 +501,6 @@ void ofApp::appSetup()
     calibrateScreen = false;
     showTemplate = false;
     
-    templateImage.load("map.png");
-    
     // Go straight into the Operation Mode
     applicationMode = 2;
     videoPlayback = 1;
@@ -609,7 +608,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
         showWarper = e.target->getEnabled();
     }
     else if(e.target->is("Reload Video Data")) {
-        appConfiguration.loadVideoConfig("videoConfig.json");
+        appConfiguration.loadVideoConfig("configs/videoConfig.json");
         videoData.clear();
         videoData = appConfiguration.getVideoConfig();
     }

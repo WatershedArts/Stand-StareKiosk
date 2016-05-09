@@ -14,7 +14,7 @@
          "unitid":1,
          "fadeintime" : 1500,
          "fadeouttime" : 1500,
-         "fullscreen" : false,
+         "fullscreen" : true,
          "ldrsensitivity" : 50,
          "warperactive" : false
       },
