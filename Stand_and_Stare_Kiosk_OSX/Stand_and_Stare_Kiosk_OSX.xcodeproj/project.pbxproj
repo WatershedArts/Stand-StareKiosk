@@ -52,6 +52,7 @@
 		63CD2F5C1CE14C3E00743332 /* waveshed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 63CD2F481CE14C3E00743332 /* waveshed.jpg */; };
 		63CD2F5D1CE14C3E00743332 /* maskShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = 63CD2F4A1CE14C3E00743332 /* maskShader.frag */; };
 		63CD2F5E1CE14C3E00743332 /* maskShader.vert in Resources */ = {isa = PBXBuildFile; fileRef = 63CD2F4B1CE14C3E00743332 /* maskShader.vert */; };
+		63CD2F6A1CE1CD8200743332 /* ofxBlurShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63CD2F671CE1CD8200743332 /* ofxBlurShader.cpp */; };
 		63CEBD0D6130B08B599C6C30 /* ofxEasingSine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05B3CD72F404F949CAA52FB4 /* ofxEasingSine.cpp */; };
 		63DDECBE1C7E10A700E95C76 /* Calibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DDECA01C7E10A700E95C76 /* Calibration.cpp */; };
 		63DDECBF1C7E10A700E95C76 /* DonationReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DDECA21C7E10A700E95C76 /* DonationReader.cpp */; };
@@ -269,6 +270,8 @@
 		63CD2F481CE14C3E00743332 /* waveshed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = waveshed.jpg; sourceTree = "<group>"; };
 		63CD2F4A1CE14C3E00743332 /* maskShader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = maskShader.frag; sourceTree = "<group>"; };
 		63CD2F4B1CE14C3E00743332 /* maskShader.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = maskShader.vert; sourceTree = "<group>"; };
+		63CD2F671CE1CD8200743332 /* ofxBlurShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxBlurShader.cpp; sourceTree = "<group>"; };
+		63CD2F681CE1CD8200743332 /* ofxBlurShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBlurShader.h; sourceTree = "<group>"; };
 		63D5E738C1964A8900B98969 /* hybridtracker.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = hybridtracker.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/hybridtracker.hpp; sourceTree = SOURCE_ROOT; };
 		63DDECA01C7E10A700E95C76 /* Calibration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Calibration.cpp; path = src/local_addons/Calibration.cpp; sourceTree = "<group>"; };
 		63DDECA11C7E10A700E95C76 /* Calibration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Calibration.hpp; path = src/local_addons/Calibration.hpp; sourceTree = "<group>"; };
@@ -894,6 +897,33 @@
 			path = bin/data/shaders;
 			sourceTree = "<group>";
 		};
+		63CD2F651CE1CD8200743332 /* ofxBlurShader */ = {
+			isa = PBXGroup;
+			children = (
+				63CD2F661CE1CD8200743332 /* src */,
+				63CD2F691CE1CD8200743332 /* libs */,
+			);
+			name = ofxBlurShader;
+			sourceTree = "<group>";
+		};
+		63CD2F661CE1CD8200743332 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				63CD2F671CE1CD8200743332 /* ofxBlurShader.cpp */,
+				63CD2F681CE1CD8200743332 /* ofxBlurShader.h */,
+			);
+			name = src;
+			path = ../../../../addons/ofxBlurShader/src;
+			sourceTree = "<group>";
+		};
+		63CD2F691CE1CD8200743332 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = libs;
+			path = ../../../../addons/ofxBlurShader/libs;
+			sourceTree = "<group>";
+		};
 		641362CA659FAFEE4E81001B /* posix */ = {
 			isa = PBXGroup;
 			children = (
@@ -1185,6 +1215,7 @@
 				92CB46D48EC846004FCBE8EF /* ofxSmartFont */,
 				1F293A20D2B096D59C4F24DD /* ofxTween */,
 				63CD2F1C1CE137CD00743332 /* ofxXmlSettings */,
+				63CD2F651CE1CD8200743332 /* ofxBlurShader */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1655,6 +1686,7 @@
 				1C19ABCBD11F1508A4A783F7 /* IpEndpointName.cpp in Sources */,
 				C9AAB1E719BC2B1B5B42DD97 /* NetworkingUtils.cpp in Sources */,
 				DD640E91A59C500218580845 /* UdpSocket.cpp in Sources */,
+				63CD2F6A1CE1CD8200743332 /* ofxBlurShader.cpp in Sources */,
 				2E00B1C9F92029E297DD0B76 /* OscOutboundPacketStream.cpp in Sources */,
 				D942004DA1801633AB1BC2BA /* OscPrintReceivedElements.cpp in Sources */,
 				7733102A165F3EF58830E0F0 /* OscReceivedElements.cpp in Sources */,

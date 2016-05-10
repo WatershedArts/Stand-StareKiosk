@@ -18,6 +18,7 @@ void DonationReader::setup(string name)
     
     maskFbo.allocate(ofGetWidth(), ofGetHeight());
     fbo.allocate(ofGetWidth(), ofGetHeight());
+    blurShader.setup(ofGetWidth(), ofGetHeight());
     
     maskFbo.begin();
     ofClear(0);
@@ -47,6 +48,8 @@ void DonationReader::setSensitivity(float sensitivity)
 //--------------------------------------------------------------
 void DonationReader::update()
 {
+//    blurShader.setScale(0.5);
+//    blurShader.setRotation(1);
     if(x < ofGetWidth()) {
         int y1Origin = 0;
         int y2Origin = ofGetHeight();
@@ -59,10 +62,12 @@ void DonationReader::update()
     
     donationTimer.update();
    
+    
     maskFbo.begin();
     ofClear(0, 0, 0);
-    ofPushStyle();
+    blurShader.begin();
     
+    ofPushStyle();
     ofPushMatrix();
     ofTranslate(0,bouncingArea.update());
     ofSetColor(ofColor::white);
@@ -79,9 +84,12 @@ void DonationReader::update()
     ofVertex(0, ofGetHeight());
     ofEndShape(false);
     ofPopMatrix();
-    ofPopStyle();
     
+    
+    ofPopStyle();
+    blurShader.end();
     maskFbo.end();
+    
     
 }
 //--------------------------------------------------------------
@@ -99,6 +107,7 @@ void DonationReader::draw(int x, int y)
         fbo.end();
         
         fbo.draw(0,0);
+//        blurShader.draw();
         drawMask();
     }
 }

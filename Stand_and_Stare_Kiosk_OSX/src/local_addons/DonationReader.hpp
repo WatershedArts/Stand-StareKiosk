@@ -16,6 +16,7 @@
 #include "ofxTween.h"
 #include "MyTimer.hpp"
 #include "ofxJSON.h"
+#include "ofxBlurShader.h"
 
 class DonationReader {
     
@@ -46,6 +47,7 @@ private:
     
     ofImage waveshed;
     ofShader maskShader;
+    ofxBlurShader blurShader;
     ofFbo fbo;
     ofFbo maskFbo;
     vector <ofVec3f> waveTopPts;
