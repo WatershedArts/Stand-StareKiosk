@@ -1,13 +1,13 @@
 //
-//  PostData.hpp
+//  PostData.h
 //  Stand_StareKiosk
 //
 //  Created by David Haylock on 26/11/2015.
 //
 //
 
-#ifndef PostData_hpp
-#define PostData_hpp
+#ifndef PostData_h
+#define PostData_h
 
 #include <stdio.h>
 #include "ofMain.h"
@@ -36,4 +36,4 @@ private:
     stringstream debugData;
 };
 
-#endif /* PostData_hpp */
+#endif /* PostData_h */

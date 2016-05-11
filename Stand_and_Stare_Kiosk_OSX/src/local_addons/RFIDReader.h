@@ -1,13 +1,13 @@
 //
-//  RFIDReader.hpp
+//  RFIDReader.h
 //  Stand_StareKiosk
 //
 //  Created by David Haylock on 26/11/2015.
 //
 //
 
-#ifndef RFIDReader_hpp
-#define RFIDReader_hpp
+#ifndef RFIDReader_h
+#define RFIDReader_h
 
 #include <stdio.h>
 #include "ofMain.h"
@@ -63,4 +63,4 @@ protected:
     void threadedFunction();
 };
 
-#endif /* RFIDReader_hpp */
+#endif /* RFIDReader_h */

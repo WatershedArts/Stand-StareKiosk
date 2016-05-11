@@ -3,51 +3,15 @@
       "videoslist" : [
          {
             "id" : 1,
-            "quadwarping" : [
-               {
-                  "tplx" : 0,
-                  "tply" : 0
-               },
-               {
-                  "tprx" : 0,
-                  "tpry" : 0
-               },
-               {
-                  "btlx" : 0,
-                  "btly" : 0
-               },
-               {
-                  "btrx" : 0,
-                  "btry" : 0
-               }
-            ],
-            "rfidicon" : "Icon 1",
+            "rfidicon" : "Mug",
             "rfidkey" : "01102ECE8978",
-            "videodetails" : "Concientious Objectors",
-            "videolength" : "Will remove",
+            "videodetails" : "",
+            "videolength" : "",
             "videourl" : "videos/Laura2.mp4"
          },
          {
             "id" : 2,
-            "quadwarping" : [
-               {
-                  "x" : 0,
-                  "y" : 0
-               },
-               {
-                  "x" : 0,
-                  "y" : 0
-               },
-               {
-                  "x" : 0,
-                  "y" : 0
-               },
-               {
-                  "x" : 0,
-                  "y" : 0
-               }
-            ],
-            "rfidicon" : "Icon 2",
+            "rfidicon" : "Microphone",
             "rfidkey" : "01102E64FFA4",
             "videodetails" : "Charlotte Despard",
             "videolength" : "",
@@ -55,25 +19,7 @@
          },
          {
             "id" : 3,
-            "quadwarping" : [
-               {
-                  "x" : 0,
-                  "y" : 0
-               },
-               {
-                  "x" : 0,
-                  "y" : 0
-               },
-               {
-                  "x" : 0,
-                  "y" : 0
-               },
-               {
-                  "x" : 0,
-                  "y" : 0
-               }
-            ],
-            "rfidicon" : "Icon 3",
+            "rfidicon" : "Hook",
             "rfidkey" : "RFIDTag 3",
             "videodetails" : "",
             "videolength" : "",
@@ -81,30 +27,28 @@
          },
          {
             "id" : 4,
-            "quadwarping" : [
-               {
-                  "x" : 0,
-                  "y" : 0
-               },
-               {
-                  "x" : 0,
-                  "y" : 0
-               },
-               {
-                  "x" : 0,
-                  "y" : 0
-               },
-               {
-                  "x" : 0,
-                  "y" : 0
-               }
-            ],
-            "rfidicon" : "Icon 4",
+            "rfidicon" : "Pillars",
             "rfidkey" : "RFIDTag 4",
             "videodetails" : "",
             "videolength" : "",
             "videourl" : "videos/Laura2.mp4"
-         }
+          },
+          {
+            "id" : 5,
+            "rfidicon" : "Ticket",
+            "rfidkey" : "RFIDTag 5",
+            "videodetails" : "",
+            "videolength" : "",
+            "videourl" : "videos/Laura2.mp4"
+          },
+          {
+            "id" : 6,
+            "rfidicon" : "Light Bulb",
+            "rfidkey" : "RFIDTag 6",
+            "videodetails" : "",
+            "videolength" : "",
+            "videourl" : "videos/Laura2.mp4"
+          }
       ]
    }
 }

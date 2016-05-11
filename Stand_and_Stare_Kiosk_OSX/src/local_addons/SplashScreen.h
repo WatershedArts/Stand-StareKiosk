@@ -10,7 +10,7 @@
 #define SplashScreen_h
 
 #include "ofMain.h"
-#include "MyTimer.hpp"
+#include "MyTimer.h"
 
 class SplashScreen {
 public:

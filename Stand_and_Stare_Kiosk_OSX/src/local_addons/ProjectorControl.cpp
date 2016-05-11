@@ -6,7 +6,7 @@
 //
 //
 
-#include "ProjectorControl.hpp"
+#include "ProjectorControl.h"
 //--------------------------------------------------------------
 void ProjectorControl::setupProjector(string projectorSerialName)
 {

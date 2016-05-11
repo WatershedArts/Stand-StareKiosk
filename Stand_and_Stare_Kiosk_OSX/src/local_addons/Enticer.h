@@ -1,13 +1,13 @@
 //
-//  Enticer.hpp
+//  Enticer.h
 //  Stand_StareKiosk
 //
 //  Created by David Haylock on 26/11/2015.
 //
 //
 
-#ifndef Enticer_hpp
-#define Enticer_hpp
+#ifndef Enticer_h
+#define Enticer_h
 
 #include <stdio.h>
 #include "ofMain.h"
@@ -98,4 +98,4 @@ class EnticerVisuals : public ofThread {
     
 };
 
-#endif /* Enticer_hpp */
+#endif /* Enticer_h */

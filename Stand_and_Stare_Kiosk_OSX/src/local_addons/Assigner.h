@@ -1,17 +1,17 @@
 //
-//  Assigner.hpp
+//  Assigner.h
 //  Stand_and_Stare_Kiosk_OSX
 //
 //  Created by David Haylock on 01/03/2016.
 //
 //
 
-#ifndef Assigner_hpp
-#define Assigner_hpp
+#ifndef Assigner_h
+#define Assigner_h
 
 #include <stdio.h>
 #include "ofMain.h"
-#include "LoadSettings.hpp"
+#include "LoadSettings.h"
 #include "ofxModal.h"
 
 
@@ -115,4 +115,4 @@ class TagAssignment {
         map<int,TagInformation> information;
 };
 
-#endif /* Assigner_hpp */
+#endif /* Assigner_h */

@@ -1,13 +1,13 @@
 //
-//  ProjectorControl.hpp
+//  ProjectorControl.h
 //  Stand_StareKiosk
 //
 //  Created by David Haylock on 16/12/2015.
 //
 //
 
-#ifndef ProjectorControl_hpp
-#define ProjectorControl_hpp
+#ifndef ProjectorControl_h
+#define ProjectorControl_h
 
 #include <stdio.h>
 #include "ofMain.h"
@@ -29,4 +29,4 @@ private:
 protected:
 };
 
-#endif /* ProjectorControl_hpp */
+#endif /* ProjectorControl_h */

@@ -1,13 +1,13 @@
 //
-//  LoadSettings.hpp
+//  LoadSettings.h
 //  Stand_StareKiosk
 //
 //  Created by David Haylock on 26/11/2015.
 //
 //
 
-#ifndef LoadSettings_hpp
-#define LoadSettings_hpp
+#ifndef LoadSettings_h
+#define LoadSettings_h
 
 #include <stdio.h>
 #include "ofMain.h"
@@ -106,4 +106,4 @@ class LoadSettings {
     protected:
         ofxJSONElement configFile;
 };
-#endif /* LoadSettings_hpp */
+#endif /* LoadSettings_h */

@@ -1,13 +1,13 @@
 //
-//  MyTimer.hpp
+//  MyTimer.h
 //  Stand_StareKiosk
 //
 //  Created by David Haylock on 26/11/2015.
 //
 //
 
-#ifndef MyTimer_hpp
-#define MyTimer_hpp
+#ifndef MyTimer_h
+#define MyTimer_h
 
 #include <stdio.h>
 #include "ofMain.h"
@@ -52,4 +52,4 @@ private:
     string _timerName;
 };
 
-#endif /* MyTimer_hpp */
+#endif /* MyTimer_h */

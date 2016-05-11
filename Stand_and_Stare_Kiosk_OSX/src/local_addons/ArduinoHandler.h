@@ -12,7 +12,7 @@
 #include <stdio.h>
 
 #include "ofMain.h"
-#include "MyTimer.hpp"
+#include "MyTimer.h"
 
 class ArduinoHandler {
     public:

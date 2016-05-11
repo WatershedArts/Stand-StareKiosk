@@ -1,13 +1,13 @@
 //
-//  VideoPlayer.hpp
+//  VideoPlayer.h
 //  Stand_StareKiosk
 //
 //  Created by David Haylock on 26/11/2015.
 //
 //
 
-#ifndef VideoPlayer_hpp
-#define VideoPlayer_hpp
+#ifndef VideoPlayer_h
+#define VideoPlayer_h
 
 #include <stdio.h>
 #include "ofxTween.h"
@@ -96,4 +96,4 @@ class VideoPlayer {
         float videoLength;
 };
 
-#endif /* VideoPlayer_hpp */
+#endif /* VideoPlayer_h */

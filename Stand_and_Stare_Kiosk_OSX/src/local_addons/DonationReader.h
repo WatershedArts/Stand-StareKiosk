@@ -1,5 +1,5 @@
 //
-//  DonationReader.hpp
+//  DonationReader.h
 //  Stand_StareKiosk
 //
 //  Created by David Haylock on 26/11/2015.
@@ -8,13 +8,13 @@
 
 //#define PI
 
-#ifndef DonationReader_hpp
-#define DonationReader_hpp
+#ifndef DonationReader_h
+#define DonationReader_h
 
 #include <stdio.h>
 #include "ofMain.h"
 #include "ofxTween.h"
-#include "MyTimer.hpp"
+#include "MyTimer.h"
 #include "ofxJSON.h"
 #include "ofxBlurShader.h"
 
@@ -26,6 +26,7 @@ public:
     void setSensitivity(float sensitivity);
     void draw(int x, int y);
     bool gotDonation();
+    bool canDonate();
 
     // Debug only
     void simulateDonation();
@@ -36,6 +37,7 @@ public:
     void loadMask();
     void drawMask();
     void drawMaskOutline();
+    void drawScreens();
     
 private:
     float _sensitivity;
@@ -64,4 +66,4 @@ protected:
 };
 
 
-#endif /* DonationReader_hpp */
+#endif /* DonationReader_h */

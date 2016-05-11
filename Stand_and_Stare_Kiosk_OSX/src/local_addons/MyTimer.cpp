@@ -6,7 +6,7 @@
 //
 //
 
-#include "MyTimer.hpp"
+#include "MyTimer.h"
 
 //--------------------------------------------------------------
 void MyTimer::setup(float timerLength,string timerName,bool loop)

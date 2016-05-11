@@ -1,13 +1,13 @@
 //
-//  Calibration.hpp
+//  Calibration.h
 //  Stand_StareKiosk
 //
 //  Created by David Haylock on 30/11/2015.
 //
 //
 
-#ifndef Calibration_hpp
-#define Calibration_hpp
+#ifndef Calibration_h
+#define Calibration_h
 
 #include <stdio.h>
 #include "ofMain.h"
@@ -118,4 +118,4 @@ protected:
 
 
 
-#endif /* Calibration_hpp */
+#endif /* Calibration_h */
