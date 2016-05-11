@@ -26,12 +26,7 @@ void EnticerVisuals::loadVideo(string url)
     videoPlayer.setLoopState(OF_LOOP_NORMAL);
     videoName = url;
     videoLength = videoPlayer.getDuration();
-//
-//    cout << "Loading " << url << endl;
-//    int x = (ofGetWidth() - videoPlayer.getWidth()) * 0.5;
-//    int y = (ofGetHeight() - videoPlayer.getHeight()) * 0.5;
-//    int w = videoPlayer.getWidth();
-//    int h = videoPlayer.getHeight();
+
     
     cout << "Loading " << url << endl;
     int x = 0;
