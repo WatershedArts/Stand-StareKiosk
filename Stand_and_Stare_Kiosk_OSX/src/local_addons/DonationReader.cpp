@@ -11,14 +11,14 @@
 void DonationReader::setup(string name)
 {
     loadMask();
-    donationTimer.setup(5000, "Donation", false);
+    donationTimer.setup(3400, "Donation", false);
     waveshed.load("photos/waveshed.jpg");
     
     maskShader.load("shaders/maskShader");
     
     maskFbo.allocate(ofGetWidth(), ofGetHeight());
     fbo.allocate(ofGetWidth(), ofGetHeight());
-    blurShader.setup(ofGetWidth(), ofGetHeight());
+//    blurShader.setup(ofGetWidth(), ofGetHeight());
     
     maskFbo.begin();
     ofClear(0);
@@ -61,7 +61,7 @@ void DonationReader::update()
     
     maskFbo.begin();
     ofClear(0, 0, 0);
-    blurShader.begin(5,5);
+//    blurShader.begin(5,5);
     
     ofPushStyle();
     ofPushMatrix();
@@ -83,15 +83,19 @@ void DonationReader::update()
     
     
     ofPopStyle();
-    blurShader.end();
+//    blurShader.end();
     maskFbo.end();
     
     
 }
 //--------------------------------------------------------------
+bool DonationReader::canDonate()
+{
+    return donationTimer.hasTimerFinished();
+}
+//--------------------------------------------------------------
 void DonationReader::draw(int x, int y)
 {
-    
     if (!donationTimer.hasTimerFinished()) {
         fbo.begin();
         ofClear(0, 0, 0);
@@ -121,7 +125,7 @@ string DonationReader::getStringStream()
 void DonationReader::simulateDonation()
 {
     donationTimer.start();
-    bouncingArea.setParameters(0, linear, ofxTween::easeInOut, -ofGetHeight(), ofGetHeight()*2, 4000, 10);
+    bouncingArea.setParameters(0, linear, ofxTween::easeInOut, -ofGetHeight(), ofGetHeight()*2, 3500, 10);
 }
 //--------------------------------------------------------------
 void DonationReader::close()

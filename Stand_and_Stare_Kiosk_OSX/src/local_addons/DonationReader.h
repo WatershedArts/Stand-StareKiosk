@@ -26,6 +26,7 @@ public:
     void setSensitivity(float sensitivity);
     void draw(int x, int y);
     bool gotDonation();
+    bool canDonate();
 
     // Debug only
     void simulateDonation();

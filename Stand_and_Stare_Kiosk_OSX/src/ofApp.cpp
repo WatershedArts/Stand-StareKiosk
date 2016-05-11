@@ -216,9 +216,10 @@ void ofApp::keyPressed(int key)
             canDrawData = !canDrawData;
             break;
         case 'd':
-            donationReader.simulateDonation();
-            //postData.postDonation(0);
-            postData.postDonation(1);
+            if (donationReader.canDonate()) {
+                donationReader.simulateDonation();
+                postData.postDonation(1);
+            }
             break;
         case 'r':
             rfidReader.simulateTagRemoval();
@@ -255,23 +256,7 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-    if (applicationMode == 0) {
-        if (calibrateScreen) {
-//            if (gui->getVisible()) {
-//                guiWindow = ofRectangle(gui->getPosition().x,gui->getPosition().y,gui->getWidth(),gui->getHeight());
-            
-                // This function is to stop the mouse Click through the GUI Window
-//                if (!guiWindow.inside(x, y)) {
-//                    calibrationScreen.mousePressed(x, y, button);
-//                }
-//                else {
-//                }
-//            }
-//            else {
-                calibrationScreen.mousePressed(x, y, button);
-//            }
-        }
-    }
+    if (applicationMode == 0) {     }
     else if(applicationMode == 1) {
         tagAssigner.mousePressed(x, y, button);
     }
@@ -449,10 +434,12 @@ void ofApp::timerStopped(string &timer)
 //--------------------------------------------------------------
 void ofApp::gotDonation(int &pin)
 {
-    cout << "Got Donation" << endl;
-    postData.postDonation(pin);
-    donationReader.simulateDonation();
-    donationsToday++;
+    if (donationReader.canDonate()) {
+        cout << "Got Donation" << endl;
+        postData.postDonation(pin);
+        donationReader.simulateDonation();
+        donationsToday++;
+    }
 }
 #pragma mark - Extra Setup Routine
 //--------------------------------------------------------------
@@ -624,8 +611,8 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
     if(e.target->is("App Mode")) {
         if (e.target->getLabel() == "CALIBRATION MODE") {
-            applicationMode = 0;
-            gui->getFolder("Calibration")->expand();
+//            applicationMode = 0;
+//            gui->getFolder("Calibration")->expand();
         }
         else if (e.target->getLabel() == "ASSIGNING MODE") {
             applicationMode = 1;
