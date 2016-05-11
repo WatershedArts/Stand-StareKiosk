@@ -7,7 +7,7 @@
       "Enticer" : {
          "fadein" : 1500,
          "fadeout" : 1500,
-         "videourl" : "videos/Opening.loop.mp4"
+         "videourl" : "videos/enticer.mp4"
       },
       "General" : {
          "unitname":"Watershed Jukebox",
@@ -38,8 +38,8 @@
       ],
       "PostData" : {
         "postext" : "upload.php",
-        "posthost" : "",
-        "secretkey" : ""
+        "posthost" : "http://givingjukebox.wproj.org/",
+        "secretkey" : "ahkjhu3eriand34s"
 
       },
       "RFID" : {

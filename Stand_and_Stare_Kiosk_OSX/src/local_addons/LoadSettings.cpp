@@ -6,7 +6,7 @@
 //
 //
 
-#include "LoadSettings.hpp"
+#include "LoadSettings.h"
 //--------------------------------------------------------------
 void LoadSettings::loadConfig(string loadFile)
 {
@@ -87,16 +87,16 @@ void LoadSettings::loadVideoConfig(string loadFile)
             vd.videoDetails = configFile["VideoData"]["videoslist"][video]["videodetails"].asString();
 
             vd.RFIDkey = configFile["VideoData"]["videoslist"][video]["rfidkey"].asString();
-            vd.RFIDIcon = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["rfidicon"].asString();
-            vd.RFIDIcon = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["rfidicon"].asString();
+            vd.RFIDIcon = configFile["VideoData"]["videoslist"][video]["rfidicon"].asString();
+//            vd.RFIDIcon = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["rfidicon"].asString();
 
-            // Get the Warping points
-            int warpingPts = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["quadwarping"].size();
-            for (int warpPts = 0; warpPts < warpingPts; warpPts++) {
-                ofPoint p = ofPoint(configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["quadwarping"][warpPts]["x"].asInt(),
-                                    configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["quadwarping"][warpPts]["y"].asInt());
-                vd.quadWarpingPoints.push_back(p);
-            }
+//            // Get the Warping points
+//            int warpingPts = configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["quadwarping"].size();
+//            for (int warpPts = 0; warpPts < warpingPts; warpPts++) {
+//                ofPoint p = ofPoint(configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["quadwarping"][warpPts]["x"].asInt(),
+//                                    configFile["Stand&Stare"]["VideoData"]["videoslist"][video]["quadwarping"][warpPts]["y"].asInt());
+//                vd.quadWarpingPoints.push_back(p);
+//            }
             d.push_back(vd);
         }
     }

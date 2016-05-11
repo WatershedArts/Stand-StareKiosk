@@ -6,7 +6,7 @@
 //  Created by Dan Williams for Arduino
 //
 
-#include "RFIDReader.hpp"
+#include "RFIDReader.h"
 //--------------------------------------------------------------
 void RFIDReader::setup(string deviceName,int removeDelay)
 {

@@ -1,19 +1,18 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ProjectorControl.hpp"
-#include "DonationReader.hpp"
-#include "ObjectHandler.hpp"
-#include "LoadSettings.hpp"
-#include "VideoPlayer.hpp"
-#include "Calibration.hpp"
-#include "RFIDReader.hpp"
-#include "Enticer.hpp"
-#include "PostData.hpp"
+#include "ProjectorControl.h"
+#include "DonationReader.h"
+#include "LoadSettings.h"
+#include "VideoPlayer.h"
+#include "Calibration.h"
+#include "RFIDReader.h"
+#include "Enticer.h"
+#include "PostData.h"
 #include "ofxDatGui.h"
-#include "MyTimer.hpp"
+#include "MyTimer.h"
 #include "terminalListener.h"
-#include "Assigner.hpp"
+#include "Assigner.h"
 #include "SplashScreen.h"
 #include "ArduinoHandler.h"
 
@@ -138,7 +137,6 @@ public:
     Calibration calibrationScreen;
     VideoPlayer videoHandler;
     EnticerVisuals enticer;
-    ObjectHandler objects;
     RFIDReader rfidReader;
     PostData postData;
     TagAssignment tagAssigner;

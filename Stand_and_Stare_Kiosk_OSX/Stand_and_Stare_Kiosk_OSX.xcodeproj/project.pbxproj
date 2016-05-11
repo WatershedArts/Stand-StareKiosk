@@ -59,7 +59,6 @@
 		63DDECC01C7E10A700E95C76 /* Enticer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DDECA41C7E10A700E95C76 /* Enticer.cpp */; };
 		63DDECC21C7E10A700E95C76 /* LoadSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DDECA81C7E10A700E95C76 /* LoadSettings.cpp */; };
 		63DDECC41C7E10A700E95C76 /* MyTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DDECAC1C7E10A700E95C76 /* MyTimer.cpp */; };
-		63DDECC51C7E10A700E95C76 /* ObjectHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DDECAE1C7E10A700E95C76 /* ObjectHandler.cpp */; };
 		63DDECC61C7E10A700E95C76 /* PostData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DDECB01C7E10A700E95C76 /* PostData.cpp */; };
 		63DDECC71C7E10A700E95C76 /* ProjectorControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DDECB21C7E10A700E95C76 /* ProjectorControl.cpp */; };
 		63DDECC81C7E10A700E95C76 /* RFIDReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63DDECB41C7E10A700E95C76 /* RFIDReader.cpp */; };
@@ -243,7 +242,7 @@
 		634319221CB2B5F900CF3FBE /* SplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SplashScreen.h; path = src/local_addons/SplashScreen.h; sourceTree = "<group>"; };
 		6359E49ABAC30E29E99A27D9 /* stitcher.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = stitcher.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/stitching/stitcher.hpp; sourceTree = SOURCE_ROOT; };
 		63CAC1A31C85A8D50029863B /* Assigner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Assigner.cpp; path = src/local_addons/Assigner.cpp; sourceTree = "<group>"; };
-		63CAC1A41C85A8D50029863B /* Assigner.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Assigner.hpp; path = src/local_addons/Assigner.hpp; sourceTree = "<group>"; };
+		63CAC1A41C85A8D50029863B /* Assigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Assigner.h; path = src/local_addons/Assigner.h; sourceTree = "<group>"; };
 		63CAC1A91C85E35C0029863B /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Icon.icns; path = bin/data/Icon.icns; sourceTree = "<group>"; };
 		63CD2F1E1CE137CD00743332 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
 		63CD2F1F1CE137CD00743332 /* ofxXmlSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
@@ -274,27 +273,25 @@
 		63CD2F681CE1CD8200743332 /* ofxBlurShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBlurShader.h; sourceTree = "<group>"; };
 		63D5E738C1964A8900B98969 /* hybridtracker.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = hybridtracker.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/hybridtracker.hpp; sourceTree = SOURCE_ROOT; };
 		63DDECA01C7E10A700E95C76 /* Calibration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Calibration.cpp; path = src/local_addons/Calibration.cpp; sourceTree = "<group>"; };
-		63DDECA11C7E10A700E95C76 /* Calibration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Calibration.hpp; path = src/local_addons/Calibration.hpp; sourceTree = "<group>"; };
+		63DDECA11C7E10A700E95C76 /* Calibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Calibration.h; path = src/local_addons/Calibration.h; sourceTree = "<group>"; };
 		63DDECA21C7E10A700E95C76 /* DonationReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DonationReader.cpp; path = src/local_addons/DonationReader.cpp; sourceTree = "<group>"; };
-		63DDECA31C7E10A700E95C76 /* DonationReader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DonationReader.hpp; path = src/local_addons/DonationReader.hpp; sourceTree = "<group>"; };
+		63DDECA31C7E10A700E95C76 /* DonationReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DonationReader.h; path = src/local_addons/DonationReader.h; sourceTree = "<group>"; };
 		63DDECA41C7E10A700E95C76 /* Enticer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Enticer.cpp; path = src/local_addons/Enticer.cpp; sourceTree = "<group>"; };
-		63DDECA51C7E10A700E95C76 /* Enticer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Enticer.hpp; path = src/local_addons/Enticer.hpp; sourceTree = "<group>"; };
+		63DDECA51C7E10A700E95C76 /* Enticer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enticer.h; path = src/local_addons/Enticer.h; sourceTree = "<group>"; };
 		63DDECA81C7E10A700E95C76 /* LoadSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LoadSettings.cpp; path = src/local_addons/LoadSettings.cpp; sourceTree = "<group>"; };
-		63DDECA91C7E10A700E95C76 /* LoadSettings.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LoadSettings.hpp; path = src/local_addons/LoadSettings.hpp; sourceTree = "<group>"; };
+		63DDECA91C7E10A700E95C76 /* LoadSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadSettings.h; path = src/local_addons/LoadSettings.h; sourceTree = "<group>"; };
 		63DDECAC1C7E10A700E95C76 /* MyTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MyTimer.cpp; path = src/local_addons/MyTimer.cpp; sourceTree = "<group>"; };
-		63DDECAD1C7E10A700E95C76 /* MyTimer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MyTimer.hpp; path = src/local_addons/MyTimer.hpp; sourceTree = "<group>"; };
-		63DDECAE1C7E10A700E95C76 /* ObjectHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectHandler.cpp; path = src/local_addons/ObjectHandler.cpp; sourceTree = "<group>"; };
-		63DDECAF1C7E10A700E95C76 /* ObjectHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ObjectHandler.hpp; path = src/local_addons/ObjectHandler.hpp; sourceTree = "<group>"; };
+		63DDECAD1C7E10A700E95C76 /* MyTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyTimer.h; path = src/local_addons/MyTimer.h; sourceTree = "<group>"; };
 		63DDECB01C7E10A700E95C76 /* PostData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PostData.cpp; path = src/local_addons/PostData.cpp; sourceTree = "<group>"; };
-		63DDECB11C7E10A700E95C76 /* PostData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PostData.hpp; path = src/local_addons/PostData.hpp; sourceTree = "<group>"; };
+		63DDECB11C7E10A700E95C76 /* PostData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostData.h; path = src/local_addons/PostData.h; sourceTree = "<group>"; };
 		63DDECB21C7E10A700E95C76 /* ProjectorControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProjectorControl.cpp; path = src/local_addons/ProjectorControl.cpp; sourceTree = "<group>"; };
-		63DDECB31C7E10A700E95C76 /* ProjectorControl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ProjectorControl.hpp; path = src/local_addons/ProjectorControl.hpp; sourceTree = "<group>"; };
+		63DDECB31C7E10A700E95C76 /* ProjectorControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectorControl.h; path = src/local_addons/ProjectorControl.h; sourceTree = "<group>"; };
 		63DDECB41C7E10A700E95C76 /* RFIDReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RFIDReader.cpp; path = src/local_addons/RFIDReader.cpp; sourceTree = "<group>"; };
-		63DDECB51C7E10A700E95C76 /* RFIDReader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RFIDReader.hpp; path = src/local_addons/RFIDReader.hpp; sourceTree = "<group>"; };
+		63DDECB51C7E10A700E95C76 /* RFIDReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RFIDReader.h; path = src/local_addons/RFIDReader.h; sourceTree = "<group>"; };
 		63DDECB61C7E10A700E95C76 /* SimpleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleButton.h; path = src/local_addons/SimpleButton.h; sourceTree = "<group>"; };
 		63DDECB71C7E10A700E95C76 /* terminalListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = terminalListener.h; path = src/local_addons/terminalListener.h; sourceTree = "<group>"; };
 		63DDECB91C7E10A700E95C76 /* VideoPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VideoPlayer.cpp; path = src/local_addons/VideoPlayer.cpp; sourceTree = "<group>"; };
-		63DDECBA1C7E10A700E95C76 /* VideoPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = VideoPlayer.hpp; path = src/local_addons/VideoPlayer.hpp; sourceTree = "<group>"; };
+		63DDECBA1C7E10A700E95C76 /* VideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoPlayer.h; path = src/local_addons/VideoPlayer.h; sourceTree = "<group>"; };
 		642921593A44F294841B8490 /* common.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = common.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/gpu/device/common.hpp; sourceTree = SOURCE_ROOT; };
 		651889E7CBD7E219544973BD /* features2d.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = features2d.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/nonfree/features2d.hpp; sourceTree = SOURCE_ROOT; };
 		6686FE30BD04DEE9431C5883 /* ofxDatGuiGroups.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiGroups.h; path = ../../../../addons/ofxDatGui/src/components/ofxDatGuiGroups.h; sourceTree = SOURCE_ROOT; };
@@ -948,27 +945,25 @@
 				632C1DAA1CC8C4E00049EB95 /* ArduinoHandler.h */,
 				634319221CB2B5F900CF3FBE /* SplashScreen.h */,
 				63CAC1A31C85A8D50029863B /* Assigner.cpp */,
-				63CAC1A41C85A8D50029863B /* Assigner.hpp */,
+				63CAC1A41C85A8D50029863B /* Assigner.h */,
 				63DDECB41C7E10A700E95C76 /* RFIDReader.cpp */,
-				63DDECB51C7E10A700E95C76 /* RFIDReader.hpp */,
+				63DDECB51C7E10A700E95C76 /* RFIDReader.h */,
 				63DDECA41C7E10A700E95C76 /* Enticer.cpp */,
-				63DDECA51C7E10A700E95C76 /* Enticer.hpp */,
+				63DDECA51C7E10A700E95C76 /* Enticer.h */,
 				63DDECB91C7E10A700E95C76 /* VideoPlayer.cpp */,
-				63DDECBA1C7E10A700E95C76 /* VideoPlayer.hpp */,
+				63DDECBA1C7E10A700E95C76 /* VideoPlayer.h */,
 				63DDECAC1C7E10A700E95C76 /* MyTimer.cpp */,
-				63DDECAD1C7E10A700E95C76 /* MyTimer.hpp */,
+				63DDECAD1C7E10A700E95C76 /* MyTimer.h */,
 				63DDECA81C7E10A700E95C76 /* LoadSettings.cpp */,
-				63DDECA91C7E10A700E95C76 /* LoadSettings.hpp */,
+				63DDECA91C7E10A700E95C76 /* LoadSettings.h */,
 				63DDECA21C7E10A700E95C76 /* DonationReader.cpp */,
-				63DDECA31C7E10A700E95C76 /* DonationReader.hpp */,
+				63DDECA31C7E10A700E95C76 /* DonationReader.h */,
 				63DDECA01C7E10A700E95C76 /* Calibration.cpp */,
-				63DDECA11C7E10A700E95C76 /* Calibration.hpp */,
-				63DDECAE1C7E10A700E95C76 /* ObjectHandler.cpp */,
-				63DDECAF1C7E10A700E95C76 /* ObjectHandler.hpp */,
+				63DDECA11C7E10A700E95C76 /* Calibration.h */,
 				63DDECB01C7E10A700E95C76 /* PostData.cpp */,
-				63DDECB11C7E10A700E95C76 /* PostData.hpp */,
+				63DDECB11C7E10A700E95C76 /* PostData.h */,
 				63DDECB21C7E10A700E95C76 /* ProjectorControl.cpp */,
-				63DDECB31C7E10A700E95C76 /* ProjectorControl.hpp */,
+				63DDECB31C7E10A700E95C76 /* ProjectorControl.h */,
 				63DDECB61C7E10A700E95C76 /* SimpleButton.h */,
 				63DDECB71C7E10A700E95C76 /* terminalListener.h */,
 			);
@@ -1696,7 +1691,6 @@
 				C065B03C6B92AF99B3F6E247 /* ofxSmartFont.cpp in Sources */,
 				1F2524C9643361B25AD6682D /* easing_terms_of_use.html in Sources */,
 				97EAD59D8036B7711F842AA1 /* ofxEasing.cpp in Sources */,
-				63DDECC51C7E10A700E95C76 /* ObjectHandler.cpp in Sources */,
 				63DDECC21C7E10A700E95C76 /* LoadSettings.cpp in Sources */,
 				63CD2F251CE137CD00743332 /* ofxXmlSettings.cpp in Sources */,
 				57A8574977B1119180C8C770 /* ofxEasingBack.cpp in Sources */,

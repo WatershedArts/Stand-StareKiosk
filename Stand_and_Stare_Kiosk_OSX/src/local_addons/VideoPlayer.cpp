@@ -6,7 +6,7 @@
 //
 //
 
-#include "VideoPlayer.hpp"
+#include "VideoPlayer.h"
 
 //--------------------------------------------------------------
 void VideoPlayer::setupVideoPlayer(float fadein, float fadeout,float enticerFadeIn)
@@ -195,7 +195,7 @@ void VideoPlayer::drawVideo()
 //--------------------------------------------------------------
 void VideoPlayer::drawTimeline(int y)
 {
-    int offset = 100;
+    int offset = 350;
     int ticks = 20;
     int playBarLength = ofGetWidth()-(offset*2);
     int tickOffset = playBarLength/ticks;

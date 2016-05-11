@@ -6,7 +6,7 @@
 //
 //
 
-#include "PostData.hpp"
+#include "PostData.h"
 //--------------------------------------------------------------
 void PostData::setup(string postServer, string postExtension, string secretKey)
 {

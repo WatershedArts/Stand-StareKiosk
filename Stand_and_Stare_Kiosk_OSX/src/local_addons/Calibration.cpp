@@ -6,7 +6,7 @@
 //
 //
 
-#include "Calibration.hpp"
+#include "Calibration.h"
 //--------------------------------------------------------------
 void Calibration::setup(vector<ofPoint> pts)
 {

@@ -6,7 +6,7 @@
 //
 //
 
-#include "Enticer.hpp"
+#include "Enticer.h"
 //--------------------------------------------------------------
 void EnticerVisuals::setupVideoPlayer(float fadein, float fadeout,float videoHandlerFadeOut)
 {
@@ -95,12 +95,12 @@ void EnticerVisuals::updateVideo()
         _hasFadedOut = true;
     }
     
-    float currentVideoTime = (float)(videoPlayer.getPosition()*videoPlayer.getDuration());
-    if (currentVideoTime >= (videoLength-(_fadeout/1000))) {
-        if (_hasFadedOut) {
-            stopVideo();
-        }
-    }
+//    float currentVideoTime = (float)(videoPlayer.getPosition()*videoPlayer.getDuration());
+//    if (currentVideoTime >= (videoLength-(_fadeout/1000))) {
+//        if (_hasFadedOut) {
+//            stopVideo();
+//        }
+//    }
     
     warperFbo.begin();
         ofSetColor(fade.update(),255);
@@ -191,7 +191,7 @@ void EnticerVisuals::drawVideo()
 //--------------------------------------------------------------
 void EnticerVisuals::drawTimeline(int y)
 {
-    int offset = 100;
+    int offset = 350;
     int ticks = 20;
     int playBarLength = ofGetWidth()-(offset*2);
     int tickOffset = playBarLength/ticks;
@@ -205,10 +205,7 @@ void EnticerVisuals::drawTimeline(int y)
     else {
         progress = startX+ofMap(videoPlayer.getPosition(),0.00,1.00,0,playBarLength);
     }
-
     
-    
-
     ofPushMatrix();
     ofTranslate(0, y);
     ofPushStyle();
@@ -225,14 +222,13 @@ void EnticerVisuals::drawTimeline(int y)
         ofDrawRectRounded(startX,0, dropFade.update(), 25, 5);
     }
     
-    //    ofDrawRectRounded(startX,0, progress-startX, 25, 5);
-
     ofPushStyle();
     ofSetLineWidth(3);
     ofNoFill();
     ofSetColor(0, 0, 0);
     ofDrawRectRounded(startX,0, playBarLength, 25, 5);
     ofSetLineWidth(1);
+    
     for (int x = 0;  x < ticks; x++) {
         if (x % 2 == 0) {
             ofDrawLine(startX+(x*tickOffset), 7, startX+(x*tickOffset), 25);

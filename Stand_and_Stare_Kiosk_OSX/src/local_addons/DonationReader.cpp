@@ -6,7 +6,7 @@
 //
 //
 
-#include "DonationReader.hpp"
+#include "DonationReader.h"
 //--------------------------------------------------------------
 void DonationReader::setup(string name)
 {
@@ -35,8 +35,6 @@ void DonationReader::setup(string name)
     
     x = 0;
     
-    
-    
     buildWave = false;
 }
 //--------------------------------------------------------------
@@ -48,8 +46,6 @@ void DonationReader::setSensitivity(float sensitivity)
 //--------------------------------------------------------------
 void DonationReader::update()
 {
-//    blurShader.setScale(0.5);
-//    blurShader.setRotation(1);
     if(x < ofGetWidth()) {
         int y1Origin = 0;
         int y2Origin = ofGetHeight();
@@ -65,7 +61,7 @@ void DonationReader::update()
     
     maskFbo.begin();
     ofClear(0, 0, 0);
-    blurShader.begin();
+    blurShader.begin(5,5);
     
     ofPushStyle();
     ofPushMatrix();
@@ -107,7 +103,6 @@ void DonationReader::draw(int x, int y)
         fbo.end();
         
         fbo.draw(0,0);
-//        blurShader.draw();
         drawMask();
     }
 }
@@ -120,17 +115,13 @@ bool DonationReader::gotDonation()
 string DonationReader::getStringStream()
 {
     stringstream datastream;
-//    datastream << "| Reader: " << "he" << endl;
-//    datastream << "| Video Position: " << "a" << endl;
-//    datastream << "| Fade Out Time: " << "alpsdf" << endl;
-//    datastream << "| Video Duration: " << "adg" << endl;
     return datastream.str();
 }
 //--------------------------------------------------------------
 void DonationReader::simulateDonation()
 {
     donationTimer.start();
-    bouncingArea.setParameters(0, linear, ofxTween::easeInOut, -ofGetHeight(), ofGetHeight()*2, 5000, 10);
+    bouncingArea.setParameters(0, linear, ofxTween::easeInOut, -ofGetHeight(), ofGetHeight()*2, 4000, 10);
 }
 //--------------------------------------------------------------
 void DonationReader::close()
@@ -146,7 +137,7 @@ void DonationReader::reset()
 void DonationReader::loadMask()
 {
     maskPoints.clear();
-    if (maskFile.open("mask.json")) {
+    if (maskFile.open("configs/mask.json")) {
         int numberOfMasks = maskFile["masks"].size();
         maskPoints.resize(numberOfMasks);
         for (int i = 0; i < numberOfMasks; i++) {
@@ -189,4 +180,24 @@ void DonationReader::drawMaskOutline()
         ofEndShape(true);
     }
     ofPopStyle();
+}
+//--------------------------------------------------------------
+void DonationReader::drawScreens()
+{
+    ofPushStyle();
+    
+    for (int i = 0; i < maskPoints.size(); i++) {
+        ofSetColor(ofColor::white);
+        ofFill();
+        ofBeginShape();
+        for (int w = 0; w < maskPoints[i].size(); w++) {
+            ofVertex(maskPoints[i][w].x, maskPoints[i][w].y);
+        }
+        ofEndShape(true);
+        ofSetColor(ofColor::black);
+        ofDrawBitmapString("Screen No: " + ofToString(i), maskPoints[i][0].x, maskPoints[i][0].y);
+    }
+    ofPopStyle();
+    
+    
 }

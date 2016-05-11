@@ -6,7 +6,7 @@
 //
 //
 
-#include "Assigner.hpp"
+#include "Assigner.h"
 //--------------------------------------------------------------
 void TagAssignment::setup(deque <VideoData> data)
 {
@@ -15,8 +15,15 @@ void TagAssignment::setup(deque <VideoData> data)
     int offsetX = 300/2;
     int newCenterX = centerX-offsetX;
     
+    vector<ofVec2f> pts;
+    for (int y =0; y < 2; y++) {
+        for (int x =0; x < 3; x++) {
+            pts.push_back(ofVec2f(centerX-((3*325)/2)+(x*325), (ofGetHeight()/2-350)+(y*175)));
+        }
+    }
+    
     for (int i = 0; i < data.size(); i++) {
-        information.insert(std::pair<int, TagInformation>(i, TagInformation(ofPoint(newCenterX,100+(i*120)),i,data[i])));
+        information.insert(std::pair<int, TagInformation>(i, TagInformation(pts[i],i,data[i])));
     }
 }
 //--------------------------------------------------------------
