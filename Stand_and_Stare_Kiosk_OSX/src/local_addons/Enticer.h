@@ -40,6 +40,9 @@ class EnticerVisuals : public ofThread {
         //! Plays Loaded Video
         void playVideo();
     
+        //! Plays Loaded Video
+        void crossFadeVideo();
+    
         //! Stops the Video
         void stopVideo();
     

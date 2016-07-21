@@ -271,6 +271,7 @@
 		63CD2F4B1CE14C3E00743332 /* maskShader.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = maskShader.vert; sourceTree = "<group>"; };
 		63CD2F671CE1CD8200743332 /* ofxBlurShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxBlurShader.cpp; sourceTree = "<group>"; };
 		63CD2F681CE1CD8200743332 /* ofxBlurShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBlurShader.h; sourceTree = "<group>"; };
+		63CDB7DF1CE371E600FFBE6C /* ConfirmWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ConfirmWindow.h; path = src/local_addons/ConfirmWindow.h; sourceTree = "<group>"; };
 		63D5E738C1964A8900B98969 /* hybridtracker.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = hybridtracker.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/hybridtracker.hpp; sourceTree = SOURCE_ROOT; };
 		63DDECA01C7E10A700E95C76 /* Calibration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Calibration.cpp; path = src/local_addons/Calibration.cpp; sourceTree = "<group>"; };
 		63DDECA11C7E10A700E95C76 /* Calibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Calibration.h; path = src/local_addons/Calibration.h; sourceTree = "<group>"; };
@@ -946,6 +947,7 @@
 				634319221CB2B5F900CF3FBE /* SplashScreen.h */,
 				63CAC1A31C85A8D50029863B /* Assigner.cpp */,
 				63CAC1A41C85A8D50029863B /* Assigner.h */,
+				63CDB7DF1CE371E600FFBE6C /* ConfirmWindow.h */,
 				63DDECB41C7E10A700E95C76 /* RFIDReader.cpp */,
 				63DDECB51C7E10A700E95C76 /* RFIDReader.h */,
 				63DDECA41C7E10A700E95C76 /* Enticer.cpp */,
