@@ -48,9 +48,9 @@ public:
         int offsetCenterX = (logo.getWidth()*0.5);
         int offsetCenterY = (logo.getHeight()*0.5);
         
-        logo.draw((screenCenterX-offsetCenterX),(screenCenterY-offsetCenterY));
+        logo.draw((screenCenterX-offsetCenterX),(screenCenterY-offsetCenterY-50));
         ofRectangle r = titleFont.getStringBoundingBox(_unitName, 0, 0);
-        titleFont.drawString(_unitName, (screenCenterX-(r.getWidth()*0.5)), 5+(offsetCenterY+screenCenterY+(r.getHeight())));
+        titleFont.drawString(_unitName, (screenCenterX-(r.getWidth()*0.5)),66);//5+(offsetCenterY+screenCenterY+(r.getHeight())));
     }
     //-------------------------------------------
     bool isDone()
