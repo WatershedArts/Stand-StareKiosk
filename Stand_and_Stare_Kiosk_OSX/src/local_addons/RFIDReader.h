@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "ofMain.h"
+#include "MyTimer.h"
 
 class RFIDReader : public ofThread {
 
@@ -22,7 +23,7 @@ public:
     bool isConnected();
     
     //! Simulate a new tag being added
-    void simulateNewTag(int which);
+    void simulateNewTag(string tagID);
     
     //! Simulate Removal
     void simulateTagRemoval();
@@ -33,7 +34,11 @@ public:
     //! Stop Threading
     void stop();
     
+    //! Update
     void update();
+    
+    //! Close
+    void closeConnection();
     
     //! Get Debug Information
     string getDebugString();
@@ -43,6 +48,12 @@ public:
     
     // Serial Object
     ofSerial serial;
+    
+    // Reconnection Timer
+    MyTimer reconnectionTimer;
+    void reconnectionTimerStarted(string &str);
+    void reconnectionTimerFinished(string &str);
+    
     
     // Events
     ofEvent<string> newTag;
@@ -58,6 +69,8 @@ private:
     long lastTagChangeTime;
     long removeTimeout;
     string tagString;
+    string _deviceName;
+    int connectionAttempts;
     
 protected:
     void threadedFunction();

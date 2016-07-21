@@ -18,10 +18,20 @@ void RFIDReader::setup(string deviceName,int removeDelay)
     tagPreviouslyPresent = false;
     sendRemove = false;
     tagBufferIndex = 0;
+    connectionAttempts = 3;
     tagString = "";
+    _deviceName = deviceName;
+    
+    ofAddListener(reconnectionTimer.timerStarted, this, &RFIDReader::reconnectionTimerStarted);
+    ofAddListener(reconnectionTimer.timerFinished, this, &RFIDReader::reconnectionTimerFinished);
+    
+    serial.listDevices();
+    
+    reconnectionTimer.setup(5000, "Reconnection", false);
     
     if (!isConnected()) {
         ofLogError() << "RFID Is Not Connected";
+        reconnectionTimer.start();
     }
 }
 //--------------------------------------------------------------
@@ -30,9 +40,9 @@ bool RFIDReader::isConnected()
     return serial.isInitialized();
 }
 //--------------------------------------------------------------
-void RFIDReader::simulateNewTag(int which)
+void RFIDReader::simulateNewTag(string tagID)
 {
-    string ev = "RFIDTag "+ofToString(which);
+    string ev = tagID;
     ofNotifyEvent(newTag, ev, this);
 }
 //--------------------------------------------------------------
@@ -53,6 +63,7 @@ void RFIDReader::stop()
 }
 
 void RFIDReader::update() {
+    reconnectionTimer.update();
     // Is the Device Connected
     if (isConnected()) {
         while (serial.available() > 0) {
@@ -66,6 +77,7 @@ void RFIDReader::update() {
             }
             // Fire the Tag up into the main app
             if (incomingByte == 3) {
+                
                 tagString = tagBuffer;
                 ofNotifyEvent(newTag, tagString, this);
                 
@@ -76,7 +88,6 @@ void RFIDReader::update() {
                 tagBufferIndex = 0;
             }
         }
-        //
         tagPreviouslyPresent = tagPresent;
     }
 }
@@ -146,4 +157,27 @@ string RFIDReader::getDebugString()
     datastream << "| Current Tag: " << tagString << endl;
     datastream << "| New Tag " << tagP << endl;
     return datastream.str();
+}
+//--------------------------------------------------------------
+void RFIDReader::closeConnection()
+{
+    serial.close();
+}
+//--------------------------------------------------------------
+void RFIDReader::reconnectionTimerStarted(string &str)
+{
+    cout << "Will Attempt to Reconnect in 5 seconds..." << endl;
+}
+//--------------------------------------------------------------
+void RFIDReader::reconnectionTimerFinished(string &str)
+{
+    cout << "Attempting Reconnection to " << _deviceName << " Attempts Remaining:" << connectionAttempts << " of 3" << endl;
+    connectionAttempts--;
+    serial.setup(_deviceName, 9600);
+    
+    if (!isConnected() && connectionAttempts > 0) {
+        ofLogError() << "RFID Is Not Connected";
+        reconnectionTimer.start();
+    }
+    
 }
