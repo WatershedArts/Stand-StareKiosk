@@ -4,14 +4,16 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+    ofHideCursor();
+    
     // For Bundling App
     ofSetDataPathRoot("../Resources/data/");
+    ofSetLogLevel(OF_LOG_SILENT);
+    ofSetWindowShape(1280, 800);
     
     // Load the Configuration
     appConfiguration.loadConfig("configs/config.json");
-//    appConfiguration.printConfiguration();
     appConfiguration.loadVideoConfig("configs/videoConfig.json");
-//    appConfiguration.printConfiguration();
     
     // Debug Warper
     useWarper = appConfiguration.getConfig().useWarper;
@@ -29,9 +31,10 @@ void ofApp::setup()
     
     arduino.setupPins(appConfiguration.getConfig().ledPin1, appConfiguration.getConfig().ledPin2, appConfiguration.getConfig().rfidTIRPin, appConfiguration.getConfig().donationPin1, appConfiguration.getConfig().donationPin2);
     
-    // Projector Controller
-    projectorController.setupProjector(appConfiguration.getConfig().projectorSerialName);
-    projectorController.turnOn();
+// Projector Controller
+//    projectorController.setupProjector(appConfiguration.getConfig().projectorSerialName);
+//    ofSleepMillis(1000);
+//    projectorController.turnOn();
     
     videoData = appConfiguration.getVideoConfig();
     
@@ -43,10 +46,10 @@ void ofApp::setup()
     
     tagAssigner.setup(videoData);
     
-    // RFID
-    rfidReader.setup(appConfiguration.getConfig().RFIDSerialName,
-                     appConfiguration.getConfig().rfidDelay
-                     );
+//    // RFID
+//    rfidReader.setup(appConfiguration.getConfig().RFIDSerialName,
+//                     appConfiguration.getConfig().rfidDelay
+//                     );
     
     // Calibration Setup
     calibrationScreen.setup(appConfiguration.getConfig().maskPoints);
@@ -91,7 +94,10 @@ void ofApp::update()
     donationReader.update();
     splashScreen.update();
     arduino.update();
-    rfidReader.update();
+    
+//    if (rfidReader.isConnected()) {
+        rfidReader.update();
+//    }
     
     if (canDrawData) {
         appFPS->update();
@@ -100,8 +106,8 @@ void ofApp::update()
         showTemplateImage->update();
         reloadVideoData->update();
         videoFolder->update();
+        addNewFile->update();
     }
-    
     
     if (splashScreen.isDone() && !initLoad) {
         enticer.playVideo();
@@ -136,19 +142,29 @@ void ofApp::draw()
             ofPushStyle();
             ofSetColor(255, 255, 255);
             
+            if (videoHandler.isVideoPlaying()) {
+                ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+                donationReader.draw(0,0);
+                ofDisableBlendMode();
+            }
             
-            donationReader.draw(0, 0);
             ofEnableBlendMode(OF_BLENDMODE_ADD);
-            
             enticer.drawVideo();
             videoHandler.drawVideo();
             ofDisableBlendMode();
             
+            if (!videoHandler.isVideoPlaying()) {
+                ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+                donationReader.draw(0,0);
+                ofDisableBlendMode();
+            }
+            
+        
             ofPopStyle();
             
             if (useWarper) {
                 screenFbo.end();
-                
+            
                 // Do the Screen Warping
                 ofMatrix4x4 mat = screenWarper.getMatrix();
                 ofPushMatrix();
@@ -185,11 +201,13 @@ void ofApp::draw()
             showTemplateImage->draw();
             reloadVideoData->draw();
             videoFolder->draw();
+            addNewFile->draw();
             
             drawDebugData();
             enticer.drawTimeline(ofGetHeight()*0.7);
             videoHandler.drawTimeline(ofGetHeight()*0.8);
             ofPopStyle();
+//            donationReader.drawScreens();
         }
     }
 }
@@ -199,13 +217,15 @@ void ofApp::exit()
     postData.close();
     donationReader.close();
     enticer.stop();
-    
-    bool debugProjector = false;
-    if (debugProjector) {
-        projectorController.turnOff();
-    }
-    
-    projectorController.close();
+    rfidReader.closeConnection();
+    arduino.close();
+    ofSleepMillis(1000);
+//    bool debugProjector = false;
+//    if (debugProjector) {
+//    projectorController.turnOff();
+//    }
+//    
+//    projectorController.close();
 }
 #pragma mark - Key Events
 //--------------------------------------------------------------
@@ -214,10 +234,20 @@ void ofApp::keyPressed(int key)
     switch (key) {
         case ' ':
             canDrawData = !canDrawData;
+            if (canDrawData) {
+                ofShowCursor();
+            }
+            else {
+                ofHideCursor();
+            }
+            break;
+        case 'Q':
+            ofExit();
             break;
         case 'd':
             if (donationReader.canDonate()) {
-                donationReader.simulateDonation();
+                int a = 1;
+                ofNotifyEvent(donate,a, this);
                 postData.postDonation(1);
             }
             break;
@@ -225,15 +255,32 @@ void ofApp::keyPressed(int key)
             rfidReader.simulateTagRemoval();
             arduino.simulateRemoval();
             break;
+        case '1':
+            rfidReader.simulateNewTag(videoData[0].RFIDkey);
+            break;
+        case '2':
+            rfidReader.simulateNewTag(videoData[1].RFIDkey);
+            break;
+        case '3':
+            rfidReader.simulateNewTag(videoData[2].RFIDkey);
+            break;
+        case '4':
+            rfidReader.simulateNewTag(videoData[3].RFIDkey);
+            break;
+        case '5':
+            rfidReader.simulateNewTag(videoData[4].RFIDkey);
+            break;
+        case '6':
+            rfidReader.simulateNewTag(videoData[5].RFIDkey);
+            break;
         default:
             break;
     }
     
-    for (int i = 0; i < videoData.size(); i++) {
-        if (key == ofToChar(ofToString(i))) {
-            rfidReader.simulateNewTag(i+1);
-        }
-    }
+    
+    
+
+    
 }
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
@@ -331,9 +378,12 @@ void ofApp::setupListeners()
     
     ofAddListener(arduino.donationSlot1Event,this,&ofApp::gotDonation);
     ofAddListener(arduino.donationSlot2Event,this,&ofApp::gotDonation);
+    ofAddListener(arduino.connectToRFID,this,&ofApp::reconnectRFID);
     
     ofAddListener(enticer.enticerStarted, this, &ofApp::enticerVideoStarted);
     ofAddListener(enticer.enticerInterrupted, this, &ofApp::enticerVideoFinished);
+    
+    ofAddListener(donate, this, &ofApp::gotDonation);
 }
 //--------------------------------------------------------------
 void ofApp::removeListeners()
@@ -350,6 +400,8 @@ void ofApp::removeListeners()
     
     ofRemoveListener(enticer.enticerStarted, this, &ofApp::enticerVideoStarted);
     ofRemoveListener(enticer.enticerInterrupted, this, &ofApp::enticerVideoFinished);
+    
+    ofRemoveListener(donate, this, &ofApp::gotDonation);
 }
 #pragma mark - Listeners
 //--------------------------------------------------------------
@@ -397,9 +449,10 @@ void ofApp::newTagAdded(string &tag)
         tagAssigner.assignNewTag(tag);
     }
     else if (applicationMode == 2) {
+        
         for (int i = 0; i < videoData.size(); i++) {
             if (tag == videoData[i].RFIDkey) {
-                videoCode = ofToString(i);
+                videoCode = ofToString(videoData[i].id);
                 videoHandler.loadVideo(videoData[i].videoUrl);
                 videoHandler.playVideo();
                 enticer.stopVideo();
@@ -427,6 +480,12 @@ void ofApp::tagRemoved(int &v)
     }
 }
 //--------------------------------------------------------------
+void ofApp::reconnectRFID(int &args)
+{
+    cout << "Got Reconnection Event" << endl;
+    rfidReader.setup(appConfiguration.getConfig().RFIDSerialName,appConfiguration.getConfig().rfidDelay);
+}
+//--------------------------------------------------------------
 void ofApp::timerStopped(string &timer)
 {
     ofLogWarning() << timer;
@@ -437,7 +496,14 @@ void ofApp::gotDonation(int &pin)
     if (donationReader.canDonate()) {
         cout << "Got Donation" << endl;
         postData.postDonation(pin);
-        donationReader.simulateDonation();
+        
+        if (!videoHandler.isVideoPlaying()) {
+            donationReader.donatedNoFilmPlaying();
+        }
+        else {
+            donationReader.donatedFilmPlaying();
+        }
+        
         donationsToday++;
     }
 }
@@ -480,13 +546,15 @@ void ofApp::appSetup()
     ofSetLogLevel(OF_LOG_WARNING);
     
     logo.load("photos/logo.png");
-    titleFont.load("MuseoSans_500.otf", 30);
-    debug.load("MuseoSans_500.otf", 8);
+    titleFont.load("fonts/MuseoSans_500.otf", 30);
+    debug.load("fonts/MuseoSans_500.otf", 8);
     canPlay = false;
     flipIdleTimerLatch = false;
     canDrawData = false;
     calibrateScreen = false;
     showTemplate = false;
+    stopLoad = false;
+    
     
     // Go straight into the Operation Mode
     applicationMode = 2;
@@ -552,6 +620,11 @@ void ofApp::setupGUI()
     reloadVideoData->setStripe(ofColor::mediumSpringGreen, 5);
     reloadVideoData->onButtonEvent(this, &ofApp::onButtonEvent);
     
+    addNewFile = new ofxDatGuiButton("Add New File");
+    addNewFile->setWidth(200);
+    addNewFile->setPosition(reloadVideoData->getX(), reloadVideoData->getHeight());
+    addNewFile->onButtonEvent(this, &ofApp::onButtonEvent);
+    
     videoFolder = new ofxDatGuiFolder("Video");
     videoFolder->setPosition(reloadVideoData->getX()+reloadVideoData->getWidth(),0);
     videoFolder->setWidth(200);
@@ -598,6 +671,11 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
         appConfiguration.loadVideoConfig("configs/videoConfig.json");
         videoData.clear();
         videoData = appConfiguration.getVideoConfig();
+        tagAssigner.reloadData(videoData);
+    }
+    else if(e.target->is("Add New File")) {
+        stopLoad = false;
+        tagAssigner.addNewFile();
     }
 }
 //--------------------------------------------------------------
@@ -611,8 +689,6 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
     if(e.target->is("App Mode")) {
         if (e.target->getLabel() == "CALIBRATION MODE") {
-//            applicationMode = 0;
-//            gui->getFolder("Calibration")->expand();
         }
         else if (e.target->getLabel() == "ASSIGNING MODE") {
             applicationMode = 1;

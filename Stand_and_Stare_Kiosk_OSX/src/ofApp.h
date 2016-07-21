@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ProjectorControl.h"
+//#include "ProjectorControl.h"
 #include "DonationReader.h"
 #include "LoadSettings.h"
 #include "VideoPlayer.h"
@@ -65,7 +65,7 @@ public:
     int unitId;
     int timesUsedToday;
     int donationsToday;
-
+    ofEvent<int> donate;
     int videoPlayback;    
     //--------------------------------------------------------------
     // *
@@ -79,6 +79,7 @@ public:
     void videoInterupted(string &args);
     void enticerVideoStarted(string &args);
     void enticerVideoFinished(string &args);
+    void reconnectRFID(int &args);
     void newTagAdded(string &tag);
     void tagRemoved(int &val);
     void timerStopped(string &timer);
@@ -96,6 +97,7 @@ public:
     bool showTemplate;
     bool showWarper;
     bool useWarper;
+    bool stopLoad;
     
     //--------------------------------------------------------------
     // *
@@ -112,6 +114,7 @@ public:
     ofxDatGuiFRM * appFPS;
     ofxDatGuiDropdown * appMode;
     ofxDatGuiButton * reloadVideoData;
+    ofxDatGuiButton * addNewFile;
     ofxDatGuiToggle * showWarperBox;
     ofxDatGuiToggle * showTemplateImage;
     
@@ -131,7 +134,7 @@ public:
     // * Objects
     // *
     //--------------------------------------------------------------
-    ProjectorControl projectorController;
+//    ProjectorControl projectorController;
     LoadSettings appConfiguration;
     DonationReader donationReader;
     Calibration calibrationScreen;
