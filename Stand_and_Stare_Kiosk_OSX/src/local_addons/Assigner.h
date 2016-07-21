@@ -13,6 +13,7 @@
 #include "ofMain.h"
 #include "LoadSettings.h"
 #include "ofxModal.h"
+#include "ConfirmWindow.h"
 
 
 class TagInformation : public ofRectangle {
@@ -107,7 +108,14 @@ class TagAssignment {
         //! Save the New RFID Tag
         void save(int which);
     
-        ofxModalConfirm confirmWindow;
+        //! Add new File
+        void addNewFile();
+    
+        //! Reload Video Data
+        void reloadData(deque <VideoData> data);
+    
+        ConfirmWindow confirmWindow;
+    //        ofxModalConfirm confirmWindow;
         void onModalEvent(ofxModalEvent e);
     
     private:

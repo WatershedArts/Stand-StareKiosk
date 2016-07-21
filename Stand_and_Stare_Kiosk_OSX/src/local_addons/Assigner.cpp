@@ -16,7 +16,8 @@ void TagAssignment::setup(deque <VideoData> data)
     int newCenterX = centerX-offsetX;
     
     vector<ofVec2f> pts;
-    for (int y =0; y < 2; y++) {
+    int divisable = data.size()/3;
+    for (int y =0; y < divisable; y++) {
         for (int x =0; x < 3; x++) {
             pts.push_back(ofVec2f(centerX-((3*325)/2)+(x*325), (ofGetHeight()/2-350)+(y*175)));
         }
@@ -46,6 +47,56 @@ void TagAssignment::draw()
     }
 }
 //--------------------------------------------------------------
+void TagAssignment::addNewFile()
+{
+    ofxJSONElement file;
+    
+    if (!file.open(ofToDataPath("configs/videoConfig.json"))) {
+        // Oh No!!!
+        ofLog(OF_LOG_FATAL_ERROR,"Could not find the Video Configuration File");
+        return;
+    }
+    else {
+        // We're good lets get that config!!!
+        ofLog(OF_LOG_NOTICE,"Found the Video Configuration File");
+     
+        string thisFile = ofSystemLoadDialog("Select Video File", false,ofToDataPath("videos")).getName();
+        cout << "videos/"+thisFile << endl;
+        // Video Settings
+        int numberOfVideos = file["VideoData"]["videoslist"].size();
+        file["VideoData"]["videoslist"][numberOfVideos]["id"] = numberOfVideos+1;
+        file["VideoData"]["videoslist"][numberOfVideos]["videourl"] = thisFile;
+        file["VideoData"]["videoslist"][numberOfVideos]["videolength"] = "";
+        file["VideoData"]["videoslist"][numberOfVideos]["videodetails"] = "";
+        file["VideoData"]["videoslist"][numberOfVideos]["rfidkey"] = "";
+        file["VideoData"]["videoslist"][numberOfVideos]["rfidicon"] = "";
+        file.toStyledString();
+        file.save("configs/videoConfig.json",true);
+    }
+}
+//--------------------------------------------------------------
+void TagAssignment::reloadData(deque <VideoData> data)
+{
+    int centerX = ofGetWidth()*0.5;
+    int offsetX = 300/2;
+    int newCenterX = centerX-offsetX;
+
+    information.clear();
+    
+    vector<ofVec2f> pts;
+    int divisable = data.size()/3;
+
+    for (int i = 0 ; i < data.size(); i++) {
+        int x = i%3;
+        int y = i/3;
+        pts.push_back(ofVec2f(centerX-((3*325)/2)+(x*325), (ofGetHeight()/2-350)+(y*175)));
+    }
+    for (int i = 0; i < data.size(); i++) {
+        information.insert(std::pair<int, TagInformation>(i, TagInformation(pts[i],i,data[i])));
+    }
+    cout << information.size() << endl;
+}
+//--------------------------------------------------------------
 void TagAssignment::mouseOver(int x, int y)
 {
     for (int i = 0; i < information.size(); i++) {
@@ -66,6 +117,7 @@ void TagAssignment::onModalEvent(ofxModalEvent e)
 
     }
     else if (e.type == ofxModalEvent::CONFIRM){
+        
         for (int i = 0; i < information.size(); i++) {
             if (information.at(i).isActive()) {
                 cout << currentTag << endl;
