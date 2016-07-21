@@ -14,11 +14,18 @@ void DonationReader::setup(string name)
     donationTimer.setup(3400, "Donation", false);
     waveshed.load("photos/waveshed.jpg");
     
+
+    thankYouNoFilmPlaying.load("videos/thank-you-into.mov");
+    thankYouFilmPlaying.load("videos/thank-you-film.mov");
+    
+    thankYouNoFilmPlaying.setLoopState(OF_LOOP_NONE);
+    thankYouFilmPlaying.setLoopState(OF_LOOP_NONE);
+    
     maskShader.load("shaders/maskShader");
     
     maskFbo.allocate(ofGetWidth(), ofGetHeight());
     fbo.allocate(ofGetWidth(), ofGetHeight());
-//    blurShader.setup(ofGetWidth(), ofGetHeight());
+    blurShader.setup(ofGetWidth(), ofGetHeight());
     
     maskFbo.begin();
     ofClear(0);
@@ -33,7 +40,10 @@ void DonationReader::setup(string name)
     waveTopPts.clear();
     waveBottomPts.clear();
     
+    currentFadeAmount = 0;
     x = 0;
+    
+    donation = true;
     
     buildWave = false;
 }
@@ -46,69 +56,48 @@ void DonationReader::setSensitivity(float sensitivity)
 //--------------------------------------------------------------
 void DonationReader::update()
 {
-    if(x < ofGetWidth()) {
-        int y1Origin = 0;
-        int y2Origin = ofGetHeight();
-        int y1 = y1Origin+120*ofSignedNoise(ofGetElapsedTimef());
-        int y2 = y2Origin+150*ofSignedNoise(ofGetElapsedTimef());
-        waveTopPts.push_back(ofVec3f(x,y1,0));
-        waveBottomPts.push_back(ofVec3f(x,y2,0));
-        x++;
+    currentFadeAmount = fade.update();
+    thankYouNoFilmPlaying.update();
+    thankYouFilmPlaying.update();
+
+    
+    float currentVideoTime = (float)(thankYouNoFilmPlaying.getPosition()*thankYouNoFilmPlaying.getDuration());
+    if (currentVideoTime >= (thankYouNoFilmPlaying.getDuration()-(1000/1000))) {
+        if (!fade.isRunning()) {
+            fade.setParameters(1, linear, ofxTween::easeInOut, currentFadeAmount, 0, 500, 1);
+        }
     }
     
-    donationTimer.update();
-   
-    
-    maskFbo.begin();
-    ofClear(0, 0, 0);
-//    blurShader.begin(5,5);
-    
-    ofPushStyle();
-    ofPushMatrix();
-    ofTranslate(0,bouncingArea.update());
-    ofSetColor(ofColor::white);
-    ofBeginShape();
-    ofVertex(0, 0);
-    for (int i = 0; i < waveTopPts.size(); i++) {
-        ofVertex(waveTopPts[i].x, waveTopPts[i].y);
+    float currentVideoTime2 = (float)(thankYouFilmPlaying.getPosition()*thankYouFilmPlaying.getDuration());
+    if (currentVideoTime2 >= (thankYouFilmPlaying.getDuration()-(1000/1000))) {
+        if (!fade.isRunning()) {
+            fade.setParameters(1, linear, ofxTween::easeInOut, currentFadeAmount, 0, 500, 1);
+        }
     }
-    ofVertex(ofGetWidth(), 0);
-    ofVertex(ofGetWidth(), ofGetHeight());
-    for (int i = waveBottomPts.size()-1; i > 0 ; i--) {
-        ofVertex(waveBottomPts[i].x, waveBottomPts[i].y);
+    
+    if (!donation && (thankYouNoFilmPlaying.getIsMovieDone() || thankYouFilmPlaying.getIsMovieDone())) {
+        donation = true;
     }
-    ofVertex(0, ofGetHeight());
-    ofEndShape(false);
-    ofPopMatrix();
-    
-    
-    ofPopStyle();
-//    blurShader.end();
-    maskFbo.end();
-    
-    
 }
 //--------------------------------------------------------------
 bool DonationReader::canDonate()
 {
-    return donationTimer.hasTimerFinished();
+    return donation;
 }
 //--------------------------------------------------------------
 void DonationReader::draw(int x, int y)
 {
-    if (!donationTimer.hasTimerFinished()) {
-        fbo.begin();
-        ofClear(0, 0, 0);
-        
-        maskShader.begin();
-        maskShader.setUniformTexture("maskTex", maskFbo.getTexture(), 1);
-        waveshed.draw(0, 0,ofGetWidth(),ofGetHeight());
-        maskShader.end();
-        fbo.end();
-        
-        fbo.draw(0,0);
+    if (thankYouNoFilmPlaying.isPlaying()) {
         drawMask();
+        ofSetColor(currentFadeAmount,currentFadeAmount);
+        thankYouNoFilmPlaying.draw(0, 0);
     }
+    
+    if (thankYouFilmPlaying.isPlaying()) {
+        ofSetColor(currentFadeAmount,currentFadeAmount);
+        thankYouFilmPlaying.draw(0, 0);
+    }
+    
 }
 //--------------------------------------------------------------
 bool DonationReader::gotDonation()
@@ -125,7 +114,22 @@ string DonationReader::getStringStream()
 void DonationReader::simulateDonation()
 {
     donationTimer.start();
-    bouncingArea.setParameters(0, linear, ofxTween::easeInOut, -ofGetHeight(), ofGetHeight()*2, 3500, 10);
+}
+//--------------------------------------------------------------
+void DonationReader::donatedNoFilmPlaying()
+{
+    donationTimer.start();
+    thankYouNoFilmPlaying.play();
+    fade.setParameters(0, linear, ofxTween::easeInOut, currentFadeAmount, 255, 500, 1);
+    donation = false;
+}
+//--------------------------------------------------------------
+void DonationReader::donatedFilmPlaying()
+{
+    donationTimer.start();
+    thankYouFilmPlaying.play();
+    fade.setParameters(0, linear, ofxTween::easeInOut, currentFadeAmount, 255, 500, 1);
+    donation = false;
 }
 //--------------------------------------------------------------
 void DonationReader::close()
@@ -159,7 +163,22 @@ void DonationReader::loadMask()
 void DonationReader::drawMask()
 {
     ofPushStyle();
-    ofSetColor(ofColor::black);
+    ofSetColor(0,currentFadeAmount);
+    ofFill();
+    for (int i = 0; i < maskPoints.size(); i++) {
+        ofBeginShape();
+        for (int w = 0; w < maskPoints[i].size(); w++) {
+            ofVertex(maskPoints[i][w].x, maskPoints[i][w].y);
+        }
+        ofEndShape(true);
+    }
+    ofPopStyle();
+}
+//--------------------------------------------------------------
+void DonationReader::drawYellowPlaceholder()
+{
+    ofPushStyle();
+    ofSetHexColor(0Xe4b600);
     ofFill();
     for (int i = 0; i < maskPoints.size(); i++) {
         ofBeginShape();
@@ -182,6 +201,7 @@ void DonationReader::drawMaskOutline()
             ofVertex(maskPoints[i][w].x, maskPoints[i][w].y);
         }
         ofEndShape(true);
+        ofDrawBitmapStringHighlight("Screen No: " + ofToString(i), maskPoints[i][0].x, maskPoints[i][0].y);
     }
     ofPopStyle();
 }
@@ -189,9 +209,8 @@ void DonationReader::drawMaskOutline()
 void DonationReader::drawScreens()
 {
     ofPushStyle();
-    
     for (int i = 0; i < maskPoints.size(); i++) {
-        ofSetColor(ofColor::white);
+        ofSetHexColor(0XFFFFFF);
         ofFill();
         ofBeginShape();
         for (int w = 0; w < maskPoints[i].size(); w++) {
@@ -202,6 +221,4 @@ void DonationReader::drawScreens()
         ofDrawBitmapString("Screen No: " + ofToString(i), maskPoints[i][0].x, maskPoints[i][0].y);
     }
     ofPopStyle();
-    
-    
 }

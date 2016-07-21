@@ -28,6 +28,9 @@ public:
     bool gotDonation();
     bool canDonate();
 
+    void donatedNoFilmPlaying();
+    void donatedFilmPlaying();
+    
     // Debug only
     void simulateDonation();
     void close();
@@ -37,15 +40,19 @@ public:
     void loadMask();
     void drawMask();
     void drawMaskOutline();
+    void drawYellowPlaceholder();
     void drawScreens();
     
 private:
     float _sensitivity;
     ofxTween bouncingArea;
+    ofxTween fade;
     ofxEasingBounce bounce;
     ofxEasingLinear linear;
     ofxEasingExpo circ;
     MyTimer donationTimer;
+    
+    int currentFadeAmount;
     
     ofImage waveshed;
     ofShader maskShader;
@@ -60,6 +67,11 @@ private:
     
     ofxJSONElement maskFile;
     vector<vector<ofVec2f> > maskPoints;
+    
+    ofVideoPlayer thankYouNoFilmPlaying;
+    ofVideoPlayer thankYouFilmPlaying;
+    ofVideoPlayer supportus;
+    ofVideoPlayer learnmore;
     
 protected:
 
