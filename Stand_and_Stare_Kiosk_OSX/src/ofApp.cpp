@@ -93,7 +93,10 @@ void ofApp::update()
     enticer.updateVideo();
     donationReader.update();
     splashScreen.update();
-    arduino.update();
+    if (arduino.isConnected()) {
+        arduino.update();    
+    }
+    
     
 //    if (rfidReader.isConnected()) {
         rfidReader.update();
@@ -369,9 +372,9 @@ void ofApp::drawAssigningScreen()
 //--------------------------------------------------------------
 void ofApp::setupListeners()
 {
-    ofAddListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
-    ofAddListener(videoHandler.videoStopped, this, &ofApp::videoFinished);
-    ofAddListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
+//    ofAddListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
+//    ofAddListener(videoHandler.videoStopped, this, &ofApp::videoFinished);
+//    ofAddListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
     
     ofAddListener(rfidReader.newTag, this, &ofApp::newTagAdded);
     ofAddListener(arduino.rfidTagRemoved, this, &ofApp::tagRemoved);
@@ -388,9 +391,9 @@ void ofApp::setupListeners()
 //--------------------------------------------------------------
 void ofApp::removeListeners()
 {
-    ofRemoveListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
-    ofRemoveListener(videoHandler.videoStopped, this, &ofApp::videoFinished);
-    ofRemoveListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
+//    ofRemoveListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
+//    ofRemoveListener(videoHandler.videoStopped, this, &ofApp::videoFinished);
+//    ofRemoveListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
     
     ofRemoveListener(rfidReader.newTag, this, &ofApp::newTagAdded);
     ofRemoveListener(arduino.rfidTagRemoved, this, &ofApp::tagRemoved);
@@ -413,6 +416,10 @@ void ofApp::videoStarted(string &args)
 void ofApp::videoFinished(string &args)
 {
     postData.postVideo("1",videoCode,100,true);
+    ofRemoveListener(videoHandler.videoPlayer[0].videoStarted, this, &ofApp::videoStarted);
+    ofRemoveListener(videoHandler.videoPlayer[0].videoInterrupted, this, &ofApp::videoInterupted);
+    ofRemoveListener(videoHandler.videoPlayer[0].videoStopped, this, &ofApp::videoFinished);
+
     videoPlayback = 1;
     enticer.playVideo();
     ofLogWarning() << args;
@@ -422,6 +429,10 @@ void ofApp::videoInterupted(string &args)
 {
     postData.postVideo("1",videoCode,videoHandler.getPlayPercentage(),false);
     ofLogWarning() << args;
+    
+    ofRemoveListener(videoHandler.videoPlayer[0].videoStarted, this, &ofApp::videoStarted);
+    ofRemoveListener(videoHandler.videoPlayer[0].videoInterrupted, this, &ofApp::videoInterupted);
+    ofRemoveListener(videoHandler.videoPlayer[0].videoStopped, this, &ofApp::videoFinished);
 }
 //--------------------------------------------------------------
 void ofApp::enticerVideoStarted(string &args)
@@ -454,7 +465,11 @@ void ofApp::newTagAdded(string &tag)
             if (tag == videoData[i].RFIDkey) {
                 videoCode = ofToString(videoData[i].id);
                 videoHandler.loadVideo(videoData[i].videoUrl);
-                videoHandler.playVideo();
+                ofAddListener(videoHandler.videoPlayer[0].videoStarted, this, &ofApp::videoStarted);
+                ofAddListener(videoHandler.videoPlayer[0].videoInterrupted, this, &ofApp::videoInterupted);
+                ofAddListener(videoHandler.videoPlayer[0].videoStopped, this, &ofApp::videoFinished);
+                
+//                videoHandler.playVideo();
                 enticer.stopVideo();
             }
         }
