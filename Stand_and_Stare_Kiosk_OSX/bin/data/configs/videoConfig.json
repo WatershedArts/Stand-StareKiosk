@@ -1,55 +1,54 @@
 {
-   "VideoData" : {
-      "videoslist" : [
-         {
-            "id" : 1,
-            "rfidicon" : "Mug",
-            "rfidkey" : "01102ECE8978",
-            "videodetails" : "",
-            "videolength" : "",
-            "videourl" : "videos/Laura2.mp4"
-         },
-         {
-            "id" : 2,
-            "rfidicon" : "Microphone",
-            "rfidkey" : "01102E64FFA4",
-            "videodetails" : "Charlotte Despard",
-            "videolength" : "",
-            "videourl" : "videos/Laura2.mp4"
-         },
-         {
-            "id" : 3,
-            "rfidicon" : "Hook",
-            "rfidkey" : "RFIDTag 3",
-            "videodetails" : "",
-            "videolength" : "",
-            "videourl" : "videos/Laura2.mp4"
-         },
-         {
-            "id" : 4,
-            "rfidicon" : "Pillars",
-            "rfidkey" : "RFIDTag 4",
-            "videodetails" : "",
-            "videolength" : "",
-            "videourl" : "videos/Laura2.mp4"
-          },
-          {
-            "id" : 5,
-            "rfidicon" : "Ticket",
-            "rfidkey" : "RFIDTag 5",
-            "videodetails" : "",
-            "videolength" : "",
-            "videourl" : "videos/Laura2.mp4"
-          },
-          {
-            "id" : 6,
-            "rfidicon" : "Light Bulb",
-            "rfidkey" : "RFIDTag 6",
-            "videodetails" : "",
-            "videolength" : "",
-            "videourl" : "videos/Laura2.mp4"
-          }
-      ]
-   }
+    "VideoData" : {
+        "videoslist" : [
+            {
+                "id" : 1,
+                "rfidicon" : "Question",
+                "rfidkey" : "01102EACAA39",
+                "videodetails" : "Tell us your watershed story",
+                "videolength" : "0:39",
+                "videourl" : "videos/QUESTION.mp4"
+            },
+            {
+                "id" : 2,
+                "rfidicon" : "Microphone",
+                "rfidkey" : "01102E64FFA4",
+                "videodetails" : "Sham talking about experiences of RIFE",
+                "videolength" : "1:55",
+                "videourl" : "videos/MIC.mp4"
+            },
+            {
+                "id" : 3,
+                "rfidicon" : "Hook",
+                "rfidkey" : "01102EF5D51F",
+                "videodetails" : "Derrick talking about the history of Watershed",
+                "videolength" : "2:21",
+                "videourl" : "videos/HOOK.mp4"
+            },
+            {
+                "id" : 4,
+                "rfidicon" : "Pliers",
+                "rfidkey" : "01102F173E17",
+                "videodetails" : "Oliver talking about making things happen",
+                "videolength" : "1:52",
+                "videourl" : "videos/PLIERS.mp4"
+            },
+            {
+                "id" : 5,
+                "rfidicon" : "Ticket",
+                "rfidkey" : "01102E65ABF1",
+                "videodetails" : "Kate talking about audiences",
+                "videolength" : "",
+                "videourl" : "videos/STUB.mp4"
+            },
+            {
+                "id" : 6,
+                "rfidicon" : "Light Bulb",
+                "rfidkey" : "01102E764C05",
+                "videodetails" : "Laura Kriefman talking about being a resident",
+                "videolength" : "2:34",
+                "videourl" : "videos/LIGHTBULB.mp4"
+            }
+        ]
+    }
 }
-
