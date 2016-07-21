@@ -61,8 +61,13 @@ class VideoPlayer {
         //! Debug Info
         string getStringStream();
     
+        //! Invalidate The fading system
+        void invalidateFade();
+    
         //! What Percentage through the Video are We?
         int getPlayPercentage();
+    
+        void fadingResults(string &str);
     
         // Events
         ofEvent<string> videoStarted;
@@ -76,8 +81,6 @@ class VideoPlayer {
         ofxEasingLinear easinglinear;
         ofxEasingExpo easingexpo;
     
-//        ofTimer delayTimer;
-    
         ofxQuadWarp warper;
         ofFbo warperFbo;
         vector <string> files;
@@ -87,9 +90,15 @@ class VideoPlayer {
         int progress;
         bool _hasFadedIn;
         bool _hasFadedOut;
+    
+        bool _isFadingIn;
+        bool _isFadingOut;
+    
         bool _drawPrimaryQuads;
         bool _drawSecondaryQuads;
         string videoName;
+    
+        bool goToYellowScreen;
 
     protected:
         int currentFadeValue;

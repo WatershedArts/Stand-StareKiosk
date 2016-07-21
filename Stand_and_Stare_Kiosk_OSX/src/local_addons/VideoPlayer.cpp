@@ -15,8 +15,11 @@ void VideoPlayer::setupVideoPlayer(float fadein, float fadeout,float enticerFade
     _fadeout = fadeout;
     _hasFadedOut = true;
     _hasFadedIn = true;
+    _isFadingIn = false;
+    _isFadingOut = false;
     _drawPrimaryQuads = false;
     _drawSecondaryQuads = false;
+    goToYellowScreen = false;
     _enticerDelay = enticerFadeIn;
     warper.disableKeyboardShortcuts();
     
@@ -36,6 +39,7 @@ void VideoPlayer::loadVideo(string url)
 {
 //    videoPlayer.close();
 //    videoPlayer.closeMovie();
+    
     videoPlayer.load(url);
     
     videoName = url;
@@ -47,8 +51,8 @@ void VideoPlayer::loadVideo(string url)
     
     int x = 0;//(ofGetWidth() - videoPlayer.getWidth()) * 0.5;
     int y = 0;//(ofGetHeight() - videoPlayer.getHeight()) * 0.5;
-    int w = ofGetWidth();
-    int h = ofGetHeight();
+    int w = videoPlayer.getWidth();
+    int h = videoPlayer.getHeight();
     
 //    warperFbo.clear();
     
@@ -88,9 +92,10 @@ void VideoPlayer::updateVideo()
     
     warperFbo.begin();
     ofSetColor(fade.update(),255);
+    
     if (videoPlayer.isLoaded()) {
         if(videoPlayer.isPlaying()) {
-            videoPlayer.draw(0, 0,ofGetWidth(),ofGetHeight());
+            videoPlayer.draw(0, 0);
         }
     }
     warperFbo.end();
@@ -98,6 +103,7 @@ void VideoPlayer::updateVideo()
 //--------------------------------------------------------------
 void VideoPlayer::playVideo()
 {
+    goToYellowScreen = false;
     videoPlayer.play();
     fade.setParameters(1, easinglinear, ofxTween::easeIn, 0, 255, _fadein, _enticerDelay);
     string ev = "Video Started";
@@ -112,13 +118,24 @@ void VideoPlayer::stopVideo()
     string ev = "Video Stopped";
     ofNotifyEvent(videoStopped, ev, this);
     _hasFadedOut = false;
+    goToYellowScreen = true;
 }
 //--------------------------------------------------------------
 void VideoPlayer::interruptVideo()
 {
     fade.setParameters(1, easinglinear, ofxTween::easeInOut, currentFadeValue, 0, _fadeout, 10);
+    
     dropFade.setParameters(1, easingexpo, ofxTween::easeOut, progress-50, 0, _fadeout, 10);
     string ev = "Video Interrupted";
+    ofNotifyEvent(videoInterrupted, ev, this);
+    _hasFadedOut = false;
+}
+//--------------------------------------------------------------
+void VideoPlayer::invalidateFade()
+{
+    fade.setParameters(1, easinglinear, ofxTween::easeInOut, currentFadeValue, 255, _fadeout, 10);
+    dropFade.setParameters(1, easingexpo, ofxTween::easeOut, progress-50, 0, _fadeout, 10);
+    string ev = "Invalidate Fade";
     ofNotifyEvent(videoInterrupted, ev, this);
     _hasFadedOut = false;
 }
@@ -324,4 +341,11 @@ bool VideoPlayer::isVideoPlaying()
 bool VideoPlayer::hasVideoFinished()
 {
     return _hasFadedOut;
+}
+//--------------------------------------------------------------
+void VideoPlayer::fadingResults(string &str)
+{
+    
+    
+    
 }
