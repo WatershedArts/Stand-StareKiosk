@@ -5,15 +5,15 @@
          "name" : ""
       },
       "Enticer" : {
-         "fadein" : 1500,
-         "fadeout" : 1500,
-         "videourl" : "videos/enticer.mp4"
+         "fadein" : 500,
+         "fadeout" : 500,
+         "videourl" : "videos/Watershed+jukebox+intro+loop.mov"
       },
       "General" : {
          "unitname":"Watershed Jukebox",
          "unitid":1,
-         "fadeintime" : 1500,
-         "fadeouttime" : 1500,
+         "fadeintime" : 250,
+         "fadeouttime" : 250,
          "fullscreen" : true,
          "ldrsensitivity" : 50,
          "warperactive" : false
