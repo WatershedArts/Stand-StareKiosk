@@ -27,6 +27,9 @@ class ArduinoHandler {
         //! Update
         void update();
     
+        //! Close the Connection to the Arduino
+        void close();
+    
         //! Is Connected
         bool isConnected();
     
@@ -36,11 +39,19 @@ class ArduinoHandler {
         void timerStarted(string &timer);
         void timerFinished(string &timer);
     
+        void relayTimerStarted(string &timer);
+        void relayTimerFinished(string &timer);
+    
+        void fireEventTimerStarted(string &timer);
+        void fireEventTimerFinished(string &timer);
+    
         string getDebugString();
     
         ofEvent<int> rfidTagRemoved;
         ofEvent<int> donationSlot1Event;
         ofEvent<int> donationSlot2Event;
+    
+        ofEvent<int> connectToRFID;
     
         void digitalPinChanged(const int & pinNum);
         void analogPinChanged(const int & pinNum);
@@ -52,6 +63,7 @@ class ArduinoHandler {
         int _donationPin2;
         int _LEDPin1;
         int _LEDPin2;
+        int _RelayPin;
     
         string _arduinoName;
     
@@ -59,6 +71,8 @@ class ArduinoHandler {
         bool _donationLatch2;
         int _delayTime;
         MyTimer delayTimer;
+        MyTimer relayPinTimer;
+        MyTimer fireEventTimer;
     
     protected:
         ofArduino arduino;

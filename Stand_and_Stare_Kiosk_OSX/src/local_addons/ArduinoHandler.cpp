@@ -24,8 +24,27 @@ void ArduinoHandler::setup(string arduinoName,int delayTime)
     }
     
     delayTimer.setup(delayTime, "RFID Delay", false);
+    relayPinTimer.setup(2500, "Relay Timer", false);
+    fireEventTimer.setup(4000, "Reconnect Timer", false);
+    
     ofAddListener(delayTimer.timerStarted,this,&ArduinoHandler::timerStarted);
     ofAddListener(delayTimer.timerFinished,this,&ArduinoHandler::timerFinished);
+    
+    ofAddListener(relayPinTimer.timerStarted,this,&ArduinoHandler::relayTimerStarted);
+    ofAddListener(relayPinTimer.timerFinished,this,&ArduinoHandler::relayTimerFinished);
+    
+    ofAddListener(fireEventTimer.timerStarted,this,&ArduinoHandler::fireEventTimerStarted);
+    ofAddListener(fireEventTimer.timerFinished,this,&ArduinoHandler::fireEventTimerFinished);
+}
+//--------------------------------------------------------------
+void ArduinoHandler::close()
+{
+    arduino.sendDigital(_LEDPin1, ARD_LOW);
+    arduino.sendDigital(_LEDPin2, ARD_LOW);
+    arduino.sendDigital(_RelayPin, ARD_LOW);
+    
+    ofSleepMillis(1000);
+    arduino.disconnect();
 }
 //--------------------------------------------------------------
 void ArduinoHandler::setupPins(int ledPin1, int ledPin2, int TIRPin, int donationPin1, int donationPin2)
@@ -35,6 +54,29 @@ void ArduinoHandler::setupPins(int ledPin1, int ledPin2, int TIRPin, int donatio
     _TIRPin = TIRPin;
     _donationPin1 = donationPin1;
     _donationPin2 = donationPin2;
+    _RelayPin = 6;
+}
+//--------------------------------------------------------------
+void ArduinoHandler::relayTimerStarted(string &timer)
+{
+    arduino.sendDigital(_RelayPin, ARD_LOW);
+}
+//--------------------------------------------------------------
+void ArduinoHandler::relayTimerFinished(string &timer)
+{
+    arduino.sendDigital(_RelayPin, ARD_HIGH);
+    fireEventTimer.start();
+}
+//--------------------------------------------------------------
+void ArduinoHandler::fireEventTimerStarted(string &timer)
+{
+    cout << "Will Attempt to connect to the RFID Reader in 5 seconds" << endl;
+}
+//--------------------------------------------------------------
+void ArduinoHandler::fireEventTimerFinished(string &timer)
+{
+    int s = 0;
+    ofNotifyEvent(connectToRFID, s, this);
 }
 //--------------------------------------------------------------
 void ArduinoHandler::timerStarted(string &timer) {       }
@@ -49,6 +91,8 @@ void ArduinoHandler::update()
 {
     arduino.update();
     delayTimer.update();
+    relayPinTimer.update();
+    fireEventTimer.update();
 }
 //--------------------------------------------------------------
 bool ArduinoHandler::isConnected()
@@ -79,6 +123,7 @@ void ArduinoHandler::initializeArduino(const int & version) {
     // set pins D2 and A5 to digital input
     arduino.sendDigitalPinMode(_LEDPin1, ARD_OUTPUT);
     arduino.sendDigitalPinMode(_LEDPin2, ARD_OUTPUT);
+    arduino.sendDigitalPinMode(_RelayPin, ARD_OUTPUT);
     arduino.sendDigitalPinMode(_TIRPin, ARD_INPUT);
 
     // set pin A0 to analog input
@@ -91,6 +136,7 @@ void ArduinoHandler::initializeArduino(const int & version) {
     
     arduino.sendDigital(_LEDPin1, ARD_HIGH);
     arduino.sendDigital(_LEDPin2, ARD_HIGH);
+    relayPinTimer.start();
 }
 //--------------------------------------------------------------
 string ArduinoHandler::getDebugString()
