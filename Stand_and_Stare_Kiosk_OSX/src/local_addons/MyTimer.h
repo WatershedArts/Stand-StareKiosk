@@ -38,9 +38,13 @@ public:
     //! How long is left on the timer
     bool hasTimerFinished();
     
+    //! Invalidate Timer
+    void invalidate();
+    
     // Events
     ofEvent<string> timerStarted;
     ofEvent<string> timerFinished;
+    ofEvent<string> timerInvalidated;
     
 private:
     float startTime;
@@ -50,6 +54,8 @@ private:
     bool _loop;
     float _timerLength;
     string _timerName;
+    
+    bool _invalidate;
 };
 
 #endif /* MyTimer_h */
