@@ -34,37 +34,6 @@ void EnticerVisuals::loadVideo(string url)
     int h = videoPlayer.getHeight();
 }
 //--------------------------------------------------------------
-void EnticerVisuals::start()
-{
-    startThread();
-}
-//--------------------------------------------------------------
-void EnticerVisuals::stop()
-{
-    stopThread();
-}
-//--------------------------------------------------------------
-void EnticerVisuals::threadedFunction()
-{
-//    // Check if the Thread is running
-    while (isThreadRunning()) {
-//        // Is the resource locked
-        if (lock()) {
-            videoPlayer.update();
-//            warperFbo.begin();
-//            ofSetColor(fade.update(),255);
-//            if (videoPlayer.isLoaded()) {
-//                if(videoPlayer.isPlaying()) {
-//                    videoPlayer.draw(0, 0);
-//                }
-//            }
-//            warperFbo.end();
-            unlock();
-            sleep(1);
-        }
-    }
-}
-//--------------------------------------------------------------
 void EnticerVisuals::updateVideo()
 {
     videoPlayer.update();

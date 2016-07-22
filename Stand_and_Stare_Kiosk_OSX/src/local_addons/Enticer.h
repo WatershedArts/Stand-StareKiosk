@@ -21,15 +21,6 @@ class EnticerVisuals : public ofThread {
     
         //! Load the Video
         void loadVideo(string url);
-
-        //! Start Thread
-        void start();
-    
-        //! Stop Thread
-        void stop();
-    
-        //! Threaded Function
-        void threadedFunction();
     
         //! Close
         void close();
