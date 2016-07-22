@@ -37,8 +37,6 @@ void VideoPlayer::setupVideoPlayer(float fadein, float fadeout,float enticerFade
 //--------------------------------------------------------------
 void VideoPlayer::loadVideo(string url)
 {
-//    videoPlayer.close();
-//    videoPlayer.closeMovie();
     
     videoPlayer.load(url);
     
