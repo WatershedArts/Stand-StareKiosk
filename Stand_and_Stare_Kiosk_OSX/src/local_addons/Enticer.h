@@ -52,15 +52,6 @@ class EnticerVisuals : public ofThread {
         //! Draw Timeline
         void drawTimeline(int y);
     
-        //! Draws the internal Video Warper
-        void drawCalibrationQuads();
-    
-        //! Shows the Primary Warping Quads
-        void showPrimaryQuad(bool val);
-
-        //! Shows the Secondary Warping Quads
-        void showSecondaryQuad(bool val);
-    
         //! Get the Time Left to Play
         float getTimeLeft();
     
@@ -83,9 +74,7 @@ class EnticerVisuals : public ofThread {
         ofxTween dropFade;
         ofxEasingLinear easinglinear;
         ofxEasingExpo easingexpo;
-    
-        ofxQuadWarp warper;
-        ofFbo warperFbo;
+
         string videoName;
         int progress;
         float _fadein;

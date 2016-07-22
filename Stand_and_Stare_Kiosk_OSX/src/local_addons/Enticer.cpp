@@ -17,7 +17,6 @@ void EnticerVisuals::setupVideoPlayer(float fadein, float fadeout,float videoHan
     _vHFadeout = videoHandlerFadeOut;
     _drawPrimaryQuads = false;
     _drawSecondaryQuads = false;
-    warper.disableKeyboardShortcuts();
 }
 //--------------------------------------------------------------
 void EnticerVisuals::loadVideo(string url)
@@ -33,14 +32,6 @@ void EnticerVisuals::loadVideo(string url)
     int y = 0;
     int w = videoPlayer.getWidth();
     int h = videoPlayer.getHeight();
-    
-    warperFbo.allocate(w, h);
-    warper.setSourceRect(ofRectangle(0, 0, w, h));
-    warper.setTopLeftCornerPosition(ofPoint(x, y));
-    warper.setTopRightCornerPosition(ofPoint(x + w, y));
-    warper.setBottomLeftCornerPosition(ofPoint(x, y + h));
-    warper.setBottomRightCornerPosition(ofPoint(x + w, y + h));
-    warper.setup();
 }
 //--------------------------------------------------------------
 void EnticerVisuals::start()
@@ -89,46 +80,6 @@ void EnticerVisuals::updateVideo()
         }
         _hasFadedOut = true;
     }
-    
-//    float currentVideoTime = (float)(videoPlayer.getPosition()*videoPlayer.getDuration());
-//    if (currentVideoTime >= (videoLength-(_fadeout/1000))) {
-//        if (_hasFadedOut) {
-//            stopVideo();
-//        }
-//    }
-    
-    warperFbo.begin();
-        ofSetColor(fade.update(),255);
-        if (videoPlayer.isLoaded()) {
-            if(videoPlayer.isPlaying()) {
-                videoPlayer.draw(0, 0);
-            }
-        }
-    warperFbo.end();
-    
-}
-//--------------------------------------------------------------
-void EnticerVisuals::drawCalibrationQuads()
-{
-    ofPushStyle();
-    if (_drawPrimaryQuads) {
-        warper.enableMouseControls();
-        ofSetColor(ofColor::blue);
-        warper.drawQuadOutline();
-        
-        ofSetColor(ofColor::greenYellow);
-        warper.drawCorners();
-        
-        ofSetColor(ofColor::red);
-        warper.drawHighlightedCorner();
-        
-        ofSetColor(ofColor::pink);
-        warper.drawSelectedCorner();
-    }
-    else {
-        warper.disableMouseControls();
-    }
-    ofPopStyle();
 }
 //--------------------------------------------------------------
 void EnticerVisuals::playVideo()
@@ -149,39 +100,14 @@ void EnticerVisuals::stopVideo()
 //--------------------------------------------------------------
 void EnticerVisuals::drawVideo()
 {
-    if(videoPlayer.isPlaying()) {
-        ofPushMatrix();
-        ofPushStyle();
-        ofMatrix4x4 mat = warper.getMatrix();
-        ofPushMatrix();
-        ofSetColor(255);
-        ofMultMatrix(mat);
-        warperFbo.draw(0, 0);
-        ofPopMatrix();
-        ofPopStyle();
-        ofPopMatrix();
+    ofPushStyle();
+    ofSetColor(fade.update(),255);
+    if (videoPlayer.isLoaded()) {
+        if(videoPlayer.isPlaying()) {
+            videoPlayer.draw(0, 0);
+        }
     }
-    
-    if (_drawSecondaryQuads) {
-        warper.enableMouseControls();
-        ofPushStyle();
-        ofSetLineWidth(3);
-        ofSetColor(ofColor::white);
-        warper.drawQuadOutline();
-        ofPopStyle();
-        
-        ofSetColor(ofColor::yellow);
-        warper.drawCorners();
-        
-        ofSetColor(ofColor::magenta);
-        warper.drawHighlightedCorner();
-        
-        ofSetColor(ofColor::red);
-        warper.drawSelectedCorner();
-    }
-    else {
-        warper.disableMouseControls();
-    }
+    ofPopStyle();
 }
 //--------------------------------------------------------------
 void EnticerVisuals::drawTimeline(int y)
@@ -273,16 +199,6 @@ void EnticerVisuals::drawTimeline(int y)
     string isAudioPlayingStr = isVideoPlaying() ? "Playing: " : "Stopped: ";
     ofDrawBitmapString(isAudioPlayingStr + videoName.substr(7,videoName.length()), offset, 40);
     ofPopMatrix();
-}
-//--------------------------------------------------------------
-void EnticerVisuals::showPrimaryQuad(bool val)
-{
-    _drawPrimaryQuads = val;
-}
-//--------------------------------------------------------------
-void EnticerVisuals::showSecondaryQuad(bool val)
-{
-    _drawSecondaryQuads = val;
 }
 //--------------------------------------------------------------
 string EnticerVisuals::getStringStream()

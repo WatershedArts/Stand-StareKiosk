@@ -180,7 +180,6 @@ void ofApp::draw()
                     ofSetColor(ofColor::blueViolet);
                     screenWarper.drawHighlightedCorner();
                 }
-                enticer.drawCalibrationQuads();
             }
         }
         if (showTemplate) {
@@ -662,12 +661,6 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
     }
     else if(e.target->is("Enable Mask Creation")) {
         calibrateScreen = e.target->getEnabled();
-    }
-    else if(e.target->is("Show Secondary Warper Quads")){
-        enticer.showSecondaryQuad(e.target->getEnabled());
-    }
-    else if(e.target->is("Show Primary Warper Quads")) {
-        enticer.showPrimaryQuad(e.target->getEnabled());
     }
     else if(e.target->is("Show Warper")) {
         showWarper = e.target->getEnabled();
