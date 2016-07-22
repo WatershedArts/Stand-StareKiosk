@@ -20,6 +20,7 @@ void RFIDReader::setup(string deviceName,int removeDelay)
     tagBufferIndex = 0;
     connectionAttempts = 3;
     tagString = "";
+    _previousTagId = "";
     _deviceName = deviceName;
     
     ofAddListener(reconnectionTimer.timerStarted, this, &RFIDReader::reconnectionTimerStarted);
@@ -42,8 +43,18 @@ bool RFIDReader::isConnected()
 //--------------------------------------------------------------
 void RFIDReader::simulateNewTag(string tagID)
 {
-    string ev = tagID;
-    ofNotifyEvent(newTag, ev, this);
+//    string ev = tagID;
+    
+    tagString = tagID;
+//    if (tagString != _previousTagId) {
+        ofNotifyEvent(newTag, tagString, this);
+//    }
+//    else {
+//        cout << "Tag has already been placed" << endl;
+//    }
+    _previousTagId = tagString;
+//    ofNotifyEvent(newTag, ev, this);
+    
 }
 //--------------------------------------------------------------
 void RFIDReader::simulateTagRemoval()
@@ -61,7 +72,7 @@ void RFIDReader::stop()
 {
     stopThread();
 }
-
+//--------------------------------------------------------------
 void RFIDReader::update() {
     reconnectionTimer.update();
     // Is the Device Connected
@@ -79,7 +90,11 @@ void RFIDReader::update() {
             if (incomingByte == 3) {
                 
                 tagString = tagBuffer;
-                ofNotifyEvent(newTag, tagString, this);
+//                if (tagString != _previousTagId) {
+                    ofNotifyEvent(newTag, tagString, this);
+//                }
+                
+                _previousTagId = tagString;
                 
                 // Clear the Tag
                 for (int i = 0; i < tagBufferIndex; i++) {
@@ -112,6 +127,8 @@ void RFIDReader::threadedFunction()
                     // Fire the Tag up into the main app
                     if (incomingByte == 3) {
                         tagString = tagBuffer;
+                        
+                        
                         ofNotifyEvent(newTag, tagString, this);
                         
                         // Clear the Tag
