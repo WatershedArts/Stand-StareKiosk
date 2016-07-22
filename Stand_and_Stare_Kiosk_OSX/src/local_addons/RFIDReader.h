@@ -70,6 +70,7 @@ private:
     long removeTimeout;
     string tagString;
     string _deviceName;
+    string _previousTagId;
     int connectionAttempts;
     
 protected:

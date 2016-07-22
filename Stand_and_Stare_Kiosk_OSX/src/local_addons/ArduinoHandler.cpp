@@ -102,8 +102,12 @@ bool ArduinoHandler::isConnected()
 //--------------------------------------------------------------
 void ArduinoHandler::simulateRemoval()
 {
-    int v = 8;
-    ofNotifyEvent(rfidTagRemoved, v, this);
+    delayTimer.start();
+}
+//--------------------------------------------------------------
+void ArduinoHandler::simulateGracePeriodInterrupt()
+{
+    delayTimer.invalidate();
 }
 //--------------------------------------------------------------
 void ArduinoHandler::initializeArduino(const int & version) {
@@ -146,8 +150,8 @@ string ArduinoHandler::getDebugString()
     datastream << "|----------------------------------" << endl;
     datastream << "| Arduino" << endl;
     datastream << "|----------------------------------" << endl;
-    datastream << "| Arduino Name: " << _arduinoName << endl;
     datastream << "| Is Connected: " << isConnectedStr << endl;
+    datastream << "| Delay Timer: " << delayTimer.getTimeLeft() << endl;
     datastream << "| Analog 0: " << arduino.getAnalog(_donationPin1) << endl;
     datastream << "| Analog 1: " << arduino.getAnalog(_donationPin2) << endl;
     datastream << "| RFID TIR: " << arduino.getDigital(_TIRPin) << endl;
@@ -160,6 +164,12 @@ void ArduinoHandler::digitalPinChanged(const int & pinNum)
     if (pinNum == _TIRPin) {
         if (arduino.getDigital(_TIRPin) == ARD_LOW) {
             delayTimer.start();
+        }
+        
+        if (arduino.getDigital(_TIRPin) == ARD_HIGH) {
+            if (!delayTimer.hasTimerFinished()) {
+                delayTimer.invalidate();
+            }
         }
     }
 }

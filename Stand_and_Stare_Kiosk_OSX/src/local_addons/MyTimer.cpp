@@ -12,6 +12,7 @@
 void MyTimer::setup(float timerLength,string timerName,bool loop)
 {
     bTimerReached = true;
+    _invalidate = false;
     _loop = loop;
     _timerLength = timerLength;
     _timerName = timerName;
@@ -27,8 +28,11 @@ void MyTimer::update()
     
     if (timer >= _timerLength && !bTimerReached) {
         bTimerReached = true;
-        string ev = _timerName + " Finished";
-        ofNotifyEvent(timerFinished, ev, this);
+        if (!_invalidate) {
+            string evt = _timerName + " Finished";
+            ofNotifyEvent(timerFinished, evt, this);
+        }
+        
         if (_loop) {
             start();
         }
@@ -52,16 +56,24 @@ void MyTimer::setNewTimerLength(int timerLength)
 //--------------------------------------------------------------
 void MyTimer::start()
 {
+    _invalidate = false;
     if (bTimerReached) {
-        string ev = _timerName + " Started";
-        ofNotifyEvent(timerStarted, ev, this);
+        string evt = _timerName + " Started";
+        ofNotifyEvent(timerStarted, evt, this);
         bTimerReached = false;
         startTime = ofGetElapsedTimeMillis();
     }
 }
 //--------------------------------------------------------------
-void MyTimer::stop( )
+void MyTimer::stop()
 {
     bTimerReached = true;
     _loop = false;
+}
+//--------------------------------------------------------------
+void MyTimer::invalidate()
+{
+    _invalidate = true;
+    string evt = _timerName + " Invalidated";
+    ofNotifyEvent(timerInvalidated, evt, this);
 }

@@ -36,6 +36,9 @@ class ArduinoHandler {
         //! As it sounds
         void simulateRemoval();
     
+        //! As it sounds
+        void simulateGracePeriodInterrupt();
+    
         void timerStarted(string &timer);
         void timerFinished(string &timer);
     
