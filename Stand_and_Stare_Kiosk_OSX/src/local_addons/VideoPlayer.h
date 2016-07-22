@@ -32,6 +32,9 @@ class VideoPlayer {
         //! Stop Video
         void stopVideo();
     
+        //! Stop Video
+        void crossFadeAndStop();
+    
         //! Interrupt the Video
         void interruptVideo();
 

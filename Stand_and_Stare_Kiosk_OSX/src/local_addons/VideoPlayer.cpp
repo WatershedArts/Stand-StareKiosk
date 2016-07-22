@@ -69,7 +69,7 @@ void VideoPlayer::updateVideo()
     float currentVideoTime = (float)(videoPlayer.getPosition()*videoPlayer.getDuration());
     if (currentVideoTime >= (videoLength-(_fadeout/1000))) {
         if (_hasFadedOut && isVideoPlaying()) {
-            stopVideo();
+            crossFadeAndStop();
         }
     }
 }
@@ -87,6 +87,15 @@ void VideoPlayer::playVideo()
 void VideoPlayer::stopVideo()
 {
     fade.setParameters(1, easinglinear, ofxTween::easeOut, currentFadeValue, 0, _fadeout, 10);
+    dropFade.setParameters(1, easingexpo, ofxTween::easeOut, progress-50, 0, _fadeout, 10);
+    string ev = "Video Stopped";
+    ofNotifyEvent(videoStopped, ev, this);
+    _hasFadedOut = false;
+}
+//--------------------------------------------------------------
+void VideoPlayer::crossFadeAndStop()
+{
+    fade.setParameters(1, easinglinear, ofxTween::easeOut, currentFadeValue, 0, _fadeout, _enticerDelay/2);
     dropFade.setParameters(1, easingexpo, ofxTween::easeOut, progress-50, 0, _fadeout, 10);
     string ev = "Video Stopped";
     ofNotifyEvent(videoStopped, ev, this);
