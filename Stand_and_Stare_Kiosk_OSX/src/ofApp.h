@@ -62,6 +62,7 @@ public:
     string videoCode;
     string videoDetails;
     string unitName;
+    string previousTagId;
     int unitId;
     int timesUsedToday;
     int donationsToday;

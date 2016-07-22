@@ -452,15 +452,34 @@ void ofApp::newTagAdded(string &tag)
         tagAssigner.assignNewTag(tag);
     }
     else if (applicationMode == 2) {
-        
-        for (int i = 0; i < videoData.size(); i++) {
-            if (tag == videoData[i].RFIDkey) {
-                videoCode = ofToString(videoData[i].id);
-                videoHandler.loadVideo(videoData[i].videoUrl);
-                videoHandler.playVideo();
-                enticer.stopVideo();
+        if (videoHandler.isVideoPlaying()) {
+//            arduino.simulateGracePeriodInterrupt(); //for keyboard interrupt
+            for (int i = 0; i < videoData.size(); i++) {
+                if (tag == videoData[i].RFIDkey) {
+                    videoCode = ofToString(videoData[i].id);
+                    if (tag != previousTagId) {
+                        videoHandler.loadVideo(videoData[i].videoUrl);
+                        videoHandler.playVideo();
+                        enticer.stopVideo();
+                    }
+                    else {
+                        cout << "Already Playing This Video" << endl;
+                    }
+                }
             }
         }
+        else {
+            for (int i = 0; i < videoData.size(); i++) {
+                if (tag == videoData[i].RFIDkey) {
+                    videoCode = ofToString(videoData[i].id);
+                    videoHandler.loadVideo(videoData[i].videoUrl);
+                    videoHandler.playVideo();
+                    enticer.stopVideo();
+                }
+            }
+        }
+        
+        previousTagId = tag;
         timesUsedToday++;
     }
 }
