@@ -150,8 +150,8 @@ string ArduinoHandler::getDebugString()
     datastream << "|----------------------------------" << endl;
     datastream << "| Arduino" << endl;
     datastream << "|----------------------------------" << endl;
-    datastream << "| Arduino Name: " << delayTimer.getTimeLeft() << endl;
     datastream << "| Is Connected: " << isConnectedStr << endl;
+    datastream << "| Delay Timer: " << delayTimer.getTimeLeft() << endl;
     datastream << "| Analog 0: " << arduino.getAnalog(_donationPin1) << endl;
     datastream << "| Analog 1: " << arduino.getAnalog(_donationPin2) << endl;
     datastream << "| RFID TIR: " << arduino.getDigital(_TIRPin) << endl;
