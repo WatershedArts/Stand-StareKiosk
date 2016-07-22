@@ -30,11 +30,7 @@ void ofApp::setup()
     arduino.setup(appConfiguration.getConfig().arduinoName,appConfiguration.getConfig().rfidDelay);
     
     arduino.setupPins(appConfiguration.getConfig().ledPin1, appConfiguration.getConfig().ledPin2, appConfiguration.getConfig().rfidTIRPin, appConfiguration.getConfig().donationPin1, appConfiguration.getConfig().donationPin2);
-    
-// Projector Controller
-//    projectorController.setupProjector(appConfiguration.getConfig().projectorSerialName);
-//    ofSleepMillis(1000);
-//    projectorController.turnOn();
+
     
     videoData = appConfiguration.getVideoConfig();
     
@@ -46,10 +42,6 @@ void ofApp::setup()
     
     tagAssigner.setup(videoData);
     
-//    // RFID
-//    rfidReader.setup(appConfiguration.getConfig().RFIDSerialName,
-//                     appConfiguration.getConfig().rfidDelay
-//                     );
     
     // Calibration Setup
     calibrationScreen.setup(appConfiguration.getConfig().maskPoints);
@@ -130,7 +122,7 @@ void ofApp::draw()
         }
         else if(applicationMode == 2) {
             
-            // Draw the Videos and other obeject to the Screen Warper
+            // Draw the Videos and other object to the Screen Warper
             if (useWarper) {
                 screenFbo.begin();
                 ofClear(0);
@@ -155,8 +147,6 @@ void ofApp::draw()
                 donationReader.draw(0,0);
                 ofDisableBlendMode();
             }
-            
-        
             ofPopStyle();
             
             if (useWarper) {
@@ -210,7 +200,6 @@ void ofApp::exit()
 {
     postData.close();
     donationReader.close();
-    enticer.stop();
     rfidReader.closeConnection();
     arduino.close();
     ofSleepMillis(1000);
@@ -264,11 +253,6 @@ void ofApp::keyPressed(int key)
         default:
             break;
     }
-    
-    
-    
-
-    
 }
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
@@ -442,8 +426,9 @@ void ofApp::newTagAdded(string &tag)
 //            arduino.simulateGracePeriodInterrupt(); //for keyboard interrupt
             for (int i = 0; i < videoData.size(); i++) {
                 if (tag == videoData[i].RFIDkey) {
-                    videoCode = ofToString(videoData[i].id);
                     if (tag != previousTagId) {
+                        postData.postVideo("1",videoCode,videoHandler.getPlayPercentage(),false);
+                        videoCode = ofToString(videoData[i].id);
                         videoHandler.loadVideo(videoData[i].videoUrl);
                         videoHandler.playVideo();
                         enticer.stopVideo();
