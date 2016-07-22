@@ -371,9 +371,9 @@ void ofApp::drawAssigningScreen()
 //--------------------------------------------------------------
 void ofApp::setupListeners()
 {
-//    ofAddListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
-//    ofAddListener(videoHandler.videoStopped, this, &ofApp::videoFinished);
-//    ofAddListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
+    ofAddListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
+    ofAddListener(videoHandler.videoStopped, this, &ofApp::videoFinished);
+    ofAddListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
     
     ofAddListener(rfidReader.newTag, this, &ofApp::newTagAdded);
     ofAddListener(arduino.rfidTagRemoved, this, &ofApp::tagRemoved);
@@ -390,9 +390,9 @@ void ofApp::setupListeners()
 //--------------------------------------------------------------
 void ofApp::removeListeners()
 {
-//    ofRemoveListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
-//    ofRemoveListener(videoHandler.videoStopped, this, &ofApp::videoFinished);
-//    ofRemoveListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
+    ofRemoveListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
+    ofRemoveListener(videoHandler.videoStopped, this, &ofApp::videoFinished);
+    ofRemoveListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
     
     ofRemoveListener(rfidReader.newTag, this, &ofApp::newTagAdded);
     ofRemoveListener(arduino.rfidTagRemoved, this, &ofApp::tagRemoved);
@@ -506,7 +506,6 @@ void ofApp::gotDonation(int &pin)
         else {
             donationReader.donatedFilmPlaying();
         }
-        
         donationsToday++;
     }
 }
