@@ -8,7 +8,7 @@ void ofApp::setup()
     
     // For Bundling App
     ofSetDataPathRoot("../Resources/data/");
-    ofSetLogLevel(OF_LOG_SILENT);
+    ofSetLogLevel(OF_LOG_FATAL_ERROR);
     ofSetWindowShape(1280, 800);
     
     // Load the Configuration
@@ -93,14 +93,8 @@ void ofApp::update()
     enticer.updateVideo();
     donationReader.update();
     splashScreen.update();
-    if (arduino.isConnected()) {
-        arduino.update();    
-    }
-    
-    
-//    if (rfidReader.isConnected()) {
-        rfidReader.update();
-//    }
+    arduino.update();
+    rfidReader.update();
     
     if (canDrawData) {
         appFPS->update();
@@ -209,7 +203,6 @@ void ofApp::draw()
             enticer.drawTimeline(ofGetHeight()*0.7);
             videoHandler.drawTimeline(ofGetHeight()*0.8);
             ofPopStyle();
-//            donationReader.drawScreens();
         }
     }
 }
@@ -222,12 +215,6 @@ void ofApp::exit()
     rfidReader.closeConnection();
     arduino.close();
     ofSleepMillis(1000);
-//    bool debugProjector = false;
-//    if (debugProjector) {
-//    projectorController.turnOff();
-//    }
-//    
-//    projectorController.close();
 }
 #pragma mark - Key Events
 //--------------------------------------------------------------
@@ -409,33 +396,32 @@ void ofApp::removeListeners()
 //--------------------------------------------------------------
 void ofApp::videoStarted(string &args)
 {
-    ofLogWarning() << args;
+    cout << "Video Started from Listener 1 " << args << endl;
 }
 //--------------------------------------------------------------
 void ofApp::videoFinished(string &args)
 {
     postData.postVideo("1",videoCode,100,true);
-
+    cout << "Video Finished from Listener 2 " << args << endl;
     videoPlayback = 1;
     enticer.playVideo();
-    ofLogWarning() << args;
 }
 //--------------------------------------------------------------
 void ofApp::videoInterupted(string &args)
 {
+    cout << "Video Interrupted from Listener 3 " << args << endl;
     postData.postVideo("1",videoCode,videoHandler.getPlayPercentage(),false);
-    ofLogWarning() << args;
 }
 //--------------------------------------------------------------
 void ofApp::enticerVideoStarted(string &args)
 {
-    ofLogWarning() << args;
+    cout << "Enticer Started from Listener 4 " << args << endl;
     videoPlayback = 1;
 }
 //--------------------------------------------------------------
 void ofApp::enticerVideoFinished(string &args)
 {
-    ofLogWarning() << args;
+    cout << "Enticer Finished from Listener 5 " << args << endl;
     if (videoPlayback == 1) {
         enticer.playVideo();
     }
@@ -443,7 +429,8 @@ void ofApp::enticerVideoFinished(string &args)
 //--------------------------------------------------------------
 void ofApp::newTagAdded(string &tag)
 {
-    ofLogWarning() << tag;
+    
+    cout << "New Tag Added from Listener 6 " << tag << endl;
     videoPlayback = 0;
     if (applicationMode == 0) {
         ofLogWarning() << "Not Allowed in this Mode";
@@ -487,15 +474,14 @@ void ofApp::newTagAdded(string &tag)
 void ofApp::tagRemoved(int &v)
 {
     videoPlayback = 1;
-    ofLogWarning() << v;
-    
+    cout << "Tag Removed " << endl;
+
     // If a Card is removed then and video is playing stop and fire post event
     if(videoHandler.isVideoPlaying()) {
         videoHandler.interruptVideo();
         enticer.playVideo();
     }
     else {
-        cout << "A Card has been removed!" << endl;
         if (!enticer.isVideoPlaying()) {
             enticer.playVideo();
         }
