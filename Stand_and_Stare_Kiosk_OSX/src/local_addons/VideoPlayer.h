@@ -13,6 +13,7 @@
 #include "ofxTween.h"
 #include "ofxQuadWarp.h"
 
+
 class VideoPlayer {
     
     public:
@@ -40,21 +41,12 @@ class VideoPlayer {
         //! Draw Timeline
         void drawTimeline(int y);
     
-        //! Draw the Warpers
-        void drawCalibrationQuads();
-    
-        //! Show the Unwarped Quads
-        void showPrimaryQuad(bool val);
-    
-        //! Show the Warped Quads
-        void showSecondaryQuad(bool val);
-    
         //! How many Seconds Left
         float getTimeLeft();
     
         //! Has the Video Finished
         bool hasVideoFinished();
-    
+
         //! Is the Video Playing
         bool isVideoPlaying();
     
@@ -63,7 +55,7 @@ class VideoPlayer {
     
         //! Invalidate The fading system
         void invalidateFade();
-    
+
         //! What Percentage through the Video are We?
         int getPlayPercentage();
     
@@ -73,16 +65,14 @@ class VideoPlayer {
         ofEvent<string> videoStarted;
         ofEvent<string> videoStopped;
         ofEvent<string> videoInterrupted;
-    
     private:
         ofVideoPlayer videoPlayer;
+    
         ofxTween fade;
         ofxTween dropFade;
         ofxEasingLinear easinglinear;
         ofxEasingExpo easingexpo;
     
-        ofxQuadWarp warper;
-        ofFbo warperFbo;
         vector <string> files;
         float _fadein;
         float _fadeout;

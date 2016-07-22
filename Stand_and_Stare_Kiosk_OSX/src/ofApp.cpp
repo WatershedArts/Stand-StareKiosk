@@ -93,7 +93,10 @@ void ofApp::update()
     enticer.updateVideo();
     donationReader.update();
     splashScreen.update();
-    arduino.update();
+    if (arduino.isConnected()) {
+        arduino.update();    
+    }
+    
     
 //    if (rfidReader.isConnected()) {
         rfidReader.update();
@@ -183,7 +186,6 @@ void ofApp::draw()
                     ofSetColor(ofColor::blueViolet);
                     screenWarper.drawHighlightedCorner();
                 }
-                videoHandler.drawCalibrationQuads();
                 enticer.drawCalibrationQuads();
             }
         }
@@ -369,9 +371,9 @@ void ofApp::drawAssigningScreen()
 //--------------------------------------------------------------
 void ofApp::setupListeners()
 {
-    ofAddListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
-    ofAddListener(videoHandler.videoStopped, this, &ofApp::videoFinished);
-    ofAddListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
+//    ofAddListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
+//    ofAddListener(videoHandler.videoStopped, this, &ofApp::videoFinished);
+//    ofAddListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
     
     ofAddListener(rfidReader.newTag, this, &ofApp::newTagAdded);
     ofAddListener(arduino.rfidTagRemoved, this, &ofApp::tagRemoved);
@@ -388,9 +390,9 @@ void ofApp::setupListeners()
 //--------------------------------------------------------------
 void ofApp::removeListeners()
 {
-    ofRemoveListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
-    ofRemoveListener(videoHandler.videoStopped, this, &ofApp::videoFinished);
-    ofRemoveListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
+//    ofRemoveListener(videoHandler.videoStarted, this, &ofApp::videoStarted);
+//    ofRemoveListener(videoHandler.videoStopped, this, &ofApp::videoFinished);
+//    ofRemoveListener(videoHandler.videoInterrupted, this, &ofApp::videoInterupted);
     
     ofRemoveListener(rfidReader.newTag, this, &ofApp::newTagAdded);
     ofRemoveListener(arduino.rfidTagRemoved, this, &ofApp::tagRemoved);
@@ -413,6 +415,7 @@ void ofApp::videoStarted(string &args)
 void ofApp::videoFinished(string &args)
 {
     postData.postVideo("1",videoCode,100,true);
+
     videoPlayback = 1;
     enticer.playVideo();
     ofLogWarning() << args;
@@ -657,11 +660,9 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e)
         calibrateScreen = e.target->getEnabled();
     }
     else if(e.target->is("Show Secondary Warper Quads")){
-        videoHandler.showSecondaryQuad(e.target->getEnabled());
         enticer.showSecondaryQuad(e.target->getEnabled());
     }
     else if(e.target->is("Show Primary Warper Quads")) {
-        videoHandler.showPrimaryQuad(e.target->getEnabled());
         enticer.showPrimaryQuad(e.target->getEnabled());
     }
     else if(e.target->is("Show Warper")) {
