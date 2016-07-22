@@ -54,7 +54,7 @@ void EnticerVisuals::updateVideo()
 void EnticerVisuals::playVideo()
 {
     videoPlayer.play();
-    fade.setParameters(1, easinglinear, ofxTween::easeIn, 0, 255, _fadein, _vHFadeout);
+    fade.setParameters(1, easinglinear, ofxTween::easeIn, 0, 255, _fadein, _vHFadeout-250);
     string ev =  "Enticer Started";
     ofNotifyEvent(enticerStarted, ev, this);
     _hasFadedIn = false;
