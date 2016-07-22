@@ -12,8 +12,8 @@
       "General" : {
          "unitname":"Watershed Jukebox",
          "unitid":1,
-         "fadeintime" : 250,
-         "fadeouttime" : 250,
+         "fadeintime" : 500,
+         "fadeouttime" : 500,
          "fullscreen" : true,
          "ldrsensitivity" : 50,
          "warperactive" : false
@@ -44,7 +44,7 @@
       },
       "RFID" : {
          "baud" : 9600,
-         "delay" : 1000,
+         "delay" : 1500,
          "name" : "/dev/tty.usbserial-A601EHXS"
       },
       "Projector" : {
